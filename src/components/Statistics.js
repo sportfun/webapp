@@ -13,8 +13,8 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
-        this.getStatsById(this, "5a0f440f8c668c63a08d0924", function(){
-            calcProgress(this)
+        this.getStatsById(this, "5a0f440f8c668c63a08d0924", function(self){
+            self.calcProgress(self);
         });
     }
 
@@ -24,7 +24,7 @@ class Statistics extends React.Component {
                 self.setState({
                     stats: response.data,
                 })
-                callback();
+                callback(self);
                 console.log(self.state.stats);
             })
             .catch((error) => {
