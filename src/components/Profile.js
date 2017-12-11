@@ -12,10 +12,12 @@ class Profile extends React.Component {
   }
 
   componentWillMount() {
-    this.getUserByUsername(this, "JeanMichel");
+    console.log(this.props)
+    this.getUserByUsername(this, this.props.match.params.username);
   }
 
   getUserByUsername = (self, username) => {
+    console.log("je cherche");
     axios.get('http://149.202.41.22:8080/api/users')
       .then(response => {
         response.data.forEach(function (item) {
@@ -39,7 +41,7 @@ class Profile extends React.Component {
       return (
         <div id="ProfilePage" className="card mb-4">
           <div className="card">
-            <img className="cover-photo" alt="cover_photo" src={this.state.user.coverPicture} />
+            <img className="cover-photo" alt="coverPicture" src={this.state.user.coverPicture} />
             <img className="rounded-avatar" alt="avatar" src={this.state.user.profilePicture} />
             <div className="info-user p-sm-3">
               <p>{this.state.user.firstName} {this.state.user.lastName}<br />

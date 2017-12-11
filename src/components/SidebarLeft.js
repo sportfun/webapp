@@ -22,22 +22,22 @@ class SidebarLeft extends React.Component {
                     <div className="card-footer">
                         <ul className="Menu list-unstyled">
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/today.png" alt="today" /></span><Link to='/'>Aujourd'hui</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="https://cdn.discordapp.com/attachments/250745088097910784/382221294642397221/today.png" alt="today" /></span><Link to='/'>Aujourd'hui</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/journal.png" alt="activity" /></span><Link to='/'>Journal d'activités</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="https://cdn.discordapp.com/attachments/250745088097910784/382221188874895380/journal.png" alt="activity" /></span><Link to='/'>Journal d'activités</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/stats.png" alt="statistics" /></span><Link to='/statistics'>Graphiques</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="https://cdn.discordapp.com/attachments/250745088097910784/382221273507561475/stats.png" alt="statistics" /></span><Link to={`/statistics/${this.props.myuser.userName}`}>Graphiques</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/friends.png" alt="friends" /></span><Link to='/'>Amis</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="https://cdn.discordapp.com/attachments/250745088097910784/382221231174451210/friends.png" alt="friends" /></span><Link to='/'>Amis</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/messages.png" alt="messages" /></span><Link to='/'>Messages</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="https://cdn.discordapp.com/attachments/250745088097910784/382221256923021332/messages.png" alt="messages" /></span><Link to='/'>Messages</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/settings.png" alt="settings" /></span><Link to='/'>Mon compte</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="https://cdn.discordapp.com/attachments/250745088097910784/382221333490302986/settings.png" alt="settings" /></span><Link to='/'>Mon compte</Link>
                             </li>
                         </ul>
                     </div>

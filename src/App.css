@@ -202,6 +202,15 @@ a:hover {
   opacity: 1;
 }
 
+.GameThumbnail {
+  height: 100px;
+  width: 150px;
+}
+
+.games-fav {
+  margin: 10px auto;
+}
+
 /* COLORS */
 .azure   { background: #38B1CC; }
 .emerald { background: #2CB299; }

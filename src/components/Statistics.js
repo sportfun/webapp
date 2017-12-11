@@ -5,16 +5,22 @@ import ProgressBar from './ui/progressBar'
 class Statistics extends React.Component {
     constructor(props) {
         super(props)
-        this.getStatsById = this.getStatsById.bind(this),
-        this.calcProgress = this.calcProgress.bind(this),        
+        this.getStatsById = this.getStatsById.bind(this)
+        this.calcProgress = this.calcProgress.bind(this)
         this.state = {
-            stats: []
+            stats: [],
+            progress: 0,
+            sportTime: 0,
+            loading: true
         }
     }
 
     componentWillMount() {
-        this.getStatsById(this, "5a0f440f8c668c63a08d0924", function(self){
+        this.getStatsById(this, "5a0f440f8c668c63a08d0924", function (self) {
             self.calcProgress(self);
+            self.setState({
+                loading: false,
+            })
         });
     }
 
@@ -25,66 +31,68 @@ class Statistics extends React.Component {
                     stats: response.data,
                 })
                 callback(self);
-                console.log(self.state.stats);
             })
             .catch((error) => {
                 console.log("error", error)
             })
-        }
+    }
 
     calcProgress(self) {
-        console.log(self.state.stats)
-      /*  self.state.stats.forEach(function (item) {
-           console.log(item); 
-        });*/
+        var progress = 0;
+        var goal = 5000;
+        self.state.stats.forEach(function (item) {
+            progress += item.time;
+        });
+        self.state.progress = (progress * 100) / goal;
+        self.state.sportTime = progress;
     }
 
     render() {
-        return (
-            <div id="StatsPage" className="card mb-4 p-sm-3">
-                <h3>page des statistiques</h3>< br />
+        console.log(this.state.progress);
+        if (this.state.loading) {
+            return (false);
+        } else {
+            return (
+                <div id="StatsPage" className="card mb-4 p-sm-3">
+                    <h3>page des statistiques</h3>< br />
 
-                <div class="StatsBlock" id="Objective_jauge">
-                    barre de progression de l'objectif
-                    <ProgressBar percentage="30" backgroundStyle="azure"/>
-                    <ProgressBar percentage="50" backgroundStyle="violet"/>
+                    <div className="statsblock" id="ObjectiveJauge">
+                        barre de progression de l'objectif
+                        <ProgressBar percentage={this.state.progress} backgroundStyle="azure" /><br />
+                    </div>
+
+                    <div className="statsblock" id="GamesFav">
+                        jeux favoris
+                       <table className="games-fav">
+                            <tbody>
+
+                                <tr>
+                                    <td><img alt="jeu1" className="GameThumbnail" src="/ressources/jeu1.jpg" /></td>
+                                    <td><img alt="jeu2" className="GameThumbnail" src="/ressources/jeu2.jpg" /></td>
+                                </tr>
+                                <tr>
+                                    <td><img alt="jeu3" className="GameThumbnail" src="/ressources/jeu3.jpg" /></td>
+                                    <td><img alt="jeu4" className="GameThumbnail" src="/ressources/jeu4.jpg" /></td>
+                                </tr>
+                            </tbody>
+                        </table><br />
+                    </div>
+
+                    <div className="statsblock" id="SportTime">
+                        Temps de sport cette semaine : {Math.round(this.state.sportTime / 60)}mn
+                    </div>
                 </div>
-
-
-                <div class="StatsBlock" id="Games_fav">
-
-                    jeux favoris
-        <table>
-                        <tr>
-                            <td><img alt="jeu1" class="GameThumbnail" src="ressources/jeu1.jpg" /></td>
-                            <td><img alt="jeu1" class="GameThumbnail" src="ressources/jeu2.jpg" /></td>
-                        </tr>
-                        <tr>
-                            <td><img alt="jeu1" class="GameThumbnail" src="ressources/jeu3.jpg" /></td>
-                            <td><img alt="jeu1" class="GameThumbnail" src="ressources/jeu4.jpg" /></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="StatsBlock" id="Games_fav">
-                    Temps de sport cette semaine
-            <input type="text" value="75" class="dial"></input>
-                    {/*
-            <script>    $(function() {
-                             $(".dial").knob();
-                        });
-                    </script>*/}
-
-                </div>
-
-                <div class="StatsBlock" id="Games_fav">
-                    Type d'effort
-            <br />
-                    Graphiques en barre
-        </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
 export default Statistics
+
+    /*
+                        <div class="statsblock" id="Games_fav">
+                        Type d'effort
+            <br />
+                        Graphiques en barre
+        </div>
+        */
