@@ -54,7 +54,7 @@ class Header extends Component {
                 <Link to={`/statistics/${this.props.myuser.userName}`} className="nav-link">Statistiques</Link>
               </li>
               <li className="nav-item">
-                <Link to='/' className="nav-link">Mon compte</Link>
+                <Link to='/administration' className="nav-link">Mon compte</Link>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0 w-25" onSubmit={this.handleSubmit}>

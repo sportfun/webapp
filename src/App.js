@@ -20,9 +20,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
         <Main user={this.state.user}/>
-      </div>
     );
   }
 }
