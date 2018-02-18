@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 // User import
 import Home from './Home'
@@ -24,38 +25,29 @@ import Register from './Register'
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
 class Main extends React.Component {
-  /*
-  constructor(props) {
-    super(props)
-  }
-
-
-
-
-  */
 
   componentWillMount() {
   }
 
   render() {
-    var i = 0;
+    var i = 1;
 
     if (i === 1) {
 
       return (
         <div className="wrapper-app">
-          <Header myuser={this.props.user} />
+          <Header />
           <div id="page-container" className="container pb-5 py-6">
             <div className="row">
 
-              <SidebarLeft myuser={this.props.user} />
+              <SidebarLeft />
 
               <div id="DashboardCenter" className="col-6">
                 <div className="DashboardCenterContent">
                   <Switch>
                     <Route exact path='/' component={Home} />
-                    <Route path='/profile/:username' component={Profile} />
-                    <Route path='/users' component={ListUsers} />
+                    <Route path='/profile/:username' state="test" component={Profile} />
+                    <Route path='/users/:searchterm' component={ListUsers} />
                     <Route path='/statistics/:username' component={Statistics} />
                     <Route path='/administration' component={AdministrationAccount} />
                     <Route path='/coach' component={Coach} />
@@ -75,24 +67,30 @@ class Main extends React.Component {
       let sidebar = null;
       console.log(window.location.href);
       if (window.location.href !== 'http://localhost:3000/')
-        sidebar = <CoachSidebarLeft/>;
+        sidebar = <CoachSidebarLeft />;
       return (
         <div className="wrapper-app h-100">
           <CoachHeader />
           <div className="page-container">
             {sidebar}
-                  <Switch>
-                    <Route exact path='/' component={Coach} />
-                    <Route path='/coachadministration' component={CoachAdmin} />
-                    <Route path='/connexion' component={Login} />
-                    <Route path='/inscription' component={Register} />
-                  </Switch>
-            </div>
+            <Switch>
+              <Route exact path='/' component={Coach} />
+              <Route path='/coachadministration' component={CoachAdmin} />
+              <Route path='/connexion' component={Login} />
+              <Route path='/inscription' component={Register} />
+            </Switch>
           </div>
+        </div>
       )
     }
   }
 }
+
+Main.contextTypes = {
+  apiurl: PropTypes.string,
+  token: PropTypes.string,
+  getUserInfo: PropTypes.func
+};
 
 export default Main
 
