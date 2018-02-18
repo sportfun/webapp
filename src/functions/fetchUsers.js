@@ -1,19 +1,15 @@
 import axios from 'axios'
 
-export const fetchUsers = (searchTerm, callback) => {
+export const fetchUsers = (searchTerm, token, callback) => {
     var allUsers, filterUsers;
 
-    console.log("searchterm : " + searchTerm);
-
-    axios.get('http://149.202.41.22:8080/api/users')
+    axios.get('http://149.202.41.22:8080/api/user', {
+        headers: { "token": token }
+    })
         .then(function (response) {
             allUsers = response.data;
-            console.log(allUsers);
             filterUsers = allUsers.filter(function (user) {
-                if (user.firstName === undefined)
-                    return(0);
-                else
-                    return (user.firstName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+                return (user.username.indexOf(searchTerm) !== -1);
             });
             callback(filterUsers);
         })

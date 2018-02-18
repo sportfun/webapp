@@ -1,89 +1,93 @@
 import React from 'react'
-import axios from 'axios'
+import PropTypes from 'prop-types'
+import { getInfoUser } from '../functions/basics';
 
 class AdministrationAccount extends React.Component {
   constructor(props) {
     super(props)
-    this.getUserByUsername = this.getUserByUsername.bind(this)
     this.state = {
-      user: {},
-      loading: true
+      user: {}
     }
   }
 
-  componentWillMount() {
-    console.log(this.props)
-    this.getUserByUsername(this, this.props.match.params.username);
-  }
-
-  getUserByUsername = (self, username) => {
-    console.log("je cherche");
-    axios.get('http://149.202.41.22:8080/api/users')
-      .then(response => {
-        response.data.forEach(function (item) {
-          if (item.userName === username)
-            self.setState({
-              user: item,
-              loading: false
-            })
-        });
-      })
-      .catch((error) => {
-        console.log("error", error)
-      })
+  componentWillMount(){
+    getInfoUser(this.context.token, (data) => {
+        this.setState({user: data});
+    });
   }
 
   render() {
-    /*
-  if (this.state.loading) {
-    return false;
-  }
-  else {
-      */
+    let coords = { x1: 0, y1: 0, x2: 550, y2: 0 };
+
     return (
       <div id="AdministrationAccount" className="card mb-4">
         <div className="card">
           <div className="info-user p-sm-3">
             <h2> Paramètres du compte </h2>
-            <ul className="list-unstyled">
-              <li className="AdminAccountItem">
-                <a>
-                  <h3>Prénom</h3>
-                  <span>{this.state.user.firstName}</span>
-                </a>
-              </li>
-              <li className="AdminAccountItem">
-                <a>
-                  <h3>Nom</h3>
-                </a>
-              </li>
-              <li className="AdminAccountItem">
-                <a>
-                  <h3>Nom d'utilisateur</h3>
-                </a>
-              </li>
-              <li className="AdminAccountItem">
-                <a>
-                  <h3>Mot de passe</h3>
-                </a>
-              </li>
-              <li className="AdminAccountItem">
-                <a>
-                  <h3>Date de naissance</h3>
-                </a>
-              </li>
-              <li className="AdminAccountItem">
-                <a>
-                  <h3>Salle de sport</h3>
-                </a>
-              </li>
-            </ul>
+            <form>
+
+              <div className="row pt-4 my-1">
+                <label htmlFor="firstName" className="col-sm-3 col-form-label">Prénom</label>
+                <div className="col-sm-9">
+                  <input type="text" className="form-control" id="firstName" placeholder={this.state.user.firstName}></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+
+              <div className="row my-1">
+                <label htmlFor="lastName" className="col-sm-3 col-form-label">Nom</label>
+                <div className="col-sm-9">
+                  <input type="text" className="form-control" id="lastName" placeholder={this.state.user.lastName}></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+
+              <div className="row my-1">
+                <label htmlFor="email" className="col-sm-3 col-form-label">Mail</label>
+                <div className="col-sm-9">
+                  <input type="text" className="form-control" id="email" placeholder={this.state.user.email}></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+
+              <div className="row my-1">
+                <label htmlFor="password" className="col-sm-3 col-form-label">Mot de passe</label>
+                <div className="col-sm-9">
+                  <input type="password" className="form-control" id="password"></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+
+              <div className="row my-1">
+                <label htmlFor="sportsHall" className="col-sm-3 col-form-label">Salle de sport</label>
+                <div className="col-sm-9">
+                  <input type="text" className="form-control" id="sportsHall"></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+
+
+              <div className="row my-1">
+                <label htmlFor="biography" className="col-sm-3 col-form-label">Biographie</label>
+                <div className="col-sm-9">
+                  <textarea className="form-control" id="biography" rows="5" placeholder={this.state.user.bio}></textarea>
+                </div>
+              </div>
+
+              <button type="submit" className="btn btn-primary float-right mt-2">Submit</button>
+
+            </form>
           </div>
         </div>
       </div>
     )
   }
-  //  }
 }
+
+AdministrationAccount.contextTypes = {
+  apiurl: PropTypes.string,
+  token: PropTypes.string,
+  orangecolor: PropTypes.string
+};
 
 export default AdministrationAccount

@@ -1,59 +1,44 @@
 import React from 'react'
-import axios from 'axios'
+import PropTypes from 'prop-types'
+import { getUserById } from '../functions/basics';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props)
-    this.getUserByUsername = this.getUserByUsername.bind(this)
     this.state = {
       user: {},
-      loading: true
     }
   }
 
   componentWillMount() {
-    console.log(this.props)
-    this.getUserByUsername(this, this.props.match.params.username);
-  }
-
-  getUserByUsername = (self, username) => {
-    console.log("je cherche");
-    axios.get('http://149.202.41.22:8080/api/users')
-      .then(response => {
-        response.data.forEach(function (item) {
-          if (item.userName === username)
-            self.setState({
-              user: item,
-              loading: false
-            })
-        });
-      })
-      .catch((error) => {
-        console.log("error", error)
-      })
+    var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
+    getUserById(this.context.token, username, (data) => {
+      this.setState({ user: data });
+    })
   }
 
   render() {
-    if (this.state.loading) {
-      return false;
-    }
-    else {
-      return (
-        <div id="ProfilePage" className="card mb-4">
-          <div className="card">
-            <img className="cover-photo" alt="coverPicture" src={this.state.user.coverPicture} />
-            <img className="rounded-avatar" alt="avatar" src={this.state.user.profilePicture} />
-            <div className="info-user p-sm-3">
-              <p>{this.state.user.firstName} {this.state.user.lastName}<br />
-                Salle de sport LifestyleSport<br />
-                @{this.state.user.userName}<br />
-              </p>
-            </div>
+    return (
+      <div id="ProfilePage" className="card mb-4">
+        <div className="card">
+          <img className="cover-photo" alt="coverPicture" src={this.context.apiurl + this.state.user.coverPic} />
+          <img className="rounded-avatar" alt="avatar" src={this.context.apiurl + this.state.user.profilePic} />
+          <div className="info-user p-sm-3">
+            <p>{this.state.user.firstName} {this.state.user.lastName}<br />
+              @{this.state.user.username}<br />
+              {this.state.user.bio}<br />
+              Salle de sport <br />
+            </p>
           </div>
         </div>
-      )
-    }
+      </div>
+    )
   }
 }
+
+Profile.contextTypes = {
+  token: PropTypes.string,
+  apiurl: PropTypes.string,
+};
 
 export default Profile

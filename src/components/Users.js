@@ -1,35 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import {fetchUsers} from '../functions/fetchUsers'
+import PropTypes from 'prop-types'
 
 
 class Users extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      users: []
+      users: [],
     }
   }
 
   componentWillMount() {
-    this.setState({
-      users: this.props.location.state.users
-    })
+    fetchUsers(this.props.location.state.searchTerm, this.context.token, (data) => {
+      this.setState({users: data});
+    });
   }
 
   shouldComponentUpdate() {
-    this.render();
-    console.log("false")
+    fetchUsers(this.props.location.state.searchTerm, this.context.token, (data) => {
+      this.setState({users: data});
+    });
     return (true);
   }
 
   render() {
-    console.log(this.state.users.length);
     if (this.state.users.length !== 0) {
-      var listUsers = this.state.users.map(function (elem, index) {
+      var listUsers = this.state.users.map((elem, index) => {
         return (
-          <Link to={`/profile/${elem.userName}`} key={elem._id}>
+          <Link to={`/profile/${elem.username}`} key={elem._id}>
             <li className="item-user p-sm-3" >
-              <img className="rounded-avatar" alt='profilePicture-item' src={elem.profilePicture} />
+              <img className="rounded-avatar" alt='profilePicture-item' src={this.context.apiurl + elem.profilePic} />
               <div className="info-item-user">
                 {elem.firstName} {elem.lastName}
               </div>
@@ -54,5 +56,10 @@ class Users extends React.Component {
     );
   }
 }
+
+Users.contextTypes = {
+  token: PropTypes.string,
+  apiurl: PropTypes.string,
+};
 
 export default Users

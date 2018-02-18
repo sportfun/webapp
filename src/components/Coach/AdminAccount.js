@@ -3,7 +3,7 @@ import React from 'react'
 class AdminAccount extends React.Component {
     constructor(props) {
         super(props)
-    //    this.getUserByUsername = this.getUserByUsername.bind(this)
+        //    this.getUserByUsername = this.getUserByUsername.bind(this)
         this.state = {
             user: {},
             loading: true
@@ -12,25 +12,30 @@ class AdminAccount extends React.Component {
 
     componentWillMount() {
         console.log(this.props)
-       // this.getUserByUsername(this, this.props.match.params.username);
+        // this.getUserByUsername(this, this.props.match.params.username);
     }
-/*
-    getUserByUsername = (self, username) => {
-        console.log("je cherche");
-        axios.get('http://149.202.41.22:8080/api/users')
-            .then(response => {
-                response.data.forEach(function (item) {
-                    if (item.userName === username)
-                        self.setState({
-                            user: item,
-                            loading: false
-                        })
-                });
-            })
-            .catch((error) => {
-                console.log("error", error)
-            })
-    }*/
+    /*
+        getUserByUsername = (self, username) => {
+            console.log("je cherche");
+            axios.get('http://149.202.41.22:8080/api/users')
+                .then(response => {
+                    response.data.forEach(function (item) {
+                        if (item.userName === username)
+                            self.setState({
+                                user: item,
+                                loading: false
+                            })
+                    });
+                })
+                .catch((error) => {
+                    console.log("error", error)
+                })
+        }
+        
+
+                            <img className="rounded-avatar" alt="avatar" src={this.state.user.profilePicture} />
+
+        */
 
     render() {
         if (!this.state.loading) {
@@ -40,23 +45,30 @@ class AdminAccount extends React.Component {
             return (
                 <div className="pagecontainer h-100 Block card p-sm-5">
                     <h3>Administration de compte</h3><br />
+                    
+                    <img className="cover-photo" alt="coverPicture" src={this.state.user.coverPicture} />
+                    <img className="rounded-avatar" alt="avatar" src={this.state.user.profilePicture} />
 
                     <form>
                         <div class="form-group w-50">
+                            <label for="profilePic">Photo du profil</label>
+                            <input type="file" class="form-control" id="profilePic" placeholder="Entrer prénom"></input>
+                        </div>
+                        <div class="form-group w-50">
                             <label for="firstName">Prénom</label>
-                            <input type="firstName" class="form-control" id="firstName" placeholder="Entrer prénom"></input>
+                            <input type="text" class="form-control" id="firstName" placeholder="Entrer prénom"></input>
                         </div>
                         <div class="form-group w-50">
                             <label for="lastName">Nom</label>
-                            <input type="lastName" class="form-control" id="lastName" placeholder="Entrer nom"></input>
+                            <input type="text" class="form-control" id="lastName" placeholder="Entrer nom"></input>
                         </div>
                         <div class="form-group w-50">
                             <label for="nickName">Surnom</label>
-                            <input type="nickName" class="form-control" id="nickName" placeholder="Entrer surnom"></input>
+                            <input type="text" class="form-control" id="nickName" placeholder="Entrer surnom"></input>
                         </div>
                         <div class="form-group w-50">
                             <label for="email">Adresse mail</label>
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Entrer email"></input>
+                            <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Entrer email"></input>
                         </div>
                         <div class="form-group w-50">
                             <label for="password">Mot de passe</label>
