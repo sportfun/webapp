@@ -15,6 +15,9 @@ import CoachAdmin from './Coach/AdminAccount'
 import CoachHeader from './Coach/Header'
 import CoachSidebarLeft from './Coach/SidebarLeft'
 
+import Login from './Login'
+import Register from './Register'
+
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
 // and /schedule routes will match any pathname that starts
@@ -81,6 +84,8 @@ class Main extends React.Component {
                   <Switch>
                     <Route exact path='/' component={Coach} />
                     <Route path='/coachadministration' component={CoachAdmin} />
+                    <Route path='/connexion' component={Login} />
+                    <Route path='/inscription' component={Register} />
                   </Switch>
             </div>
           </div>

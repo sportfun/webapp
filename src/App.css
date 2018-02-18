@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Work Sans', sans-serif;   
+  font-family: 'Work Sans', sans-serif;
   background-color : #EAEBEE;
   margin: 0px;
 }
@@ -28,10 +28,10 @@ a:hover {
   margin-left: 35%;
   margin-top: -70px;
   width: 150px;
-  height: 150px;  
+  height: 150px;
   margin-right: 15px;
   border-radius: 100%;
-  border: 3px solid #fff;  
+  border: 3px solid #fff;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
@@ -43,7 +43,7 @@ a:hover {
 }
 
 #ProfilePage .info-user {
-  
+
 }
 
 /* style Header.js - navbar*/
@@ -134,7 +134,7 @@ a:hover {
 
 .item-user .rounded-avatar {
   width: 80px;
-  height: 80px;  
+  height: 80px;
   margin-right: 15px;
   border-radius: 100%;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -189,8 +189,8 @@ a:hover {
   background: rgba(0,0,0,0.13);
   width: 80%;
   margin: 12px 0px;
-  margin-left: 15px; 
-  
+  margin-left: 15px;
+
   overflow: hidden;
 }
 
@@ -272,7 +272,7 @@ nav a::before {
   background-color: rgb(221, 121, 27);
   position: absolute;
   top: 0%;
-  width: 0%;  
+  width: 0%;
   transition: all ease-in-out 250ms;
 }
 
@@ -286,7 +286,7 @@ nav ul {
 }
 
 nav li {
-  position: relative;    
+  position: relative;
   display: inline-block;
   margin-left: 50px;
   padding-top: 20px;
@@ -324,12 +324,12 @@ html, body, #page-content {
 
 .DashboardCenter {
   height: 100%;
-  
+
 }
 
 .DashboardCenterContent {
-  
-  position: relative;    
+
+  position: relative;
 }
 
 
@@ -424,6 +424,7 @@ opacity: 1;
 .pagecontainer {
   margin-left: 15%;
   height: 100%;
+  overflow: auto;
 }
 
 .page-container {

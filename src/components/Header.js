@@ -29,7 +29,7 @@ class Header extends Component {
         history.push({
           pathname: '/users',
           state: { users: data, key: data },
-        })  
+        })
       }
     });
   }
@@ -57,8 +57,8 @@ class Header extends Component {
                 <Link to='/administration' className="nav-link">Mon compte</Link>
               </li>
             </ul>
-            <form className="form-inline my-2 my-lg-0 w-25" onSubmit={this.handleSubmit}>
-              <input ref="search_value" name="search_value" className="form-control mr-sm-2 w-65" type="text" placeholder="Entrez un nom d'utilisateur" aria-label="Rechercher" />
+            <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit}>
+              <input ref="search_value" name="search_value" className="form-control mr-sm-2" type="text" placeholder="Entrez un nom d'utilisateur" aria-label="Rechercher" />
               <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
             </form>
           </div>
