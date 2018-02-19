@@ -2,6 +2,7 @@
   position: fixed;
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
 
 body {
@@ -153,9 +154,10 @@ a:hover {
 }
 
 /* Statistics */
+
+/*width: 450px;*/
 .bar-main-container {
   margin: 10px auto;
-  width: 450px;
   height: 50px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -164,6 +166,25 @@ a:hover {
   font-weight: normal;
   font-size: 0.8em;
   color: #FFF;
+}
+
+.statsblock {
+  border: 3px solid #9999997d;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.statdescri {
+  text-align: center;
+}
+
+.statimg {
+  height: 90px;
 }
 
 .wrap { padding: 8px; }
