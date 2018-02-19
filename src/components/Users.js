@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import {fetchUsers} from '../functions/fetchUsers'
+import { fetchUsers } from '../functions/fetchUsers'
 import PropTypes from 'prop-types'
 
 
@@ -9,23 +9,31 @@ class Users extends React.Component {
     super(props)
     this.state = {
       users: [],
+      searchTerm: ""
     }
   }
 
   componentWillMount() {
+    this.setState({searchTerm: this.props.location.state.searchTerm});
     fetchUsers(this.props.location.state.searchTerm, this.context.token, (data) => {
-      this.setState({users: data});
+      this.setState({ users: data });
     });
   }
 
-  shouldComponentUpdate() {
-    fetchUsers(this.props.location.state.searchTerm, this.context.token, (data) => {
-      this.setState({users: data});
-    });
-    return (true);
+  componentWillReceiveProps(nextProps) {
+   //if (nextProps.location.state.searchTerm !== this.state.searchTerm)
+    //{
+      fetchUsers(nextProps.location.state.searchTerm, this.context.token, (data) => {
+        console.log(data);
+        this.setState({searchTerm: nextProps.location.state.searchTerm});
+        this.setState({users: data});
+      }); 
+    //}
   }
+
 
   render() {
+
     if (this.state.users.length !== 0) {
       var listUsers = this.state.users.map((elem, index) => {
         return (

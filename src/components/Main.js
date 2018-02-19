@@ -15,9 +15,10 @@ import Coach from './Coach/Coach'
 import CoachAdmin from './Coach/AdminAccount'
 import CoachHeader from './Coach/Header'
 import CoachSidebarLeft from './Coach/SidebarLeft'
-
+//
 import Login from './Login'
 import Register from './Register'
+
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -27,6 +28,10 @@ import Register from './Register'
 class Main extends React.Component {
 
   componentWillMount() {
+  }
+
+  shouldComponentUpdate() {
+    return (true);
   }
 
   render() {
@@ -40,7 +45,7 @@ class Main extends React.Component {
           <div id="page-container" className="container pb-5 py-6">
             <div className="row">
 
-              <SidebarLeft />
+              <SidebarLeft state="test" />
 
               <div id="DashboardCenter" className="col-6">
                 <div className="DashboardCenterContent">
@@ -65,7 +70,6 @@ class Main extends React.Component {
     }
     else {
       let sidebar = null;
-      console.log(window.location.href);
       if (window.location.href !== 'http://localhost:3000/')
         sidebar = <CoachSidebarLeft />;
       return (

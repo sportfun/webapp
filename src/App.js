@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    storeInfoUser(this.state.token,() => {
+    storeInfoUser(this.state.token, () => {
       this.setState({loading: true});
     });
   }

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import PropTypes from 'prop-types'
 
 export const getInfoUser = (token, callback) => {
     axios.get("http://149.202.41.22:8080/api/user/self", {
@@ -27,7 +26,7 @@ export const storeInfoUser = (token, callback) => {
             callback();
         })
         .catch((error) => {
-            console.log("error", error);
+            console.log(error.response)
         })
 };
 

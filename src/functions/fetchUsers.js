@@ -9,7 +9,7 @@ export const fetchUsers = (searchTerm, token, callback) => {
         .then(function (response) {
             allUsers = response.data;
             filterUsers = allUsers.filter(function (user) {
-                return (user.username.indexOf(searchTerm) !== -1);
+                return (user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
             });
             callback(filterUsers);
         })

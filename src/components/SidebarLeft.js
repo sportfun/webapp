@@ -1,22 +1,37 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { getInfoUser } from '../functions/basics';
+
+
 
 class SidebarLeft extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            user: {},
+        }
+    }
+
+    componentWillMount() {
+        getInfoUser(this.context.token, (data) => {
+            this.setState({ user: data });
+        });
+    }
 
     render() {
-        let username = localStorage.getItem('username');
+        let username = this.state.user.username;
         return (
             <div id="DashboardLeft" className="col-3">
 
                 <div id="ProfileCard" className="card mb-4">
                     <div className="card-header">
-                        <Link to={`/profile/${username}`}><img className="cover-photo" alt="cover_photo_sidebar" src={this.context.apiurl + "/static/cover_default.png"} /></Link>
+                        <Link to={`/profile/${username}`}><img className="cover-photo" alt="cover_photo_sidebar" src={this.context.apiurl + "/static/cover_default.jpg"} /></Link>
                     </div>
                     <div className="card-footer text-center">
                         <Link to={`/profile/${username}`}><img className="rounded-avatar" alt="avatar" src={this.context.apiurl + localStorage.getItem('profilePic')} /></Link>
-                        <Link to={`/profile/${username}`}><div className="mb-3"> {localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</div></Link>
-                        <div className="mb-3">{localStorage.getItem('bio')} </div>
+                        <Link to={`/profile/${username}`}><div className="mb-3"> {this.state.user.firstName} {this.state.user.lastName}</div></Link>
+                        <div className="mb-3">{this.state.user.bio} </div>
                         <div className="mb-3"> Salle de sport LifestyleSport </div>
                     </div>
                 </div>
@@ -52,7 +67,8 @@ class SidebarLeft extends React.Component {
 }
 
 SidebarLeft.contextTypes = {
-    apiurl: PropTypes.string
+    apiurl: PropTypes.string,
+    token: PropTypes.string
 };
 
 export default SidebarLeft

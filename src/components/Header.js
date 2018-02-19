@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchUsers } from '../functions/fetchUsers'
 import history from '../functions/history'
 
 class Header extends Component {

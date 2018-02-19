@@ -1,57 +1,70 @@
 import React from 'react'
 import axios from 'axios'
 import ProgressBar from './ui/progressBar'
+import PropTypes from 'prop-types'
+
 
 class Statistics extends React.Component {
     constructor(props) {
         super(props)
-        this.getStatsById = this.getStatsById.bind(this)
+     //   this.getStatsById = this.getStatsById.bind(this)
         this.calcProgress = this.calcProgress.bind(this)
         this.state = {
             stats: [],
-            progress: 0,
+            goalPercent: 0,
             sportTime: 0,
             loading: true
         }
     }
 
     componentWillMount() {
+        this.calcProgress();
+        /*
         this.getStatsById(this, "5a0f440f8c668c63a08d0924", function (self) {
             self.calcProgress(self);
             self.setState({
                 loading: false,
             })
         });
+        */
     }
-
-    getStatsById = (self, username, callback) => {
-        axios.get('http://149.202.41.22:8080/api/activities')
-            .then(response => {
-                self.setState({
-                    stats: response.data,
+    /*
+        getStatsById = (self, username, callback) => {
+            axios.get('http://149.202.41.22:8080/api/activities')
+                .then(response => {
+                    self.setState({
+                        stats: response.data,
+                    })
+                    callback(self);
                 })
-                callback(self);
-            })
-            .catch((error) => {
-                console.log("error", error)
-            })
-    }
-
-    calcProgress(self) {
-        var progress = 0;
+                .catch((error) => {
+                    console.log("error", error)
+                })
+        }
+    */
+    calcProgress() { 
+        var sportTime = 2500;
         var goal = 5000;
+                /*
+
+        this.state.stats.forEach(function (item) {
+            sportTime += item.time;
+        });
         self.state.stats.forEach(function (item) {
             progress += item.time;
         });
         self.state.progress = (progress * 100) / goal;
         self.state.sportTime = progress;
+        */
+       this.setState({goalPercent: (sportTime * 100) / goal});
+       this.setState({sportTime: sportTime});
     }
 
     render() {
-        console.log(this.state.progress);
-        if (this.state.loading) {
-            return (false);
-        } else {
+        console.log(this.state.goalPercent);
+        //if (this.state.loading) {
+        //    return (false);
+        //} else {
             return (
                 <div id="StatsPage" className="card mb-4 p-sm-3">
                     <h3>page des statistiques</h3>< br />
@@ -79,13 +92,18 @@ class Statistics extends React.Component {
                     </div>
 
                     <div className="statsblock" id="SportTime">
-                        Temps de sport cette semaine : {Math.round(this.state.sportTime / 60)}mn
+                        Temps de sport cette semaine : {Math.round(this.state.sportTime / 60)}h
                     </div>
                 </div>
             )
-        }
+        //}
     }
 }
+
+Statistics.contextTypes = {
+    apiurl: PropTypes.string,
+    token: PropTypes.string,
+};
 
 export default Statistics
 
