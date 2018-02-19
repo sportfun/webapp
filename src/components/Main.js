@@ -12,7 +12,7 @@ import Header from './Header'
 import AdministrationAccount from './AdministrationAccount'
 // Coach import
 import Coach from './Coach/Coach'
-import CoachAdmin from './Coach/AdminAccount'
+import CoachAdmin from './Coach/CoachAdmin'
 import CoachHeader from './Coach/Header'
 import CoachSidebarLeft from './Coach/SidebarLeft'
 //
