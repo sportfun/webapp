@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import history from '../functions/history'
+import PropTypes from 'prop-types'
 
 class Header extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Header extends Component {
 
     return (
       <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark" >
-        <Link to='/'><img className="logo_header" src="https://cdn.discordapp.com/attachments/250745088097910784/382220220246392832/logo_sportsfun.png" alt="logo" /></Link>
+        <Link to='/'><img className="logo_header" src={this.context.apiurl + "/static/logo_sportsfun.png"} alt="logo" /></Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -54,5 +55,9 @@ class Header extends Component {
     )
   }
 }
+
+Header.contextTypes = {
+  apiurl: PropTypes.string,
+};
 
 export default Header

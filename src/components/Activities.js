@@ -19,15 +19,15 @@ class Activities extends React.Component {
     }
 
     render() {
-        if(!this.state.loading){return null}
+        if (!this.state.loading) { return null }
         if (this.state.activities.length !== 0) {
 
             var activities = this.state.activities;
-
             return (
                 <div id="ActivitiesPage" className="card mb-4 p-sm-3">
                     <h3>Vous avez joué à...</h3>
                     {activities.map(function (elem, index) {
+                        var date = new Date(elem.date);
                         return (
                             <div className="card m-4" key={index}>
                                 <div className="card-header">
@@ -37,7 +37,8 @@ class Activities extends React.Component {
                                     <img className="card-img-top rounded-circle wp-100 hp-100 my-3 mx-5 d-block" src="/ressources/jeu1.jpg" alt="Card" />
                                     <div className="">
                                         type d'effort : {elem.type} <br />
-                                        le<br />
+                                        le {date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()}<br />
+
                                         pendant {elem.timeSpent} minute(s)<br />
                                     </div>
                                 </div>

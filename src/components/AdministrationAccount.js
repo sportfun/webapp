@@ -86,7 +86,7 @@ class AdministrationAccount extends React.Component {
               <div className="row my-1">
                 <label htmlFor="sportsHall" className="col-sm-3 col-form-label">Salle de sport</label>
                 <div className="col-sm-9">
-                  <input type="text" className="form-control" id="sportsHall"></input>
+                  <input type="text" className="form-control" id="sportsHall" placeholder="LifestyleSport"></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
@@ -95,7 +95,7 @@ class AdministrationAccount extends React.Component {
               <div className="row my-1">
                 <label htmlFor="biography" className="col-sm-3 col-form-label">Biographie</label>
                 <div className="col-sm-9">
-                  <textarea className="form-control" ref="biography" id="biography" rows="5" placeholder={this.state.user.bio}></textarea>
+                  <textarea className="form-control" ref="biography" id="biography" rows="5" maxLength="160" placeholder={this.state.user.bio}></textarea>
                 </div>
               </div>
 
