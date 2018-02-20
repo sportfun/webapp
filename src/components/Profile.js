@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getUserById } from '../functions/basics';
+import { getUserById } from '../functions/getRequest';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       user: {},
+      loading: false,
     }
   }
 
@@ -14,10 +15,12 @@ class Profile extends React.Component {
     var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
     getUserById(this.context.token, username, (data) => {
       this.setState({ user: data });
+      this.setState({ loading: true });
     })
   }
 
   render() {
+    if(!this.state.loading){return null}
     return (
       <div id="ProfilePage" className="card mb-4">
         <div className="card">

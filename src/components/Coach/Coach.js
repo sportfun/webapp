@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import CoachSidebarLeft from './SidebarLeft'
 
 class Coach extends React.Component {
 
@@ -27,7 +26,7 @@ class Coach extends React.Component {
           <div className="card border-info text-center">
             <Link to='/'>
               <div className="card-header" style={{ backgroundColor: bgColors.Blue }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/customers.png" alt="Card image cap" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/customers.png" alt="Liste des clients" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Liste des clients</h5>
@@ -39,7 +38,7 @@ class Coach extends React.Component {
           <div className="card border-success text-center">
             <Link to='/'>
               <div className="card-header" style={{ backgroundColor: bgColors.Green }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/session.png" alt="Card image cap" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/session.png" alt="Creer une seance" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Créer une séance</h5>
@@ -51,7 +50,7 @@ class Coach extends React.Component {
           <div className="card border-warning text-center">
             <Link to='/'>
               <div className="card-header" style={{ backgroundColor: bgColors.Yellow }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/create.png" alt="Card image cap" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/create.png" alt="Modifier une seance" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Modifier une séance</h5>
@@ -66,7 +65,7 @@ class Coach extends React.Component {
           <div className="card border-danger text-center">
             <Link to='/'>
               <div className="card-header" style={{ backgroundColor: bgColors.Red }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/user.png" alt="Card image cap" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/user.png" alt="Votre profil" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Votre profil</h5>
@@ -78,7 +77,7 @@ class Coach extends React.Component {
           <div className="card border-secondary text-center">
             <Link to='/'>
               <div className="card-header" style={{ backgroundColor: bgColors.Grey }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/settingsc.png" alt="Card image cap" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/settingsc.png" alt="" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Carte temporaire</h5>
@@ -90,7 +89,7 @@ class Coach extends React.Component {
           <div className="card border-secondary text-center">
             <Link to='/coachadministration'>
               <div className="card-header" style={{ backgroundColor: bgColors.Grey }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/settingsc.png" alt="Card image cap" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/settingsc.png" alt="Mon compte" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Mon compte</h5>

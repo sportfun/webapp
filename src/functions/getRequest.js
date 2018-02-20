@@ -12,6 +12,18 @@ export const getInfoUser = (token, callback) => {
         })
 };
 
+export const getActivityUser = (token, callback) => {
+    axios.get("http://149.202.41.22:8080/api/activity", {
+        headers: { "token": token }
+    })
+        .then(response => {
+            callback(response.data.data);
+        })
+        .catch((error) => {
+            console.log("error", error);
+        })
+};
+
 export const storeInfoUser = (token, callback) => {
     axios.get("http://149.202.41.22:8080/api/user/self", {
         headers: { "token": token }

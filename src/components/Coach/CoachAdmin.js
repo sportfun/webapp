@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { getUserById } from '../../functions/basics';
+import { getUserById } from '../../functions/getRequest';
 
 class CoachAdmin extends React.Component {
     constructor(props) {
@@ -37,46 +37,7 @@ class CoachAdmin extends React.Component {
         }).catch(error => {
             console.log(error.response)
         })
-
-        /*
-        axios.post('http://149.202.41.22:8080/api/user/edit/info', {
-            params: {
-                firstName: this.refs["firstName"].value,
-            },
-            headers: {"token": this.context.token}
-        }).then(response => {
-            console.log(response.data);
-        }).catch(error => {
-            const state = {}
-            this.setState(state)
-            console.log(error.response)
-        })
-        */
     }
-
-
-    /*
-        getUserByUsername = (self, username) => {
-            console.log("je cherche");
-            axios.get('http://149.202.41.22:8080/api/users')
-                .then(response => {
-                    response.data.forEach(function (item) {
-                        if (item.userName === username)
-                            self.setState({
-                                user: item,
-                                loading: false
-                            })
-                    });
-                })
-                .catch((error) => {
-                    console.log("error", error)
-                })
-        }
-        
-    
-                            <img className="rounded-avatar" alt="avatar" src={this.state.user.profilePicture} />
-    
-        */
 
     render() {
         if (!this.state.loading) {
@@ -115,19 +76,6 @@ class CoachAdmin extends React.Component {
         }
     }
 }
-
-/*
-
-                        <div className="form-group w-50">
-                            <label htmlFor="profilePic">Photo du profil</label>
-                            <input type="file" className="form-control" id="profilePic" placeholder="Entrer prénom"></input>
-                        </div>
-
-                                                <div className="form-group w-50">
-                            <label htmlFor="nickName">Surnom</label>
-                            <input type="text" className="form-control" id="nickName" placeholder="Entrer surnom"></input>
-                        </div>
-                        */
 
 CoachAdmin.contextTypes = {
     apiurl: PropTypes.string,

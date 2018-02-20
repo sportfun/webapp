@@ -1,19 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { getInfoUser } from '../functions/basics';
+import { getInfoUser } from '../functions/getRequest';
 
 class AdministrationAccount extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {}
+      user: {},
+      loading: false,
     }
   }
 
   componentWillMount() {
     getInfoUser(this.context.token, (data) => {
       this.setState({ user: data });
+      this.setState({ loading: true });
     });
   }
 
@@ -38,6 +40,8 @@ class AdministrationAccount extends React.Component {
   }
 
   render() {
+    if(!this.state.loading){return null}
+
     let coords = { x1: 0, y1: 0, x2: 550, y2: 0 };
 
     return (

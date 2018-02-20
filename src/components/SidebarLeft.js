@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { getInfoUser } from '../functions/basics';
+import { getInfoUser } from '../functions/getRequest';
 
 
 
@@ -43,7 +43,7 @@ class SidebarLeft extends React.Component {
                                 <span className="mr-3"><img className="MenuIcon" src="ressources/today.png" alt="today" /></span><Link to='/'>Aujourd'hui</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src="ressources/journal.png" alt="activity" /></span><Link to='/'>Journal d'activités</Link>
+                                <span className="mr-3"><img className="MenuIcon" src="ressources/journal.png" alt="activity" /></span><Link to={`/activities/${username}`}>Journal d'activités</Link>
                             </li>
                             <li>
                                 <span className="mr-3"><img className="MenuIcon" src="ressources/stats.png" alt="statistics" /></span><Link to={`/statistics/${username}`}>Graphiques</Link>

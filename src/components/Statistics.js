@@ -1,7 +1,8 @@
 import React from 'react'
-import axios from 'axios'
 import ProgressBar from './ui/progressBar'
 import PropTypes from 'prop-types'
+import { getActivityUser } from '../functions/getRequest'
+
 
 
 class Statistics extends React.Component {
@@ -10,62 +11,34 @@ class Statistics extends React.Component {
         //   this.getStatsById = this.getStatsById.bind(this)
         this.calcProgress = this.calcProgress.bind(this)
         this.state = {
-            stats: [],
+            activities: [],
             goalPercent: 0,
-            goal: 5000,
+            goal: 300,
             sportTime: 0,
-            loading: true
+            loading: false
         }
     }
 
     componentWillMount() {
-        this.calcProgress();
-        /*
-        this.getStatsById(this, "5a0f440f8c668c63a08d0924", function (self) {
-            self.calcProgress(self);
-            self.setState({
-                loading: false,
-            })
+        getActivityUser(this.context.token, (data) => {
+            this.setState({ activities: data });
+            this.calcProgress();
         });
-        */
     }
-    /*
-        getStatsById = (self, username, callback) => {
-            axios.get('http://149.202.41.22:8080/api/activities')
-                .then(response => {
-                    self.setState({
-                        stats: response.data,
-                    })
-                    callback(self);
-                })
-                .catch((error) => {
-                    console.log("error", error)
-                })
-        }
-    */
-    calcProgress() {
-        var sportTime = 2500;
-        var goal = 5000;
-        /*
 
-this.state.stats.forEach(function (item) {
-    sportTime += item.time;
-});
-self.state.stats.forEach(function (item) {
-    progress += item.time;
-});
-self.state.progress = (progress * 100) / goal;
-self.state.sportTime = progress;
-*/
-        this.setState({ goalPercent: (sportTime * 100) / goal });
+    calcProgress() {
+        var sportTime = 0;
+        this.state.activities.forEach(function (item) {
+            sportTime += item.timeSpent;
+        });
+        var percent = Math.round((sportTime * 100) / this.state.goal*100)/100;
+        this.setState({ goalPercent: percent});
         this.setState({ sportTime: sportTime });
+        this.setState({ loading: true });
     }
 
     render() {
-        console.log(this.state.goalPercent);
-        //if (this.state.loading) {
-        //    return (false);
-        //} else {
+        if (!this.state.loading) {return null}
         return (
             <div id="StatsPage" className="card mb-4 p-sm-3">
                 <h3>Vos statistiques</h3>< br />
@@ -154,7 +127,6 @@ self.state.sportTime = progress;
                 </div>
             </div>
         )
-        //}
     }
 }
 
@@ -164,15 +136,3 @@ Statistics.contextTypes = {
 };
 
 export default Statistics
-
-                /*
-                <div className="statsblock p-4 m-4" id="SportTime">
-                    Temps de sport cette semaine : {Math.round(this.state.sportTime / 60)}h
-                    </div>
-
-                        <div class="statsblock" id="Games_fav">
-                    Type d'effort
-            <br />
-                    Graphiques en barre
-        </div>
-                */

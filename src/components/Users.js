@@ -9,7 +9,8 @@ class Users extends React.Component {
     super(props)
     this.state = {
       users: [],
-      searchTerm: ""
+      searchTerm: "",
+      loading: false,
     }
   }
 
@@ -17,6 +18,7 @@ class Users extends React.Component {
     this.setState({searchTerm: this.props.location.state.searchTerm});
     fetchUsers(this.props.location.state.searchTerm, this.context.token, (data) => {
       this.setState({ users: data });
+      this.setState({ loading: true });
     });
   }
 
@@ -24,7 +26,6 @@ class Users extends React.Component {
    //if (nextProps.location.state.searchTerm !== this.state.searchTerm)
     //{
       fetchUsers(nextProps.location.state.searchTerm, this.context.token, (data) => {
-        console.log(data);
         this.setState({searchTerm: nextProps.location.state.searchTerm});
         this.setState({users: data});
       }); 
@@ -33,8 +34,10 @@ class Users extends React.Component {
 
 
   render() {
+    if(!this.state.loading){return null}
 
     if (this.state.users.length !== 0) {
+    
       var listUsers = this.state.users.map((elem, index) => {
         return (
           <Link to={`/profile/${elem.username}`} key={elem._id}>

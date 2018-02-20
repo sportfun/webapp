@@ -18,6 +18,7 @@ import CoachSidebarLeft from './Coach/SidebarLeft'
 //
 import Login from './Login'
 import Register from './Register'
+import Activities from './Activities';
 
 
 // The Main component renders one of the three provided
@@ -54,6 +55,7 @@ class Main extends React.Component {
                     <Route path='/profile/:username' state="test" component={Profile} />
                     <Route path='/users/:searchterm' component={ListUsers} />
                     <Route path='/statistics/:username' component={Statistics} />
+                    <Route path='/activities/:username' component={Activities} />
                     <Route path='/administration' component={AdministrationAccount} />
                     <Route path='/coach' component={Coach} />
                     <Route path='/coachadministration' component={CoachAdmin} />
