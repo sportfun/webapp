@@ -19,6 +19,8 @@ import CoachSidebarLeft from './Coach/SidebarLeft'
 import Login from './Login'
 import Register from './Register'
 import Activities from './Activities';
+import { getInfoUser } from '../functions/getRequest'
+
 
 
 // The Main component renders one of the three provided
@@ -27,8 +29,22 @@ import Activities from './Activities';
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
 class Main extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: false,
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg1ZmY5ZWE1YWQxMzE1NmFkMzMyMDYiLCJpYXQiOjE1MTg3MzIxMzB9.acd4c0f6_IiJck7xpQXiZZXaVEvRwIcBvQ28rEggr2k",
+      isCoach: false
+    }
+  }
 
   componentWillMount() {
+    getInfoUser(this.state.token, (data) => {
+      if (data.roles[0] === "coach") {
+        this.setState({ isCoach: true });
+        this.setState({ loading: true });
+      }
+    });
   }
 
   shouldComponentUpdate() {
@@ -36,9 +52,8 @@ class Main extends React.Component {
   }
 
   render() {
-    var i = 1;
-
-    if (i === 1) {
+    if (!this.state.loading) { return null }
+    if (!this.state.isCoach) {
 
       return (
         <div className="wrapper-app">
@@ -95,7 +110,8 @@ class Main extends React.Component {
 Main.contextTypes = {
   apiurl: PropTypes.string,
   token: PropTypes.string,
-  getUserInfo: PropTypes.func
+  getUserInfo: PropTypes.func,
+  isCoach: PropTypes.bool
 };
 
 export default Main
