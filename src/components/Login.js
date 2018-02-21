@@ -28,6 +28,11 @@ class Login extends Component {
       } else {
         sessionStorage.setItem('token', response.data.data.token)
       }
+      axios.get('http://149.202.41.22:8080/api/user', {
+        headers: { 'token': response.data.data.token },
+      }).then(data => {
+        localStorage.setItem('user', data.data)
+      })
       history.push('/')
     }).catch(error => {
       const state = {}
