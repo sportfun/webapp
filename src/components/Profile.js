@@ -28,9 +28,8 @@ class Profile extends React.Component {
           <img className="rounded-avatar" alt="avatar" src={this.context.apiurl + this.state.user.profilePic} />
           <div className="info-user p-sm-3">
             <p>{this.state.user.firstName} {this.state.user.lastName}<br />
-              @{this.state.user.username}<br />
+              @{this.state.user.username}<br /><br />
               {this.state.user.bio}<br />
-              Salle de sport <br />
             </p>
           </div>
         </div>

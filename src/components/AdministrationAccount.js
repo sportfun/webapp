@@ -29,7 +29,8 @@ class AdministrationAccount extends React.Component {
         lastName: this.refs["lastName"].value,
         email: this.refs["email"].value,
         password: this.refs["password"].value,
-        bio: this.refs["biography"].value
+        bio: this.refs["biography"].value,
+        goal: this.refs["goal"].value
       },
       headers: { "token": this.context.token }
     }).then(response => {
@@ -52,49 +53,48 @@ class AdministrationAccount extends React.Component {
             <form onSubmit={this.submit} >
 
               <div className="row pt-4 my-1">
-                <label htmlFor="firstName" className="col-sm-3 col-form-label">Prénom</label>
-                <div className="col-sm-9">
+                <label htmlFor="firstName" className="col-sm-4 col-form-label">Prénom</label>
+                <div className="col-sm-8">
                   <input type="text" className="form-control" ref="firstName" id="firstName" placeholder={this.state.user.firstName}></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
 
               <div className="row my-1">
-                <label htmlFor="lastName" className="col-sm-3 col-form-label">Nom</label>
-                <div className="col-sm-9">
+                <label htmlFor="lastName" className="col-sm-4 col-form-label">Nom</label>
+                <div className="col-sm-8">
                   <input type="text" className="form-control" ref="lastName" id="lastName" placeholder={this.state.user.lastName}></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
 
               <div className="row my-1">
-                <label htmlFor="email" className="col-sm-3 col-form-label">Mail</label>
-                <div className="col-sm-9">
+                <label htmlFor="email" className="col-sm-4 col-form-label">Mail</label>
+                <div className="col-sm-8">
                   <input type="text" className="form-control" ref="email" id="email" placeholder={this.state.user.email}></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
 
               <div className="row my-1">
-                <label htmlFor="password" className="col-sm-3 col-form-label">Mot de passe</label>
-                <div className="col-sm-9">
+                <label htmlFor="password" className="col-sm-4 col-form-label">Mot de passe</label>
+                <div className="col-sm-8">
                   <input type="password" className="form-control" ref="password" id="password" placeholder="●●●●●●"></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
 
               <div className="row my-1">
-                <label htmlFor="sportsHall" className="col-sm-3 col-form-label">Salle de sport</label>
-                <div className="col-sm-9">
-                  <input type="text" className="form-control" id="sportsHall" placeholder="LifestyleSport"></input>
+                <label htmlFor="goal" className="col-sm-4 col-form-label">Objectif sportif (mn)</label>
+                <div className="col-sm-8">
+                  <input type="text" className="form-control" ref="goal" id="goal" placeholder={this.state.user.goal}></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
 
-
               <div className="row my-1">
-                <label htmlFor="biography" className="col-sm-3 col-form-label">Biographie</label>
-                <div className="col-sm-9">
+                <label htmlFor="biography" className="col-sm-4 col-form-label">Biographie</label>
+                <div className="col-sm-8">
                   <textarea className="form-control" ref="biography" id="biography" rows="5" maxLength="160" placeholder={this.state.user.bio}></textarea>
                 </div>
               </div>
@@ -116,3 +116,13 @@ AdministrationAccount.contextTypes = {
 };
 
 export default AdministrationAccount
+
+/*
+              <div className="row my-1">
+                <label htmlFor="sportsHall" className="col-sm-4 col-form-label">Salle de sport</label>
+                <div className="col-sm-8">
+                  <input type="text" className="form-control" id="sportsHall" placeholder="LifestyleSport"></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+*/

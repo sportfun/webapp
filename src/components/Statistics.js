@@ -1,29 +1,34 @@
 import React from 'react'
 import ProgressBar from './ui/progressBar'
 import PropTypes from 'prop-types'
-import { getActivityUser } from '../functions/getRequest'
-
-
+import { getActivityUser, getInfoUser } from '../functions/getRequest'
 
 class Statistics extends React.Component {
     constructor(props) {
         super(props)
-        //   this.getStatsById = this.getStatsById.bind(this)
         this.calcProgress = this.calcProgress.bind(this)
         this.state = {
             activities: [],
             goalPercent: 0,
-            goal: 300,
+            goal: 0,
             sportTime: 0,
             loading: false
         }
     }
 
     componentWillMount() {
-        getActivityUser(this.context.token, (data) => {
-            this.setState({ activities: data });
-            this.calcProgress();
-        });
+        getInfoUser(this.context.token, (data) => {
+            this.setState({ goal: data.goal });
+            getActivityUser(this.context.token, (data) => {
+                this.setState({ activities: data });
+                this.calcProgress();
+            });
+        })
+    }
+
+    componentWillUnmount()  {
+        this.setState({ goalPercent: 0 })
+        this.setState({ sportTime: 0 })
     }
 
     calcProgress() {
@@ -31,14 +36,18 @@ class Statistics extends React.Component {
         this.state.activities.forEach(function (item) {
             sportTime += item.timeSpent;
         });
-        var percent = Math.round((sportTime * 100) / this.state.goal*100)/100;
-        this.setState({ goalPercent: percent});
+        if (sportTime > this.state.goal)
+            this.setState({ goalPercent: 100 });
+        else {
+            var percent = Math.round((sportTime * 100) / this.state.goal * 100) / 100;
+            this.setState({ goalPercent: percent });
+        }
         this.setState({ sportTime: sportTime });
         this.setState({ loading: true });
     }
 
     render() {
-        if (!this.state.loading) {return null}
+        if (!this.state.loading) { return null }
         return (
             <div id="StatsPage" className="card mb-4 p-sm-3">
                 <h3>Vos statistiques</h3>< br />
