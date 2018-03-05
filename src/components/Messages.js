@@ -6,15 +6,24 @@ import { Link } from 'react-router-dom'
 class Messages extends Component {
   constructor(props) {
     super(props)
-    this.state = { username: '', message: '', conversations: [] }
+    //this.state = { username: '', message: '', conversations: [] }
+    this.state = { username: '', message: '', conversations: [{
+        id: '5a8d68dde8db887e4d35350b',
+        lastConversation: 'tegz rhzhzrh je trzgz rhrzr jzrjrj'
+      }] }
   }
 
   fetchConversations() {
+    return Promise.resolve()
     axios.get('http://149.202.41.22:8080/api/messages', {
       token: this.token,
     }).then(response => {
       this.setState(prevState => {
-        return { ...prevState, conversations: response.messages }
+        //return { ...prevState, conversations: response.messages }
+        return { ...prevState, conversations: [{
+          id: '5a8d68dde8db887e4d35350b',
+            lastConversation: 'tegz rhzhzrh je trzgz rhrzr jzrjrj'
+          }] }
       })
     }).catch(error => {
       console.log(error.response)
@@ -74,7 +83,11 @@ class Messages extends Component {
   }
 
   getIdFromUsername(username) {
-    return Promise.resolve(1)
+    if (username === 'test1') {
+      return Promise.resolve('5a8d68dde8db887e4d35350b')
+    } else if (username === 'test2') {
+      return Promise.resolve('5a8d68f3e8db887e4d35350c')
+    }
   }
 
   submit = e => {
@@ -93,6 +106,7 @@ class Messages extends Component {
           'token': this.token,
         },
       }).then(() => {
+        console.log('message envoyé')
         this.setState(prevState => {
           return {
             ...prevState, conversations: [...prevState.conversations, {

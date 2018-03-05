@@ -5,7 +5,7 @@ import history from '../functions/history'
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.state = { username: '', password: '', stayLoggedIn: true }
+    this.state = { username: '', password: '', stayLoggedIn: true, alertMessage: '' }
   }
 
   onChange = event => {
@@ -31,7 +31,7 @@ class Login extends Component {
       axios.get('http://149.202.41.22:8080/api/user', {
         headers: { 'token': response.data.data.token },
       }).then(data => {
-        localStorage.setItem('user', data.data)
+        localStorage.setItem('user', JSON.stringify(data.data))
       })
       history.push('/')
     }).catch(error => {
@@ -45,6 +45,7 @@ class Login extends Component {
     return (
       <div className="pagecontainer p-sm-5">
         <h3>Connexion</h3><br />
+        <p className="alert alert-danger">{this.state.alertMessage}</p>
         <form onSubmit={this.submit}>
           <div className="form-group w-50">
             <label htmlFor="username">Nom d'utilisateur</label>

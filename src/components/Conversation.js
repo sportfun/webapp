@@ -12,7 +12,29 @@ moment.locale('fr')
 class Conversation extends Component {
   constructor(props) {
     super(props)
-    this.state = { message: '', messages: [] }
+    //this.state = { message: '', messages: [] }
+    this.state = { message: '', messages: [
+        {
+          author: '5a8d68dde8db887e4d35350b',
+          timestamp: moment().subtract(4, 'days'),
+          content: 'gehzrhzr zrh zrhzrh'
+        },
+        {
+          author: '5a8d68f3e8db887e4d35350c',
+          timestamp: moment().subtract(3, 'days'),
+          content: 'htej gzr zr zh etet et'
+        },
+        {
+          author: '5a8d68f3e8db887e4d35350c',
+          timestamp: moment().subtract(2, 'days'),
+          content: 'hh  rzhetjte jteet etet'
+        },
+        {
+          author: '5a8d68dde8db887e4d35350b',
+          timestamp: moment().subtract(4, 'days'),
+          content: 'gehzrhzr zrh zrhzrh'
+        }
+      ] }
   }
 
   componentWillMount() {
@@ -25,13 +47,38 @@ class Conversation extends Component {
       return { ...prevState, token: token }
     })
     const id = this.props.match.params.id
+    return Promise.resolve()
     return axios.get(`http://149.202.41.22:8080/api/message/${id}`, {
       headers: {
         'token': this.state.token,
       },
     }).then(response => {
       this.setState(prevState => {
-        return { ...prevState, messages: response.messages }
+        //return { ...prevState, messages: response.messages }
+        return {
+          ...prevState, messages: [
+            {
+              author: '5a8d68dde8db887e4d35350b',
+              timestamp: moment().subtract(4, 'days'),
+              content: 'gehzrhzr zrh zrhzrh'
+            },
+            {
+              author: '5a8d68f3e8db887e4d35350c',
+              timestamp: moment().subtract(3, 'days'),
+              content: 'htej gzr zr zh etet et'
+            },
+            {
+              author: '5a8d68f3e8db887e4d35350c',
+              timestamp: moment().subtract(2, 'days'),
+              content: 'hh  rzhetjte jteet etet'
+            },
+            {
+              author: '5a8d68dde8db887e4d35350b',
+              timestamp: moment().subtract(4, 'days'),
+              content: 'gehzrhzr zrh zrhzrh'
+            }
+          ],
+        }
       })
     }).catch(error => {
       this.setState(prevState => {
@@ -92,7 +139,8 @@ class Conversation extends Component {
       headers: {
         'token': this.state.token,
       },
-    }).catch(error => {
+    }).then(() => console.log('message envoyé'))
+      .catch(error => {
       this.setState(prevState => {
         return {
           ...prevState, message: message,
