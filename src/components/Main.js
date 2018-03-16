@@ -20,6 +20,7 @@ import Login from './Login'
 import Register from './Register'
 import Activities from './Activities';
 import { getInfoUser } from '../functions/getRequest'
+import CreateSession from './Coach/CreateSession';
 
 
 
@@ -41,10 +42,12 @@ class Main extends React.Component {
   componentWillMount() {
     getInfoUser(this.state.token, (data) => {
       if (data.roles[0] === "coach") {
-        this.setState({ isCoach: true });
-        this.setState({ loading: true });
+        this.setState({ isCoach: false });
       }
     });
+
+   this.setState({ loading: true });
+
   }
 
   shouldComponentUpdate() {
@@ -96,6 +99,8 @@ class Main extends React.Component {
             {sidebar}
             <Switch>
               <Route exact path='/' component={Coach} />
+              <Route path='/createsession' component={CreateSession} />
+              <Route path='/profile' component={Profile} />
               <Route path='/coachadministration' component={CoachAdmin} />
               <Route path='/connexion' component={Login} />
               <Route path='/inscription' component={Register} />

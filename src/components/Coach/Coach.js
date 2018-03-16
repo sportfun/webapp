@@ -63,7 +63,7 @@ class Coach extends React.Component {
 
         <div className="card-deck m-4">
           <div className="card border-danger text-center">
-            <Link to='/'>
+            <Link to='/profile'>
               <div className="card-header" style={{ backgroundColor: bgColors.Red }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/user.png" alt="Votre profil" style={imageSize} />
               </div>
@@ -97,7 +97,6 @@ class Coach extends React.Component {
               </div>
             </Link>
           </div>
-
         </div>
       </div>
     )

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
-import Login from './components/Login'
-import Register from './components/Register'
 import Main from './components/Main'
-import { storeInfoUser, getInfoUser } from './functions/getRequest'
+import { storeInfoUser } from './functions/getRequest'
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css'
 
@@ -46,6 +43,7 @@ App.childContextTypes = {
   orangecolor: PropTypes.string,
   apiurl: PropTypes.string,
   token: PropTypes.string,
+  id: PropTypes.string,
   getUserInfo: PropTypes.func,
 };
 
