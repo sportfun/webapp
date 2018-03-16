@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getUserById } from '../functions/getRequest';
+import { getUserByUsername } from '../functions/getRequest';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class Profile extends React.Component {
 
   componentWillMount() {
     var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
-    getUserById(this.context.token, username, (data) => {
+    getUserByUsername(this.context.token, username, (data) => {
       this.setState({ user: data });
       this.setState({ loading: true });
     })
