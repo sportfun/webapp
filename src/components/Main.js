@@ -15,12 +15,16 @@ import Coach from './Coach/Coach'
 import CoachAdmin from './Coach/CoachAdmin'
 import CoachHeader from './Coach/Header'
 import CoachSidebarLeft from './Coach/SidebarLeft'
+import ClientList from './Coach/ClientList'
+import CoachProfile from './Coach/Profile'
 //
 import Login from './Login'
 import Register from './Register'
 import Activities from './Activities';
 import { getInfoUser } from '../functions/getRequest'
 import CreateSession from './Coach/CreateSession';
+import EditTraining from './Coach/EditTraining';
+import TrainingList from './Coach/TrainingList';
 
 
 
@@ -42,11 +46,11 @@ class Main extends React.Component {
   componentWillMount() {
     getInfoUser(this.state.token, (data) => {
       if (data.roles[0] === "coach") {
-        this.setState({ isCoach: false });
+        this.setState({ isCoach: true });
       }
     });
 
-   this.setState({ loading: true });
+    this.setState({ loading: true });
 
   }
 
@@ -63,14 +67,13 @@ class Main extends React.Component {
           <Header />
           <div id="page-container" className="container pb-5 py-6">
             <div className="row">
-
               <SidebarLeft state="test" />
 
               <div id="DashboardCenter" className="col-6">
                 <div className="DashboardCenterContent">
                   <Switch>
                     <Route exact path='/' component={Home} />
-                    <Route path='/profile/:username' state="test" component={Profile} />
+                    <Route path='/profile/:username' component={Profile} />
                     <Route path='/users/:searchterm' component={ListUsers} />
                     <Route path='/statistics/:username' component={Statistics} />
                     <Route path='/activities/:username' component={Activities} />
@@ -82,7 +85,6 @@ class Main extends React.Component {
               </div>
 
               <SidebarRight />
-
             </div>
           </div>
         </div>
@@ -100,7 +102,9 @@ class Main extends React.Component {
             <Switch>
               <Route exact path='/' component={Coach} />
               <Route path='/createsession' component={CreateSession} />
-              <Route path='/profile' component={Profile} />
+              <Route path='/editsession' component={TrainingList} />
+              <Route path='/clientlist' component={ClientList} />
+              <Route path='/coach/profile/:username' component={CoachProfile} />
               <Route path='/coachadministration' component={CoachAdmin} />
               <Route path='/connexion' component={Login} />
               <Route path='/inscription' component={Register} />

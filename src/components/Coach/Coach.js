@@ -19,12 +19,14 @@ class Coach extends React.Component {
       "Red": "rgba(255, 102, 102, 0.7)",
     };
 
+    let username = localStorage.getItem('username');
+
     return (
       <div className="Block card px-5 py-5 h-100">
         <div className="card-deck m-4">
 
           <div className="card border-info text-center">
-            <Link to='/'>
+            <Link to='/clientlist'>
               <div className="card-header" style={{ backgroundColor: bgColors.Blue }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/customers.png" alt="Liste des clients" style={imageSize} />
               </div>
@@ -36,7 +38,7 @@ class Coach extends React.Component {
           </div>
 
           <div className="card border-success text-center">
-            <Link to='/'>
+            <Link to='/createsession'>
               <div className="card-header" style={{ backgroundColor: bgColors.Green }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/session.png" alt="Creer une seance" style={imageSize} />
               </div>
@@ -48,7 +50,7 @@ class Coach extends React.Component {
           </div>
 
           <div className="card border-warning text-center">
-            <Link to='/'>
+            <Link to='/editsession'>
               <div className="card-header" style={{ backgroundColor: bgColors.Yellow }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/create.png" alt="Modifier une seance" style={imageSize} />
               </div>
@@ -63,7 +65,7 @@ class Coach extends React.Component {
 
         <div className="card-deck m-4">
           <div className="card border-danger text-center">
-            <Link to='/profile'>
+            <Link to={`/coach/profile/${username}`}>
               <div className="card-header" style={{ backgroundColor: bgColors.Red }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/user.png" alt="Votre profil" style={imageSize} />
               </div>

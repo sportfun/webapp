@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class CreateSession extends React.Component {
+class EditTraining extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -89,10 +89,10 @@ class CreateSession extends React.Component {
 
 //ReactDOM.render(<CreateSession />, document.body);
 
-CreateSession.contextTypes = {
+EditTraining.contextTypes = {
     apiurl: PropTypes.string,
     token: PropTypes.string,
     getUserInfo: PropTypes.func
 };
 
-export default CreateSession;
+export default EditTraining;

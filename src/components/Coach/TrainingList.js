@@ -1,35 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.css';
+import { getUserById } from '../../functions/getRequest';
 
-class ClientList extends Component {
+class TrainingList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            loading: false,
-            clients: [],
+            trainings: {},
+            loading: true
         }
     }
 
     componentWillMount() {
         /*
-        getClientList(this.state.token, () => {
-            this.setState({ loading: true });
-        });
+        getClientList(this.context.token, localStorage.getItem('username'), (data) => {
+            this.setState({ clients: data });
+        })
         */
     }
 
-    render() {
-        if (this.state.clients.length === 0) {
+    submit = e => {
+        e.preventDefault();
+    }
 
-            var listClients =
+    render() {
+        if (this.state.trainings.length !== 0) {
+
+            var listTrainings =
                 <tr>
                     <td>1</td>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>john@example.com</td>
-                    <td><img className="rounded-avatar" alt='profilePicture-item' /></td>
+                    <td>A fond la forme!</td>
+                    <td>3</td>
+                    <td>30mn cardio + 50s sprint</td>
+                    <td>*Lien vers l'édition*</td>
                 </tr>
             /*
             = this.state.clients.map((elem, index) => {
@@ -54,26 +57,31 @@ class ClientList extends Component {
         }
         return (
             <div className="pagecontainer h-100 Block card p-sm-5">
-                <h2>Liste des clients</h2>
-                <p>Détails et informations clients</p>
+                <h2>Liste de vos entrainements personnalisés</h2>
+                <p>Détails et informations des entrainements</p>
                 <table className="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Prénom</th>
                             <th>Nom</th>
-                            <th>Email</th>
-                            <th>Photo</th>
-                            <th>Document</th>
+                            <th>Nombre de séquence</th>
+                            <th>Notes</th>
+                            <th>Détails</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {listClients}
+                        {listTrainings}
                     </tbody>
                 </table>
             </div>
-        );
+        )
     }
 }
 
-export default ClientList;
+TrainingList.contextTypes = {
+    apiurl: PropTypes.string,
+    token: PropTypes.string,
+    getUserInfo: PropTypes.func
+};
+
+export default TrainingList;

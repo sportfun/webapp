@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Main from './components/Main'
 import { storeInfoUser } from './functions/getRequest'
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap';
 import './App.css'
 
 class App extends Component {

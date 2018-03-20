@@ -20,6 +20,7 @@ class Profile extends React.Component {
   }
 
   render() {
+    console.log("user")
     if(!this.state.loading){return null}
     return (
       <div id="ProfilePage" className="card mb-4">
