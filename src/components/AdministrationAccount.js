@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 import { getInfoUser } from '../functions/getRequest';
+import { editUserInfo } from '../functions/putRequest';
 
 class AdministrationAccount extends React.Component {
   constructor(props) {
@@ -21,22 +21,16 @@ class AdministrationAccount extends React.Component {
 
   submit = e => {
     e.preventDefault();
-    axios({
-      method: 'post',
-      url: 'http://149.202.41.22:8080/api/user/edit/info',
-      data: {
-        firstName: this.refs["firstName"].value,
-        lastName: this.refs["lastName"].value,
-        email: this.refs["email"].value,
-        password: this.refs["password"].value,
-        bio: this.refs["biography"].value,
-        goal: this.refs["goal"].value
-      },
-      headers: { "token": this.context.token }
-    }).then(response => {
+    var infos = [
+      this.refs["firstName"].value,
+      this.refs["lastName"].value,
+      this.refs["email"].value,
+      this.refs["password"].value,
+      this.refs["biography"].value,
+      this.refs["goal"].value
+    ];
+    editUserInfo(this.context.token, infos, () => {
       window.location.reload();
-    }).catch(error => {
-      console.log(error.response)
     })
   }
 

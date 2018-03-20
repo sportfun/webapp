@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getInfoUser = (token, callback) => {
-    axios.get("http://149.202.41.22:8080/api/user/self", {
+    axios.get("http://149.202.41.22:8080/api/user", {
         headers: { "token": token }
     })
         .then(response => {
@@ -25,11 +25,12 @@ export const getActivityUser = (token, callback) => {
 };
 
 export const storeInfoUser = (token, callback) => {
-    axios.get("http://149.202.41.22:8080/api/user/self", {
+    axios.get("http://149.202.41.22:8080/api/user", {
         headers: { "token": token }
     })
         .then(response => {
             localStorage.setItem('firstName', response.data.data.firstName);
+            localStorage.setItem('id', response.data.data._id);
             localStorage.setItem('lastName', response.data.data.lastName);
             localStorage.setItem('username', response.data.data.username);
             localStorage.setItem('bio', response.data.data.bio);
@@ -42,9 +43,21 @@ export const storeInfoUser = (token, callback) => {
         })
 };
 
+export const getUserByUsername = (token, username, callback) => {
+    axios.get('http://149.202.41.22:8080/api/user/q/' + username, {
+        headers: { "token": token }
+    })
+        .then(function (response) {
+            callback(response.data.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 export const getUserById = (token, username, callback) => {
     var searchUser, allUsers;
-    axios.get('http://149.202.41.22:8080/api/user', {
+    axios.get('http://149.202.41.22:8080/api/user/q/:' + {username}, {
         headers: { "token": token }
     })
         .then(function (response) {
@@ -53,6 +66,19 @@ export const getUserById = (token, username, callback) => {
                 return (user.username === username);
             });
             callback(searchUser[0]);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+export const getFriends = (token, callback) => {
+    var searchUser, allUsers;
+    axios.get('http://149.202.41.22:8080/api/user', {
+        headers: { "token": token }
+    })
+        .then(function (response) {
+            callback(response.data.friends);
         })
         .catch(function (error) {
             console.log(error);
