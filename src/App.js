@@ -1,51 +1,40 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types'
-import Main from './components/Main'
-import { storeInfoUser } from './functions/getRequest'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap';
 import './App.css'
+import { Route, Switch } from 'react-router-dom'
+import ErrorPage from './containers/ErrorPage'
+import Home from './containers/Home'
+import Layout from './components/Layout'
+import Login from './containers/Login'
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+import Profile from './containers/Profile'
+import React, { Component } from 'react'
+import Registration from './containers/Registration'
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false,
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg1ZmY5ZWE1YWQxMzE1NmFkMzMyMDYiLCJpYXQiOjE1MTg3MzIxMzB9.acd4c0f6_IiJck7xpQXiZZXaVEvRwIcBvQ28rEggr2k",
-      isCoach: false
-    }
-  }
-
-  getChildContext() {
-    return {
-      orangecolor: "rgb(245, 184, 154)",
-      apiurl: "http://149.202.41.22:8080",
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg1ZmY5ZWE1YWQxMzE1NmFkMzMyMDYiLCJpYXQiOjE1MTg3MzIxMzB9.acd4c0f6_IiJck7xpQXiZZXaVEvRwIcBvQ28rEggr2k",
-      getUserInfo: require('./functions/getRequest').getInfoUser,
-    };
-  }
-
-  componentWillMount() {
-    storeInfoUser(this.state.token, () => {
-      this.setState({ loading: true });
-    });
-  }
-
   render() {
-    if (!this.state.loading) { return null }
-    //Session a implémenter ici + envoyer le token dans le main
     return (
-      <Main />
-    );
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <PrivateRoute
+            requiredRank="authenticated"
+            path="/profil"
+            component={Profile}
+          />
+          <PrivateRoute
+            requiredRank="anonymous"
+            path="/inscription"
+            component={Registration}
+          />
+          <PrivateRoute
+            requiredRank="anonymous"
+            path="/connexion"
+            component={Login}
+          />
+          <Route component={ErrorPage} />
+        </Switch>
+      </Layout>
+    )
   }
 }
 
-App.childContextTypes = {
-  orangecolor: PropTypes.string,
-  apiurl: PropTypes.string,
-  token: PropTypes.string,
-  id: PropTypes.string,
-  getUserInfo: PropTypes.func,
-};
-
-export default App;
+export default App

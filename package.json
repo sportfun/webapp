@@ -2,31 +2,82 @@
   "name": "webapp",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "npm-run-all build:styles --parallel watch:*",
+    "watch:scripts": "react-scripts start",
+    "watch:styles": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ --output src/ --watch --recursive",
+    "build": "npm-run-all build:*",
+    "build:scripts": "react-scripts build",
+    "build:styles": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ --output src/",
+    "test": "react-scripts test --env=jsdom",
+    "lint": "npm-run-all lint:*",
+    "lint:scripts": "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" .",
+    "lint:styles": "stylelint \"src/**/*.scss\"",
+    "fix": "npm-run-all fix:*",
+    "fix:scripts": "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" --fix .",
+    "fix:styles": "stylelint --fix \"src/**/*.scss\"",
+    "coverage": "npm test -- --coverage",
+    "coverage:open": "opn coverage/lcov-report/index.html",
+    "precommit": "lint-staged"
+  },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.2",
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
-    "history": "^4.7.2",
-    "jquery": "^3.3.1",
-    "moment": "^2.20.1",
-    "popper": "^1.0.0",
-    "popper.js": "^1.12.9",
-    "prop-types": "^15.6.1",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
+    "eslint": "^4.1.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.2.2",
+    "husky": "^0.14.3",
+    "jest-localstorage-mock": "^2.2.0",
+    "lint-staged": "^7.0.0",
+    "node-sass-chokidar": "^0.0.3",
+    "npm-run-all": "^4.1.2",
+    "opn-cli": "^3.1.0",
+    "prettier": "^1.11.1",
+    "prop-types": "^15.6.0",
+    "react": "^16.3.0-alpha.2",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^16.3.0-alpha.2",
+    "react-intl": "^2.4.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17",
-    "react-search-input": "^0.11.3",
-    "sendbird": "^3.0.53",
+    "react-scripts": "1.1.0",
+    "stylelint": "^9.1.1",
+    "stylelint-config-primer": "^2.2.4",
+    "stylelint-config-standard": "^18.1.0",
+    "stylelint-order": "^0.8.1",
     "url": "^0.11.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "jest",
-    "eject": "react-scripts eject"
+  "lint-staged": {
+    "*.js": [
+      "eslint --no-ignore --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "git add"
+    ]
   },
-  "devDependencies": {
-    "jest": "^21.2.1"
+  "browserslist": {
+    "development": [
+      "last 2 versions"
+    ],
+    "production": [
+      "> 1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }

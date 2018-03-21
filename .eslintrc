@@ -1,0 +1,15 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "plugin:react/recommended",
+    "react-app",
+    "prettier",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "plugins": ["prettier", "jsx-a11y", "sort-imports-es6-autofix"],
+  "rules": {
+    "no-var": "error",
+    "prettier/prettier": "error",
+    "sort-imports-es6-autofix/sort-imports-es6": "error"
+  }
+}

@@ -1,11 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router } from 'react-router-dom';
-import history from './functions/history'
-import App from './App';
+import * as serviceWorker from './serviceWorker'
+import { IntlProvider, addLocaleData } from 'react-intl'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { SessionProvider } from './SessionContext'
+import App from './App'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import localeDataFr from 'react-intl/locale-data/fr'
 
-ReactDOM.render((
-    <Router history={history}>
+addLocaleData(localeDataFr)
+
+ReactDOM.render(
+  <IntlProvider locale="fr">
+    <SessionProvider>
+      <Router>
         <App />
-    </Router>
-), document.getElementById('root'));
+      </Router>
+    </SessionProvider>
+  </IntlProvider>,
+  document.getElementById('root'),
+)
+
+serviceWorker.unregister()
