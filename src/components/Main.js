@@ -25,6 +25,7 @@ import { getInfoUser } from '../functions/getRequest'
 import CreateSession from './Coach/CreateSession';
 import EditTraining from './Coach/EditTraining';
 import TrainingList from './Coach/TrainingList';
+import PrivateRoute from './PrivateRoute'
 
 
 
@@ -72,14 +73,16 @@ class Main extends React.Component {
               <div id="DashboardCenter" className="col-6">
                 <div className="DashboardCenterContent">
                   <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/profile/:username' component={Profile} />
-                    <Route path='/users/:searchterm' component={ListUsers} />
-                    <Route path='/statistics/:username' component={Statistics} />
-                    <Route path='/activities/:username' component={Activities} />
-                    <Route path='/administration' component={AdministrationAccount} />
-                    <Route path='/coach' component={Coach} />
-                    <Route path='/coachadministration' component={CoachAdmin} />
+                    <PrivateRoute requiredRank="authenticated" exact path='/' component={Home} />
+                    <PrivateRoute requiredRank="authenticated" path='/profile/:username' component={Profile} />
+                    <PrivateRoute requiredRank="authenticated" path='/users/:searchterm' component={ListUsers} />
+                    <PrivateRoute requiredRank="authenticated" path='/statistics/:username' component={Statistics} />
+                    <PrivateRoute requiredRank="authenticated" path='/activities/:username' component={Activities} />
+                    <PrivateRoute requiredRank="authenticated" path='/administration' component={AdministrationAccount} />
+                    <PrivateRoute requiredRank="authenticated" path='/coach' component={Coach} />
+                    <PrivateRoute requiredRank="authenticated" path='/coachadministration' component={CoachAdmin} />
+                    <PrivateRoute requiredRank="anonymous" path='/connexion' component={Login} />
+                    <PrivateRoute requiredRank="anonymous" path='/inscription' component={Register} />
                   </Switch>
                 </div>
               </div>
@@ -100,14 +103,14 @@ class Main extends React.Component {
           <div className="page-container">
             {sidebar}
             <Switch>
-              <Route exact path='/' component={Coach} />
-              <Route path='/createsession' component={CreateSession} />
-              <Route path='/editsession' component={TrainingList} />
-              <Route path='/clientlist' component={ClientList} />
-              <Route path='/coach/profile/:username' component={CoachProfile} />
-              <Route path='/coachadministration' component={CoachAdmin} />
-              <Route path='/connexion' component={Login} />
-              <Route path='/inscription' component={Register} />
+              <PrivateRoute requiredRank="coach" exact path='/' component={Coach} />
+              <PrivateRoute requiredRank="coach" path='/createsession' component={CreateSession} />
+              <PrivateRoute requiredRank="coach" path='/editsession' component={TrainingList} />
+              <PrivateRoute requiredRank="coach" path='/clientlist' component={ClientList} />
+              <PrivateRoute requiredRank="coach" path='/coach/profile/:username' component={CoachProfile} />
+              <PrivateRoute requiredRank="coach" path='/coachadministration' component={CoachAdmin} />
+              <PrivateRoute requiredRank="anonymous" path='/connexion' component={Login} />
+              <PrivateRoute requiredRank="anonymous" path='/inscription' component={Register} />
             </Switch>
           </div>
         </div>

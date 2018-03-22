@@ -1,8 +1,9 @@
 import ApiManager from './ApiManager'
 import StorageManager from './StorageManager'
+import { getInfoUser } from '../functions/getRequest'
 
 class AuthManager {
-  static tokenKey = 'JWT'
+  static tokenKey = 'token'
   static ranks = ['user', 'coach', 'authenticated', 'any', 'anonymous']
 
   static isAuthenticated() {
@@ -13,7 +14,7 @@ class AuthManager {
     StorageManager.removeItem(AuthManager.tokenKey)
   }
 
-  static isAuthorized(userRank, requiredRank) {
+  static isAuthorized(requiredRank, userRank = AuthManager.getRank()) {
     if (
       requiredRank === 'any' ||
       userRank === requiredRank ||
@@ -35,7 +36,7 @@ class AuthManager {
 
   static getRank() {
     // TODO Récupérer le rang de l'utilisateur
-    return AuthManager.isAuthenticated() ? 'user' : 'anonymous'
+    return AuthManager.isAuthenticated() ? 'coach' : 'anonymous'
   }
 
   static getToken() {

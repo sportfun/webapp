@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import history from '../functions/history'
+import AuthManager from './AuthManager'
+import { Redirect } from 'react-router-dom'
 
 class Login extends Component {
   constructor(props) {
@@ -19,33 +19,32 @@ class Login extends Component {
 
   submit = e => {
     e.preventDefault()
-    axios.post('http://149.202.41.22:8080/api/user/login', {
-      username: this.state.username,
-      password: this.state.password,
-    }).then(response => {
-      if (this.state.stayLoggedIn) {
-        localStorage.setItem('token', response.data.data.token)
-      } else {
-        sessionStorage.setItem('token', response.data.data.token)
-      }
-      axios.get('http://149.202.41.22:8080/api/user', {
-        headers: { 'token': response.data.data.token },
-      }).then(data => {
-        localStorage.setItem('user', JSON.stringify(data.data))
+    AuthManager.authenticate(
+      this.state.username,
+      this.state.password,
+      this.state.stayLoggedIn,
+    )
+      .then(() => this.setState({ redirectToReferrer: true }))
+      .catch(errorMessage => {
+        const state = {
+          alertMessage: errorMessage,
+        }
+        this.setState(state)
       })
-      history.push('/')
-    }).catch(error => {
-      const state = {}
-      this.setState(state)
-      console.log(error.response)
-    })
   }
 
   render() {
+    const { from } = this.props.location.state || {
+      from: { pathname: '/' },
+    }
+    const { redirectToReferrer } = this.state
+    if (redirectToReferrer) {
+      return <Redirect to={from} />
+    }
     return (
       <div className="pagecontainer p-sm-5">
         <h3>Connexion</h3><br />
-        <p className="alert alert-danger">{this.state.alertMessage}</p>
+        {this.state.alertMessage && <p className="alert alert-danger">{this.state.alertMessage}</p>}
         <form onSubmit={this.submit}>
           <div className="form-group w-50">
             <label htmlFor="username">Nom d'utilisateur</label>
