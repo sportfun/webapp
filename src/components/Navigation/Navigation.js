@@ -39,9 +39,7 @@ class Navigation extends Component {
         {context => (
           <ul className="navbar-nav mr-auto">
             {this.navItems
-              .filter(item =>
-                AuthManager.isAuthorized(context.state.user.rank, item.rank),
-              )
+              .filter(item => AuthManager.isAuthorized(item.rank))
               .map((item, i) => {
                 return (
                   <NavLink

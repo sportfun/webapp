@@ -13,7 +13,7 @@ class AuthManager {
     StorageManager.removeItem(AuthManager.tokenKey)
   }
 
-  static isAuthorized(userRank, requiredRank) {
+  static isAuthorized(requiredRank, userRank = AuthManager.getRank()) {
     if (
       requiredRank === 'any' ||
       userRank === requiredRank ||

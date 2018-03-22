@@ -7,35 +7,30 @@ class PrivateRoute extends Component {
   static propTypes = {
     requiredRank: PropTypes.oneOf(AuthManager.ranks).isRequired,
     component: PropTypes.func,
+    render: PropTypes.func,
   }
 
   render() {
-    const { component: Component, requiredRank, ...rest } = this.props
-    let isAllowed = false
-    let redirection = '/'
-    const userRank = AuthManager.getRank()
-    if (AuthManager.isAuthorized(userRank, requiredRank)) {
-      isAllowed = true
-    } else if (requiredRank === 'anonymous') {
-      redirection = '/'
-    } else {
-      redirection = '/connexion'
+    const { requiredRank, component: Component, render, ...rest } = this.props
+    if (!AuthManager.isAuthorized(requiredRank)) {
+      return (
+        <Route
+          {...rest}
+          render={props => (
+            <Redirect
+              to={{
+                pathname: requiredRank === 'anonymous' ? '/' : '/connexion',
+                state: { from: props.location },
+              }}
+            />
+          )}
+        />
+      )
     }
     return (
       <Route
         {...rest}
-        render={props =>
-          isAllowed ? (
-            <Component {...props} />
-          ) : (
-            <Redirect
-              to={{
-                pathname: redirection,
-                state: { from: props.location },
-              }}
-            />
-          )
-        }
+        render={Component ? props => <Component {...props} /> : render}
       />
     )
   }
