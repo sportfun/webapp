@@ -1,4 +1,5 @@
 import { Link, withRouter } from 'react-router-dom'
+import { SessionConsumer } from '../../SessionContext'
 import AuthManager from '../../AuthManager'
 import NavLink from '../NavLink'
 import PropTypes from 'prop-types'
@@ -35,54 +36,59 @@ class Navigation extends Component {
     )
     const activeChild = () => <span className="sr-only">(current)</span>
     return (
-      <ul className="navbar-nav mr-auto">
-        {this.navItems
-          .filter(item => AuthManager.isAuthorized(item.rank))
-          .map((item, i) => {
-            return (
-              <NavLink
-                to={item.to}
-                exact={item.exact || false}
-                wrapper={wrapper}
-                activeChild={activeChild}
-                className="nav-link"
-                key={i}
-              >
-                {item.content}
-              </NavLink>
-            )
-          })}
-        {AuthManager.isAuthenticated() && ( // TODO Utiliser SessionConsumer
-          <li className="nav-item dropdown">
-            <Link
-              className="nav-link dropdown-toggle"
-              to="/profil"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Mon compte
-            </Link>
-            <div
-              className="dropdown-menu dropdown-menu-right"
-              aria-labelledby="navbarDropdown"
-            >
-              <button
-                className="dropdown-item text-danger"
-                type="button"
-                onClick={() => {
-                  AuthManager.logout()
-                  this.props.history.push('/')
-                }}
-              >
-                Déconnexion
-              </button>
-            </div>
-          </li>
+      <SessionConsumer>
+        {({ refreshSession }) => (
+          <ul className="navbar-nav mr-auto">
+            {this.navItems
+              .filter(item => AuthManager.isAuthorized(item.rank))
+              .map((item, i) => {
+                return (
+                  <NavLink
+                    to={item.to}
+                    exact={item.exact || false}
+                    wrapper={wrapper}
+                    activeChild={activeChild}
+                    className="nav-link"
+                    key={i}
+                  >
+                    {item.content}
+                  </NavLink>
+                )
+              })}
+            {AuthManager.isAuthenticated() && ( // TODO Utiliser SessionConsumer
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  to="/profil"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Mon compte
+                </Link>
+                <div
+                  className="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="navbarDropdown"
+                >
+                  <button
+                    className="dropdown-item text-danger"
+                    type="button"
+                    onClick={() => {
+                      AuthManager.logout()
+                      refreshSession() // TODO Trouver une solution
+                      this.props.history.push('/')
+                    }}
+                  >
+                    Déconnexion
+                  </button>
+                </div>
+              </li>
+            )}
+          </ul>
         )}
-      </ul>
+      </SessionConsumer>
     )
   }
 }

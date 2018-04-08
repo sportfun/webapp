@@ -29,9 +29,11 @@ export class SessionProvider extends Component {
     }
   }
 
-  // TODO Utiliser cette fonction dans AuthManager
-  sessionChanged = user => {
-    this.setState({ user: user })
+  // TODO Trouver une solution
+  refreshSession = () => {
+    ApiManager.getUser().then(user => {
+      this.setState({ user: user })
+    })
   }
 
   render() {
@@ -39,7 +41,7 @@ export class SessionProvider extends Component {
       <SessionContext.Provider
         value={{
           state: this.state,
-          growOlder: this.growOlder,
+          refreshSession: this.refreshSession,
         }}
       >
         {this.props.children}

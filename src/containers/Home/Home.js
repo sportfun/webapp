@@ -11,8 +11,6 @@ class Home extends Component {
     userRank: PropTypes.string.isRequired,
   }
 
-  static displayName = 'Home'
-
   render() {
     switch (this.props.userRank) {
       case 'coach':
