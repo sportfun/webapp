@@ -18,8 +18,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# idea
+# ide
 .idea/
+.vscode/
 
 # custom
 src/**/*.css

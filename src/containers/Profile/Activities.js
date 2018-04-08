@@ -43,7 +43,7 @@ class Activities extends Component {
                   <div className="card-block align">
                     <img
                       className="card-img-top rounded-circle wp-100 hp-100 my-3 mx-5 d-block"
-                      src="/ressources/jeu1.jpg"
+                      src="images/jeu1.jpg"
                       alt="Card"
                     />
                     <div className="">

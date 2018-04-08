@@ -29,7 +29,7 @@ class Dashboard extends Component {
               >
                 <img
                   className="card-img-top rounded mx-auto d-block"
-                  src="ressources/customers.png"
+                  src="images/customers.png"
                   alt="Liste des clients"
                   style={imageSize}
                 />
@@ -51,7 +51,7 @@ class Dashboard extends Component {
               >
                 <img
                   className="card-img-top rounded mx-auto d-block"
-                  src="ressources/session.png"
+                  src="images/session.png"
                   alt="Creer une seance"
                   style={imageSize}
                 />
@@ -71,7 +71,7 @@ class Dashboard extends Component {
               >
                 <img
                   className="card-img-top rounded mx-auto d-block"
-                  src="ressources/create.png"
+                  src="images/create.png"
                   alt="Modifier une seance"
                   style={imageSize}
                 />
@@ -95,7 +95,7 @@ class Dashboard extends Component {
               >
                 <img
                   className="card-img-top rounded mx-auto d-block"
-                  src="ressources/user.png"
+                  src="images/user.png"
                   alt="Votre profil"
                   style={imageSize}
                 />
@@ -117,7 +117,7 @@ class Dashboard extends Component {
               >
                 <img
                   className="card-img-top rounded mx-auto d-block"
-                  src="ressources/settingsc.png"
+                  src="images/settingsc.png"
                   alt=""
                   style={imageSize}
                 />
@@ -137,7 +137,7 @@ class Dashboard extends Component {
               >
                 <img
                   className="card-img-top rounded mx-auto d-block"
-                  src="ressources/settingsc.png"
+                  src="images/settingsc.png"
                   alt="Mon compte"
                   style={imageSize}
                 />

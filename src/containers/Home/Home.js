@@ -1,18 +1,34 @@
 import { Route } from 'react-router-dom'
-import AuthManager from '../../AuthManager'
+import { SessionConsumer } from '../../SessionContext'
 import Dashboard from './Dashboard'
+import NewsFeed from './NewsFeed'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Showcase from './Showcase'
 
 class Home extends Component {
+  static propTypes = {
+    userRank: PropTypes.string.isRequired,
+  }
+
+  static displayName = 'Home'
+
   render() {
-    const isAuthenticated = AuthManager.isAuthenticated()
-    return isAuthenticated ? (
-      <Route component={Dashboard} />
-    ) : (
-      <Route component={Showcase} />
-    )
+    switch (this.props.userRank) {
+      case 'coach':
+        return <Route component={Dashboard} />
+      case 'user':
+        return <Route component={NewsFeed} />
+      default:
+        return <Route component={Showcase} />
+    }
   }
 }
 
-export default Home
+// TODO displayName ?
+// eslint-disable-next-line react/display-name
+export default props => (
+  <SessionConsumer>
+    {context => <Home {...props} userRank={context.state.user.rank} />}
+  </SessionConsumer>
+)

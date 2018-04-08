@@ -15,14 +15,9 @@ export class SessionProvider extends Component {
     },
   }
 
-  // TODO Juste pour tester
-  growOlder = () => {
-    this.setState(({ user }) => ({
-      user: {
-        ...user,
-        age: user.age + 1,
-      },
-    }))
+  // TODO Utiliser cette fonction dans AuthManager
+  sessionChanged = user => {
+    this.setState({ user: user })
   }
 
   render() {
