@@ -66,7 +66,7 @@ class ApiManager {
           url.format({
             ...ApiManager.urlObj,
             ...{
-              pathname: `'/api/user/q/${username}'`,
+              pathname: `/api/user/q/${username}`,
             },
           }),
           {
@@ -119,6 +119,12 @@ class ApiManager {
           ? error.response.data.message
           : ApiManager.unknownErrorMessage
       })
+  }
+
+  static getFriends(username) {
+    return new Promise((resolve, reject) => {
+      resolve(['Antoine', 'Bob', 'Charles'])
+    })
   }
 }
 

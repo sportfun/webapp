@@ -29,6 +29,9 @@ class Informations extends Component {
           <p>
             <Link to={`${match.url}/activites`}>Activités</Link>
           </p>
+          <p>
+            <Link to={`${match.url}/amis`}>Amis</Link>
+          </p>
         </div>
       </DocumentTitle>
     )

@@ -1,6 +1,7 @@
 import { Route, Switch } from 'react-router-dom'
 import Activities from './Activities'
 import ApiManager from '../../ApiManager'
+import Friends from './Friends'
 import Informations from './Informations'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -57,6 +58,12 @@ class ProfileView extends Component {
           path={`${match.url}/activites`}
           render={props => (
             <Activities {...props} user={this.state.displayedUser} />
+          )}
+        />
+        <Route
+          path={`${match.url}/amis`}
+          render={props => (
+            <Friends {...props} user={this.state.displayedUser} />
           )}
         />
       </Switch>

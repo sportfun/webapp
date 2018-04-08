@@ -1,3 +1,4 @@
+import ApiManager from './ApiManager'
 import AuthManager from './AuthManager'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -13,6 +14,19 @@ export class SessionProvider extends Component {
     user: {
       rank: AuthManager.getRank(),
     },
+  }
+
+  componentDidMount() {
+    if (AuthManager.isAuthenticated()) {
+      ApiManager.getUser().then(user => {
+        this.setState({
+          user: {
+            ...user,
+            rank: 'user',
+          },
+        })
+      })
+    }
   }
 
   // TODO Utiliser cette fonction dans AuthManager

@@ -30,7 +30,7 @@ class Header extends Component {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <Link className="navbar-brand" to="/">
             <img
-              src="images/logo_sportsfun.png"
+              src="/images/logo_sportsfun.png"
               height="30"
               alt="Logo Sports Fun"
             />
