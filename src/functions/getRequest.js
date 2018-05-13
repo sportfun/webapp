@@ -57,7 +57,7 @@ export const getUserByUsername = (token, username, callback) => {
 
 export const getUserById = (token, username, callback) => {
     var searchUser, allUsers;
-    axios.get('http://149.202.41.22:8080/api/user/q/:' + {username}, {
+    axios.get('http://149.202.41.22:8080/api/user/q/:' + { username }, {
         headers: { "token": token }
     })
         .then(function (response) {
@@ -84,3 +84,30 @@ export const getFriends = (token, callback) => {
             console.log(error);
         });
 }
+
+export const getClientList = (token, username, callback) => {
+    var allTrainings;
+    axios.get('http://149.202.41.22:8080/api/training', {
+        headers: { "token": token }
+    })
+        .then(function (response) {
+            callback(response.data.data);
+        })
+        .catch(function (error) {
+            console.log("error e :" + error);
+        })
+}
+
+export const getTrainingById = (token, id, callback) => {
+    var training;
+    axios.get('http://149.202.41.22:8080/api/training/' + id, {
+        headers: { "token": token }
+    })
+        .then(function (response) {
+            callback(response.data.data);
+        })
+        .catch(function (error) {
+            console.log("error e :" + error);
+        })
+}
+

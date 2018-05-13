@@ -50,7 +50,7 @@ class Coach extends React.Component {
           </div>
 
           <div className="card border-warning text-center">
-            <Link to='/editsession'>
+            <Link to='/traininglist'>
               <div className="card-header" style={{ backgroundColor: bgColors.Yellow }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/create.png" alt="Modifier une seance" style={imageSize} />
               </div>

@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { postNewTraining } from '../../functions/postRequest';
 
-class CreateSession extends React.Component {
+class CreateTraining extends React.Component {
     constructor() {
         super();
         this.state = {
             name: '',
-            sequences: [{ type: 1, time_total: 0, time_effort: 0, time_recup: 0 }],
+            description: '',
+            sequences: [{ type: 1, totalLength: 0, effortLength: 0, restLength: 0, iteration: 0 }],
         }
     }
 
@@ -19,66 +21,46 @@ class CreateSession extends React.Component {
     }
 
     handleNameChange = (e) => {
-        this.setState({ name: e.target.value }, () =>
-            console.log("name changed : " + this.state.name)
-        );
+        let change = {};
+        change[e.target.name] = e.target.value
+        this.setState(change);
     }
 
-    submit = e => {
+    handleSubmit = e => {
         e.preventDefault();
-        console.log(e);
-    }
-
-    handleSubmit = (evt) => {
-        const { name, sequence } = this.state;
-        alert(`Incorporated: ${name} with ${sequence.length} sequence`);
+        if (this.state.name === "")
+            return (alert("Veuillez entrer un nom pour l'entrainement"));
+        //Demander de check si il existe déjà à Sylvain
+        postNewTraining(this.context.token, this.state);
     }
 
     handleAddSequence = () => {
-        this.setState({ sequences: this.state.sequences.concat([{ type: 1, time_total: 0, time_effort: 0, time_sprint: 0 }]) });
+        this.setState({ sequences: this.state.sequences.concat([{ type: 1, totalLength: 0, effortLength: 0, restLength: 0, iteration: 0 }]) });
     }
 
-    handleRemoveSequence = (idx) => () => {
-        this.setState({ sequences: this.state.sequences.filter((s, sidx) => idx !== sidx) });
+    handleRemoveSequence = (index) => () => {
+        console.log(index);
+        console.log(this.state.sequences.filter((sequence, sidx) => index !== sidx))
+        this.setState({ sequences: this.state.sequences.filter((sequence, sidx) => index !== sidx) });
     }
 
-    handleTotalTimeChange = (index) => (e) => {
-        console.log("total time change : " + e.target.value + " at : " + index) 
+    handleChange = (index) => (e) => {
         const newSequences = this.state.sequences.map((sequence, sindex) => {
-          if (index !== sindex) return sequence;
-          return { ...sequence, time_total: e.target.value };
+            if (index !== sindex)
+                return sequence;
+            sequence[e.target.name] = e.target.value;
+            if (sequence.type === 3)
+                sequence["totalLength"] = (Number(sequence.effortLength) + Number(sequence.restLength)) * Number(sequence.iteration);
+            return { ...sequence };
         });
         this.setState({ sequences: newSequences });
-        console.log(this.state.sequences)
+        console.log("HEY" + JSON.stringify(this.state.sequences[index]));
     }
 
-    handleTimeEffortChange = (index) => (e) => {
-        console.log("time effort change : " + e.target.value + " at : " + index) 
-        const newSequences = this.state.sequences.map((sequence, sindex) => {
-          if (index !== sindex) return sequence;
-          return { ...sequence, time_effort: e.target.value };
-        });
-        this.setState({ sequences: newSequences });
-        console.log(this.state.sequences)
-
-    }
-
-    handleTimeRecupChange = (index) => (e) => {
-        console.log("time effort change : " + e.target.value + " at : " + index) 
-        const newSequences = this.state.sequences.map((sequence, sindex) => {
-          if (index !== sindex) return sequence;
-          return { ...sequence, time_recup: e.target.value };
-        });
-        this.setState({ sequences: newSequences });
-        console.log(this.state.sequences)
-
-    }
-    
     handleChangeType = (type, index) => (e) => {
-        console.log("changement de type : " + type)
         const newSequences = this.state.sequences.map((sequence, sindex) => {
-          if (index !== sindex) return sequence;
-          return { ...sequence, type: type, time_total: 0, time_effort: 0, time_recup: 0 };
+            if (index !== sindex) return sequence;
+            return { ...sequence, type: type, totalLength: 0, effortLength: 0, restLength: 0, iteration: 0 };
         });
         this.setState({ sequences: newSequences });
         this.refs["tt1" + index].value = 0;
@@ -86,18 +68,20 @@ class CreateSession extends React.Component {
         this.refs["te3" + index].value = 0;
         this.refs["tr3" + index].value = 0;
         this.refs["tt3" + index].value = 0;
-        console.log(this.state.sequences)
     }
 
     render() {
+        console.log("rerender");
         return (
             <div className="pagecontainer h-100 Block card p-sm-5">
                 <h3>Création d'un nouvel entrainement</h3><br />
 
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group w-50">
-                        <label htmlFor="firstName">Nom de l'entrainement</label>
-                        <input type="text" className="form-control" ref="name" id="name" onChange={this.handleNameChange} placeholder="Entrainement n°1"></input>
+                        <label htmlFor="name">Nom de l'entrainement</label>
+                        <input type="text" className="form-control" name="name" id="name" onChange={this.handleNameChange} placeholder="Entrainement n°1"></input><br/>
+                        <label htmlFor="description">Description</label>
+                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} placeholder="Description n°1"></input>
                     </div><br />
 
                     <h4>Séquences</h4>
@@ -113,19 +97,23 @@ class CreateSession extends React.Component {
                             <div className="tab-content border border-top-0 rounded-bottom mb-4" id="myTabContent">
                                 <div className="tab-pane fade show active p-4" id={"sprint" + index} role="tabpanel" aria-labelledby={"sprint-tab" + index}>
                                     <span className="ml-3" htmlFor="Time">Temps de sprint en minutes : </span>
-                                    <input className="ml-3" id="time" ref={"tt1" + index} type="number" defaultValue="0" onChange={this.handleTotalTimeChange(index)} />
+                                    <input name="totalLength" className="ml-3" id="time" ref={"tt1" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
                                 </div>
+
                                 <div className="tab-pane fade p-4" id={"endurance" + index} role="tabpanel" aria-labelledby={"endu-tab" + index}>
                                     <span className="ml-3" htmlFor="Time">Temps d'endurance en minutes : </span>
-                                    <input className="ml-3" id="time" ref={"tt2" + index} type="number" defaultValue="0" onChange={this.handleTotalTimeChange(index)}/>
+                                    <input name="totalLength" className="ml-3" id="time" ref={"tt2" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
                                 </div>
+
                                 <div className="tab-pane fade p-4" id={"fractionne" + index} role="tabpanel" aria-labelledby={"fract-tab" + index}>
                                     <span className="ml-3" htmlFor="Time"> Temps d'effort : </span>
-                                    <input className="ml-3 mr-5" id="time" ref={"te3" + index} type="number" defaultValue="0" onChange={this.handleTimeEffortChange(index)} />
+                                    <input name="effortLength" className="ml-3 mr-5" id="time" ref={"te3" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
                                     <span className="ml-3" htmlFor="Time"> Temps de récupération : </span>
-                                    <input className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" defaultValue="0" onChange={this.handleTimeRecupChange(index)}/>
+                                    <input name="restLength" className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
+                                    <span className="ml-3" htmlFor="Time"> Nombre d'itération : </span>
+                                    <input name="iteration" className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} /><br /><br />
                                     <span className="ml-3" htmlFor="Time"> Durée totale de l'activité : </span>
-                                    <input className="ml-3" id="time" ref={"tt3" + index} type="number" defaultValue="0" onChange={this.handleTotalTimeChange(index)}/>
+                                    <input readOnly="readonly" className="border-0" id="time" ref={"tt3" + index} type="number" min="0" value={this.state.sequences[index].totalLength} />
                                 </div>
                             </div>
                             <button className="btn btn-light float-right btn-sm" type="button" onClick={this.handleRemoveSequence(index)} >Supprimer cette séquence</button>
@@ -142,10 +130,10 @@ class CreateSession extends React.Component {
 
 //ReactDOM.render(<CreateSession />, document.body);
 
-CreateSession.contextTypes = {
+CreateTraining.contextTypes = {
     apiurl: PropTypes.string,
     token: PropTypes.string,
     getUserInfo: PropTypes.func
 };
 
-export default CreateSession;
+export default CreateTraining;

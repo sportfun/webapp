@@ -22,7 +22,7 @@ import Login from './Login'
 import Register from './Register'
 import Activities from './Activities';
 import { getInfoUser } from '../functions/getRequest'
-import CreateSession from './Coach/CreateSession';
+import CreateTraining from './Coach/CreateTraining';
 import EditTraining from './Coach/EditTraining';
 import TrainingList from './Coach/TrainingList';
 
@@ -101,8 +101,9 @@ class Main extends React.Component {
             {sidebar}
             <Switch>
               <Route exact path='/' component={Coach} />
-              <Route path='/createsession' component={CreateSession} />
-              <Route path='/editsession' component={TrainingList} />
+              <Route path='/createsession' component={CreateTraining} />
+              <Route path='/edittraining/:idtraining' component={EditTraining} />
+              <Route path='/traininglist' component={TrainingList} />
               <Route path='/clientlist' component={ClientList} />
               <Route path='/coach/profile/:username' component={CoachProfile} />
               <Route path='/coachadministration' component={CoachAdmin} />
