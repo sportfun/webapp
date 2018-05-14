@@ -12,14 +12,6 @@ class CreateTraining extends React.Component {
         }
     }
 
-    componentWillMount() {
-        /*
-        getFriends(this.context.token, (data) => {
-            this.setState({ clients: data });
-        })
-        */
-    }
-
     handleNameChange = (e) => {
         let change = {};
         change[e.target.name] = e.target.value
@@ -30,8 +22,10 @@ class CreateTraining extends React.Component {
         e.preventDefault();
         if (this.state.name === "")
             return (alert("Veuillez entrer un nom pour l'entrainement"));
-        //Demander de check si il existe déjà à Sylvain
-        postNewTraining(this.context.token, this.state);
+        postNewTraining(this.context.token, this.state, () => {
+            alert("l'entrainement a bien été créé !");
+            this.props.history.push('/traininglist');
+        });
     }
 
     handleAddSequence = () => {
@@ -39,8 +33,6 @@ class CreateTraining extends React.Component {
     }
 
     handleRemoveSequence = (index) => () => {
-        console.log(index);
-        console.log(this.state.sequences.filter((sequence, sidx) => index !== sidx))
         this.setState({ sequences: this.state.sequences.filter((sequence, sidx) => index !== sidx) });
     }
 
@@ -54,7 +46,6 @@ class CreateTraining extends React.Component {
             return { ...sequence };
         });
         this.setState({ sequences: newSequences });
-        console.log("HEY" + JSON.stringify(this.state.sequences[index]));
     }
 
     handleChangeType = (type, index) => (e) => {
@@ -71,7 +62,6 @@ class CreateTraining extends React.Component {
     }
 
     render() {
-        console.log("rerender");
         return (
             <div className="pagecontainer h-100 Block card p-sm-5">
                 <h3>Création d'un nouvel entrainement</h3><br />
@@ -79,9 +69,9 @@ class CreateTraining extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group w-50">
                         <label htmlFor="name">Nom de l'entrainement</label>
-                        <input type="text" className="form-control" name="name" id="name" onChange={this.handleNameChange} placeholder="Entrainement n°1"></input><br/>
+                        <input type="text" className="form-control" name="name" id="name" onChange={this.handleNameChange} placeholder="Veuillez entrer un nom d'entrainement (obligatoire)"></input><br/>
                         <label htmlFor="description">Description</label>
-                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} placeholder="Description n°1"></input>
+                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} placeholder="Veuillez entrer une description (facultatif)"></input>
                     </div><br />
 
                     <h4>Séquences</h4>
@@ -90,30 +80,30 @@ class CreateTraining extends React.Component {
                         <div className="sequence" key={index}>
                             <label htmlFor="Sequence">Séquence #{index + 1}</label>
                             <ul className="nav nav-tabs" id={"myTab" + index} role="tablist">
-                                <li className="nav-item"><a className="nav-link active" id={"sprint-tab" + index} data-toggle="tab" href={"#sprint" + index} role="tab" aria-controls="sprint" aria-selected="true" onClick={this.handleChangeType(1, index)}>Sprint</a></li>
-                                <li className="nav-item"><a className="nav-link" id={"endu-tab" + index} data-toggle="tab" href={"#endurance" + index} role="tab" aria-controls="endorance" aria-selected="false" onClick={this.handleChangeType(2, index)}>Endurance</a></li>
-                                <li className="nav-item"><a className="nav-link" id={"fract-tab" + index} data-toggle="tab" href={"#fractionne" + index} role="tab" aria-controls="fractionne" aria-selected="false" onClick={this.handleChangeType(3, index)}>Fractionné</a></li>
+                                <li className="nav-item"><a className={"nav-link" + (sequence.type === 1 ? ' active' : '')} id={"sprint-tab" + index} data-toggle="tab" href={"#sprint" + index} role="tab" aria-controls="sprint" aria-selected="true" onClick={this.handleChangeType(1, index)}>Sprint</a></li>
+                                <li className="nav-item"><a className={"nav-link" + (sequence.type === 2 ? ' active' : '')} id={"endu-tab" + index} data-toggle="tab" href={"#endurance" + index} role="tab" aria-controls="endorance" aria-selected="false" onClick={this.handleChangeType(2, index)}>Endurance</a></li>
+                                <li className="nav-item"><a className={"nav-link" + (sequence.type === 3 ? ' active' : '')} id={"fract-tab" + index} data-toggle="tab" href={"#fractionne" + index} role="tab" aria-controls="fractionne" aria-selected="false" onClick={this.handleChangeType(3, index)}>Fractionné</a></li>
                             </ul>
                             <div className="tab-content border border-top-0 rounded-bottom mb-4" id="myTabContent">
-                                <div className="tab-pane fade show active p-4" id={"sprint" + index} role="tabpanel" aria-labelledby={"sprint-tab" + index}>
+                                <div className={"tab-pane fade p-4" + (sequence.type === 1 ? ' active show' : '')} id={"sprint" + index} role="tabpanel" aria-labelledby={"sprint-tab" + index}>
                                     <span className="ml-3" htmlFor="Time">Temps de sprint en minutes : </span>
-                                    <input name="totalLength" className="ml-3" id="time" ref={"tt1" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
+                                    <input name="totalLength" className="ml-3" id="time" ref={"tt1" + index} type="number" min="0" value={(sequence.type === 1 ? sequence.totalLength : '0')} onChange={this.handleChange(index)} />
                                 </div>
 
-                                <div className="tab-pane fade p-4" id={"endurance" + index} role="tabpanel" aria-labelledby={"endu-tab" + index}>
+                                <div className={"tab-pane fade p-4" + (sequence.type === 2 ? ' active show' : '')} id={"endurance" + index} role="tabpanel" aria-labelledby={"endu-tab" + index}>
                                     <span className="ml-3" htmlFor="Time">Temps d'endurance en minutes : </span>
-                                    <input name="totalLength" className="ml-3" id="time" ref={"tt2" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
+                                    <input name="totalLength" className="ml-3" id="time" ref={"tt2" + index} type="number" min="0" value={(sequence.type === 2 ? sequence.totalLength : '0')} onChange={this.handleChange(index)} />
                                 </div>
 
-                                <div className="tab-pane fade p-4" id={"fractionne" + index} role="tabpanel" aria-labelledby={"fract-tab" + index}>
+                                <div className={"tab-pane fade p-4" + (sequence.type === 3 ? ' active show' : '')} id={"fractionne" + index} role="tabpanel" aria-labelledby={"fract-tab" + index}>
                                     <span className="ml-3" htmlFor="Time"> Temps d'effort : </span>
-                                    <input name="effortLength" className="ml-3 mr-5" id="time" ref={"te3" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
+                                    <input name="effortLength" className="ml-3 mr-5" id="time" ref={"te3" + index} type="number" min="0" value={(sequence.type === 3 ? sequence.effortLength : '0')} onChange={this.handleChange(index)} />
                                     <span className="ml-3" htmlFor="Time"> Temps de récupération : </span>
-                                    <input name="restLength" className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} />
+                                    <input name="restLength" className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" min="0" value={(sequence.type === 3 ? sequence.restLength : '0')} onChange={this.handleChange(index)} />
                                     <span className="ml-3" htmlFor="Time"> Nombre d'itération : </span>
-                                    <input name="iteration" className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" min="0" defaultValue="0" onChange={this.handleChange(index)} /><br /><br />
+                                    <input name="iteration" className="ml-3 mr-5" id="time" ref={"tr3" + index} type="number" min="0" value={(sequence.type === 3 ? sequence.iteration : '0')} onChange={this.handleChange(index)} /><br /><br />
                                     <span className="ml-3" htmlFor="Time"> Durée totale de l'activité : </span>
-                                    <input readOnly="readonly" className="border-0" id="time" ref={"tt3" + index} type="number" min="0" value={this.state.sequences[index].totalLength} />
+                                    <input readOnly="readonly" className="border-0" id="time" ref={"tt3" + index} type="number" min="0" value={(sequence.type === 3 ? sequence.totalLength : '0')} />
                                 </div>
                             </div>
                             <button className="btn btn-light float-right btn-sm" type="button" onClick={this.handleRemoveSequence(index)} >Supprimer cette séquence</button>
@@ -127,8 +117,6 @@ class CreateTraining extends React.Component {
         )
     }
 }
-
-//ReactDOM.render(<CreateSession />, document.body);
 
 CreateTraining.contextTypes = {
     apiurl: PropTypes.string,

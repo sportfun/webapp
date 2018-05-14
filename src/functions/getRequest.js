@@ -73,7 +73,6 @@ export const getUserById = (token, username, callback) => {
 }
 
 export const getFriends = (token, callback) => {
-    var searchUser, allUsers;
     axios.get('http://149.202.41.22:8080/api/user', {
         headers: { "token": token }
     })
@@ -86,7 +85,6 @@ export const getFriends = (token, callback) => {
 }
 
 export const getClientList = (token, username, callback) => {
-    var allTrainings;
     axios.get('http://149.202.41.22:8080/api/training', {
         headers: { "token": token }
     })
@@ -99,7 +97,6 @@ export const getClientList = (token, username, callback) => {
 }
 
 export const getTrainingById = (token, id, callback) => {
-    var training;
     axios.get('http://149.202.41.22:8080/api/training/' + id, {
         headers: { "token": token }
     })

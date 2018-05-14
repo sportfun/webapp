@@ -1,15 +1,13 @@
 import axios from 'axios'
 
-export const postNewTraining = (token, infos) => {
-    var data = infos;
-    console.log(JSON.stringify(infos));
+export const postNewTraining = (token, training, callback) => {
     axios({
         method: 'post',
         url: 'http://149.202.41.22:8080/api/training',
-        data: data,
+        data: training,
         headers: { "token": token }
     }).then(response => {
-        alert("l'entrainement a bien été créé !");
+        callback();
     }).catch(error => {
         alert("Le nom est déjà pris, veuillez entrer un autre nom d'entrainement.")
     })

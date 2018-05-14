@@ -15,7 +15,6 @@ class TrainingList extends React.Component {
     componentWillMount() {
         getClientList(this.context.token, localStorage.getItem('username'), (data) => {
             this.setState({ trainings: data });
-            console.log(this.state.trainings);
             this.setState({ loading: true });
         })
     }
@@ -35,7 +34,7 @@ class TrainingList extends React.Component {
                             <td>{elem.name}</td>
                             <td>{elem.sequences.length}</td>
                             <td>{elem.description}</td>
-                            <td><Link to={`/edittraining/${elem._id}`}> test </Link></td>
+                            <td><Link to={`/edittraining/${elem._id}`}> lien </Link></td>
                         </tr>
                     );
                 });
