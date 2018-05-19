@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import AuthManager from './AuthManager'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 class Login extends Component {
   constructor(props) {
@@ -46,12 +46,12 @@ class Login extends Component {
         <h3>Connexion</h3><br />
         {this.state.alertMessage && <p className="alert alert-danger">{this.state.alertMessage}</p>}
         <form onSubmit={this.submit}>
-          <div className="form-group w-50">
+          <div className="form-group">
             <label htmlFor="username">Nom d'utilisateur</label>
             <input type="text" name="username" className="form-control" id="username"
               value={this.state.username} onChange={this.onChange} />
           </div>
-          <div className="form-group w-50">
+          <div className="form-group">
             <label htmlFor="password">Mot de passe</label>
             <input type="password" name="password" className="form-control" id="password"
               value={this.state.password} onChange={this.onChange} />
@@ -63,6 +63,7 @@ class Login extends Component {
           </div>
           <button type="submit" className="btn btn-primary">Se connecter</button>
         </form>
+        <Link to="/inscription" className="btn btn-secondary">S'inscrire</Link>
       </div>
     )
   }

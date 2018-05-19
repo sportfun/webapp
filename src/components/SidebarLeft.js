@@ -13,7 +13,7 @@ class SidebarLeft extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getInfoUser(this.context.token, (data) => {
             this.setState({ user: data });
         });

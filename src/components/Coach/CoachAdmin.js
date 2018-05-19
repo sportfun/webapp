@@ -12,7 +12,7 @@ class CoachAdmin extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getUserByUsername(this.context.token, localStorage.getItem('username'), (data) => {
             this.setState({ user: data });
         })

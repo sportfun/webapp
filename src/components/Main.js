@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Redirect } from 'react-router-dom'
 // User import
 import Home from './Home'
 import Statistics from './Statistics'
@@ -26,6 +26,7 @@ import CreateSession from './Coach/CreateSession';
 import EditTraining from './Coach/EditTraining';
 import TrainingList from './Coach/TrainingList';
 import PrivateRoute from './PrivateRoute'
+import AuthManager from './AuthManager'
 
 
 
@@ -61,6 +62,27 @@ class Main extends React.Component {
 
   render() {
     if (!this.state.loading) { return null }
+
+    if (!AuthManager.isAuthenticated()) {
+      return (
+        <div className="wrapper-app">
+          <div id="page-container" className="container pb-5 py-6">
+            <div className="row">
+              <div id="DashboardCenter" className="col-6">
+                <div className="DashboardCenterContent">
+                  <Switch>
+                    <PrivateRoute requiredRank="anonymous" path='/connexion' component={Login} />
+                    <PrivateRoute requiredRank="anonymous" path='/inscription' component={Register} />
+                    <Redirect to="/connexion" />
+                  </Switch>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     if (!this.state.isCoach) {
 
       return (
@@ -109,8 +131,6 @@ class Main extends React.Component {
               <PrivateRoute requiredRank="coach" path='/clientlist' component={ClientList} />
               <PrivateRoute requiredRank="coach" path='/coach/profile/:username' component={CoachProfile} />
               <PrivateRoute requiredRank="coach" path='/coachadministration' component={CoachAdmin} />
-              <PrivateRoute requiredRank="anonymous" path='/connexion' component={Login} />
-              <PrivateRoute requiredRank="anonymous" path='/inscription' component={Register} />
             </Switch>
           </div>
         </div>
