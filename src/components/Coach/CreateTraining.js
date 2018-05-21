@@ -1,25 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getTrainingById } from '../../functions/getRequest';
-import { editTraining } from '../../functions/putRequest';
+import { postNewTraining } from '../../functions/postRequest';
 
-class EditTraining extends React.Component {
+class CreateTraining extends React.Component {
     constructor() {
         super();
         this.state = {
             name: '',
             description: '',
-            sequences: [],
+            sequences: [{ type: 1, totalLength: 0, effortLength: 0, restLength: 0, iteration: 0 }],
         }
-    }
-
-    componentWillMount() {
-        var id = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
-        getTrainingById(this.context.token, id, (data) => {
-            this.setState({ name: data.name });
-            this.setState({ description: data.description });
-            this.setState({ sequences: data.sequences });
-        })
     }
 
     handleNameChange = (e) => {
@@ -29,11 +19,12 @@ class EditTraining extends React.Component {
     }
 
     handleSubmit = e => {
-        var id = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
         e.preventDefault();
-        editTraining(this.context.token, id, this.state, () => {
-            alert("l'entrainement a bien été modifié");
-            this.props.history.push('/traininglist')
+        if (this.state.name === "")
+            return (alert("Veuillez entrer un nom pour l'entrainement"));
+        postNewTraining(this.context.token, this.state, () => {
+            alert("l'entrainement a bien été créé !");
+            this.props.history.push('/traininglist');
         });
     }
 
@@ -78,12 +69,13 @@ class EditTraining extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group w-50">
                         <label htmlFor="name">Nom de l'entrainement</label>
-                        <input readOnly="readonly" type="text" className="form-control" name="name" id="name" placeholder={this.state.name}></input><br />
+                        <input type="text" className="form-control" name="name" id="name" onChange={this.handleNameChange} placeholder="Veuillez entrer un nom d'entrainement (obligatoire)"></input><br/>
                         <label htmlFor="description">Description</label>
-                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} value={this.state.description}></input>
+                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} placeholder="Veuillez entrer une description (facultatif)"></input>
                     </div><br />
 
                     <h4>Séquences</h4>
+
                     {this.state.sequences.map((sequence, index) => (
                         <div className="sequence" key={index}>
                             <label htmlFor="Sequence">Séquence #{index + 1}</label>
@@ -119,17 +111,17 @@ class EditTraining extends React.Component {
                     ))}
 
                     <button className="mt-4 btn btn-secondary" type="button" onClick={this.handleAddSequence} >Ajouter une séquence</button><br />
-                    <button className="float-right mt-4 col-md-3 text-center btn btn-success" type="submit">Confirmer les modifications</button>
+                    <button className="float-right mt-4 col-md-3 text-center btn btn-success" type="submit">Créer l'entrainement</button>
                 </form>
             </div>
         )
     }
 }
 
-EditTraining.contextTypes = {
+CreateTraining.contextTypes = {
     apiurl: PropTypes.string,
     token: PropTypes.string,
     getUserInfo: PropTypes.func
 };
 
-export default EditTraining;
+export default CreateTraining;
