@@ -26,12 +26,7 @@ class ApiManager {
         },
       )
       .then(response => response.data.data.token)
-      .catch(error => {
-        console.error(error.response)
-        throw typeof error.response.data.message === 'string'
-          ? error.response.data.message
-          : ApiManager.unknownErrorMessage
-      })
+      .catch(ApiManager.errorHandler)
   }
 
   static register(username, password, email, firstName, lastName, birthDate) {
@@ -52,12 +47,7 @@ class ApiManager {
           birthDate,
         },
       )
-      .catch(error => {
-        console.error(error.response)
-        throw typeof error.response.data.message === 'string'
-          ? error.response.data.message
-          : ApiManager.unknownErrorMessage
-      })
+      .catch(ApiManager.errorHandler)
   }
 
   static getUser(username) {
@@ -88,12 +78,9 @@ class ApiManager {
             },
           },
         )
-    return promise.then(response => response.data.data).catch(error => {
-      console.error(error.response)
-      throw typeof error.response.data.message === 'string'
-        ? error.response.data.message
-        : ApiManager.unknownErrorMessage
-    })
+    return promise
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
   }
 
   static getActivities(username) {
@@ -112,13 +99,95 @@ class ApiManager {
           },
         },
       )
-      .then(response => response.data.data.activities)
-      .catch(error => {
-        console.error(error.response)
-        throw typeof error.response.data.message === 'string'
-          ? error.response.data.message
-          : ApiManager.unknownErrorMessage
-      })
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getPosts() {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: '/api/post',
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static errorHandler(error) {
+    console.error(error.response)
+    throw typeof error.response.data.message === 'string'
+      ? error.response.data.message
+      : ApiManager.unknownErrorMessage
+  }
+
+  static getComments(postId) {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: '/api/post/comments/' + postId.toString(),
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static likePost(postId) {
+    return axios
+      .put(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: '/api/post/like/' + postId.toString(),
+          },
+        }),
+        {
+          id: postId,
+        },
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static post(content) {
+    return axios
+      .post(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: '/api/post/',
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+          content: content,
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
   }
 }
 

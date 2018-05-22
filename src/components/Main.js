@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Redirect } from 'react-router-dom'
 // User import
 import Home from './Home'
 import Statistics from './Statistics'
@@ -25,6 +25,9 @@ import { getInfoUser } from '../functions/getRequest'
 import CreateTraining from './Coach/CreateTraining';
 import EditTraining from './Coach/EditTraining';
 import TrainingList from './Coach/TrainingList';
+import PrivateRoute from './PrivateRoute'
+import AuthManager from './AuthManager'
+import Feed from './Feed'
 
 
 
@@ -60,6 +63,29 @@ class Main extends React.Component {
 
   render() {
     if (!this.state.loading) { return null }
+
+    //return (<PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />)
+
+    if (!AuthManager.isAuthenticated()) {
+      return (
+        <div className="wrapper-app">
+          <div id="page-container" className="container pb-5 py-6">
+            <div className="row">
+              <div id="DashboardCenter" className="col-6">
+                <div className="DashboardCenterContent">
+                  <Switch>
+                    <PrivateRoute requiredRank="anonymous" path='/connexion' component={Login} />
+                    <PrivateRoute requiredRank="anonymous" path='/inscription' component={Register} />
+                    <Redirect to="/connexion" />
+                  </Switch>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     if (!this.state.isCoach) {
 
       return (
@@ -72,14 +98,15 @@ class Main extends React.Component {
               <div id="DashboardCenter" className="col-6">
                 <div className="DashboardCenterContent">
                   <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route path='/profile/:username' component={Profile} />
-                    <Route path='/users/:searchterm' component={ListUsers} />
-                    <Route path='/statistics/:username' component={Statistics} />
-                    <Route path='/activities/:username' component={Activities} />
-                    <Route path='/administration' component={AdministrationAccount} />
-                    <Route path='/coach' component={Coach} />
-                    <Route path='/coachadministration' component={CoachAdmin} />
+                    <PrivateRoute requiredRank="authenticated" exact path='/' component={Home} />
+                    <PrivateRoute requiredRank="authenticated" path='/profile/:username' component={Profile} />
+                    <PrivateRoute requiredRank="authenticated" path='/users/:searchterm' component={ListUsers} />
+                    <PrivateRoute requiredRank="authenticated" path='/statistics/:username' component={Statistics} />
+                    <PrivateRoute requiredRank="authenticated" path='/activities/:username' component={Activities} />
+                    <PrivateRoute requiredRank="authenticated" path='/administration' component={AdministrationAccount} />
+                    <PrivateRoute requiredRank="authenticated" path='/coach' component={Coach} />
+                    <PrivateRoute requiredRank="authenticated" path='/coachadministration' component={CoachAdmin} />
+                    <PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />
                   </Switch>
                 </div>
               </div>
@@ -100,15 +127,14 @@ class Main extends React.Component {
           <div className="page-container">
             {sidebar}
             <Switch>
-              <Route exact path='/' component={Coach} />
-              <Route path='/createsession' component={CreateTraining} />
-              <Route path='/edittraining/:idtraining' component={EditTraining} />
-              <Route path='/traininglist' component={TrainingList} />
-              <Route path='/clientlist' component={ClientList} />
-              <Route path='/coach/profile/:username' component={CoachProfile} />
-              <Route path='/coachadministration' component={CoachAdmin} />
-              <Route path='/connexion' component={Login} />
-              <Route path='/inscription' component={Register} />
+              <PrivateRoute requiredRank="coach" exact path='/' component={Coach} />
+              <PrivateRoute requiredRank="coach" path='/createsession' component={CreateTraining} />
+              <PrivateRoute requiredRank="coach" path='/edittraining/:idtraining' component={EditTraining} />
+              <PrivateRoute requiredRank="coach" path='/traininglist' component={TrainingList} />
+              <PrivateRoute requiredRank="coach" path='/clientlist' component={ClientList} />
+              <PrivateRoute requiredRank="coach" path='/coach/profile/:username' component={CoachProfile} />
+              <PrivateRoute requiredRank="coach" path='/coachadministration' component={CoachAdmin} />
+              <PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />
             </Switch>
           </div>
         </div>
