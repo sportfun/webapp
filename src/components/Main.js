@@ -28,6 +28,7 @@ import TrainingList from './Coach/TrainingList';
 import PrivateRoute from './PrivateRoute'
 import AuthManager from './AuthManager'
 import Feed from './Feed'
+import Friends from './Friends'
 
 
 
@@ -64,7 +65,8 @@ class Main extends React.Component {
   render() {
     if (!this.state.loading) { return null }
 
-    //return (<PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />)
+    //return (<PrivateRoute requiredRank="authenticated" path='/abonnements' component={Friends} />)
+    //return (<PrivateRoute requiredRank="authenticated" path='/actualite' component={Feed} />)
 
     if (!AuthManager.isAuthenticated()) {
       return (

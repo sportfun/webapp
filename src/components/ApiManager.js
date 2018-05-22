@@ -5,7 +5,7 @@ import url from 'url'
 class ApiManager {
   static urlObj = {
     protocol: 'http',
-    hostname: '149.202.41.22',
+    hostname: 'api.sportsfun.shr.ovh',
     port: 8080,
   }
 
@@ -249,6 +249,25 @@ class ApiManager {
         },
       )
       .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getFriends() {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user`,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data.friends)
       .catch(ApiManager.errorHandler)
   }
 }

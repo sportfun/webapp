@@ -3,7 +3,6 @@ import ApiManager from './ApiManager'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import 'moment/locale/fr'
-import AuthManager from './AuthManager'
 
 class Feed extends React.Component {
   constructor() {
