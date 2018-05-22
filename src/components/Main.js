@@ -64,7 +64,7 @@ class Main extends React.Component {
   render() {
     if (!this.state.loading) { return null }
 
-    return (<PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />)
+    //return (<PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />)
 
     if (!AuthManager.isAuthenticated()) {
       return (
