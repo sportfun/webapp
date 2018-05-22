@@ -53,32 +53,50 @@ class ApiManager {
   static getUser(username) {
     const promise = username
       ? axios.get(
-          url.format({
-            ...ApiManager.urlObj,
-            ...{
-              pathname: `'/api/user/q/${username}'`,
-            },
-          }),
-          {
-            headers: {
-              token: AuthManager.getToken(),
-            },
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `'/api/user/q/${username}'`,
           },
-        )
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
       : axios.get(
-          url.format({
-            ...ApiManager.urlObj,
-            ...{
-              pathname: '/api/user',
-            },
-          }),
-          {
-            headers: {
-              token: AuthManager.getToken(),
-            },
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: '/api/user',
           },
-        )
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
     return promise
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getUserById(userId) {
+    axios.get(
+      url.format({
+        ...ApiManager.urlObj,
+        ...{
+          pathname: `'/api/user/${userId}'`,
+        },
+      }),
+      {
+        headers: {
+          token: AuthManager.getToken(),
+        },
+      },
+    )
       .then(response => response.data.data)
       .catch(ApiManager.errorHandler)
   }
@@ -122,6 +140,25 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
+  static getPost(postId) {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/post/${postId}`,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
   static errorHandler(error) {
     console.error(error.response)
     throw typeof error.response.data.message === 'string'
@@ -135,7 +172,7 @@ class ApiManager {
         url.format({
           ...ApiManager.urlObj,
           ...{
-            pathname: '/api/post/comments/' + postId.toString(),
+            pathname: `/api/post/comments/${postId}`,
           },
         }),
         {
@@ -154,7 +191,7 @@ class ApiManager {
         url.format({
           ...ApiManager.urlObj,
           ...{
-            pathname: '/api/post/like/' + postId.toString(),
+            pathname: `/api/post/like/${postId}`,
           },
         }),
         {
@@ -170,7 +207,29 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
-  static post(content) {
+  static followUser(userId) {
+    return axios
+      .put(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/link/${userId}`,
+          },
+        }),
+        {
+          id: userId,
+        },
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static post(content, parent) {
     return axios
       .post(
         url.format({
@@ -180,10 +239,13 @@ class ApiManager {
           },
         }),
         {
+          content: content,
+          parent: parent,
+        },
+        {
           headers: {
             token: AuthManager.getToken(),
           },
-          content: content,
         },
       )
       .then(response => response.data.data)
