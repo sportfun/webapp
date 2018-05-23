@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import history from '../functions/history'
 import PropTypes from 'prop-types'
+import AuthManager from './AuthManager'
 
 class Header extends Component {
   constructor(props) {
@@ -44,6 +45,9 @@ class Header extends Component {
             </li>
             <li className="nav-item">
               <Link to={`/administration/${username}`} className="nav-link">Mon compte</Link>
+            </li>
+            <li className="nav-item">
+              <a href="/" className="nav-link" onClick={AuthManager.logout}>Se déconnecter</a>
             </li>
           </ul>
           <form className="form-inline my-2 my-lg-0 w-25" onSubmit={this.handleSubmit}>

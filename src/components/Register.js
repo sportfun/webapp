@@ -54,7 +54,7 @@ class Register extends Component {
       })
       .catch(errorMessage => {
         const state = {
-          alertMessage: errorMessage,
+          alertMessage: 'Une erreur est survenue',
         }
         this.setState(state)
         window.scrollTo(0, 0)
@@ -65,7 +65,9 @@ class Register extends Component {
     return (
       <div className="pagecontainer p-sm-5">
         <h3>Inscription</h3><br />
-
+        {this.state.alertMessage && (
+          <p className="alert alert-danger">{this.state.alertMessage}</p>
+        )}
         <form onSubmit={this.submit}>
           <div className="form-group">
             <label htmlFor="username">Nom d'utilisateur</label>
@@ -99,7 +101,7 @@ class Register extends Component {
           </div>
           <button type="submit" className="btn btn-primary">S'inscrire</button>
         </form>
-        <Link to="/connexion" className="btn btn-secondary">Se connecter</Link>
+        <Link to="/connexion" className="btn btn-secondary mt-2">Se connecter</Link>
       </div>
     )
   }
