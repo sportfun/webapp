@@ -7,11 +7,15 @@ export const fetchUsers = (searchTerm, token, callback) => {
         headers: { "token": token }
     })
         .then(function (response) {
-            allUsers = response.data;
+            allUsers = response.data.data;
+            console.log(response.data.data);
+            /*
             filterUsers = allUsers.filter(function (user) {
+                console.log(filterUsers)
                 return (user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
             });
-            callback(filterUsers);
+            */
+            callback(allUsers);
         })
         .catch(function (error) {
             console.log(error);
