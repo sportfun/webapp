@@ -15,6 +15,7 @@ export const fetchUsers = (searchTerm, token, callback) => {
                 return (user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
             });
             */
+           console.log("ézaera")
             callback(allUsers);
         })
         .catch(function (error) {
