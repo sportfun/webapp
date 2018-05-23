@@ -22,6 +22,8 @@ class CreateTraining extends React.Component {
         e.preventDefault();
         if (this.state.name === "")
             return (alert("Veuillez entrer un nom pour l'entrainement"));
+        if (this.state.sequences.length === 0)
+            return (alert("l'entrainement doit être composé d'au moins une séquence"));
         postNewTraining(this.context.token, this.state, () => {
             alert("l'entrainement a bien été créé !");
             this.props.history.push('/traininglist');
