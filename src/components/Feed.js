@@ -65,9 +65,9 @@ class Feed extends React.Component {
           </div>
           <input className="btn btn-primary" type="submit" value="Publier" />
         </form>
-        <div className="list-group">
+        <ul className="list-group">
           {this.state.posts.map((post, i) => <FeedItem key={i} post={post} />)}
-        </div>
+        </ul>
       </div>
     )
   }
@@ -158,25 +158,23 @@ class FeedItem extends React.Component {
 
   render() {
     return (
-      <div className="list-group-item list-group-item-action flex-column align-items-start">
+      <li className="list-group-item flex-column align-items-start">
         <div className="d-flex w-100 justify-content-between">
           <h5 className="mb-1">{this.props.post.content}</h5>
           <small><Moment locale="fr" date={this.props.post.createdAt} fromNow /></small>
         </div>
-        <p>
-          <div className="d-flex w-100 align-items-center">
-            <img className="rounded-circle align-self-center mr-2" src={this.props.post.author.profilePic}
-              alt="Photo de profil"
-              style={{ maxWidth: '2rem' }} />
-            <small>Publié par {this.props.post.author.firstName} {this.props.post.author.lastName}</small>
-          </div>
-        </p>
+        <div className="d-flex w-100 align-items-center mb-3">
+          <img className="rounded-circle align-self-center mr-2" src={this.props.post.author.profilePic}
+            alt="Photo de profil"
+            style={{ maxWidth: '2rem' }} />
+          <small>Publié par {this.props.post.author.firstName} {this.props.post.author.lastName}</small>
+        </div>
         <p>
           <small>{this.state.likes.length > 0 ? this.state.likes.length > 1 ? this.state.likes.length +
                                                                               ' personnes aiment cette publication'
             : '1 personne aime cette publication' : 'Personne n\'a aimé cette publication'}</small>
         </p>
-        <button className="btn btn-primary mr-2" onClick={this.like}
+        <button className="btn btn-primary" onClick={this.like}
           disabled={this.state.buttonLikeDisabled}>{this.state.iLiked ? '👎 Je n\'aime plus' : '👍 J\'aime'}</button>
         <div className="comments">{this.state.comments.map((comment, i) => {
           return (
@@ -201,7 +199,7 @@ class FeedItem extends React.Component {
           </div>
           <input className="btn btn-primary" type="submit" value="Envoyer" />
         </form>
-      </div>
+      </li>
     )
   }
 }
