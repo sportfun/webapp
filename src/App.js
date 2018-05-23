@@ -5,13 +5,14 @@ import { storeInfoUser } from './functions/getRequest'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 import './App.css'
+import AuthManager from './components/AuthManager'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       loading: false,
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg1ZmY5ZWE1YWQxMzE1NmFkMzMyMDYiLCJpYXQiOjE1MTg3MzIxMzB9.acd4c0f6_IiJck7xpQXiZZXaVEvRwIcBvQ28rEggr2k",
+      token: AuthManager.getToken(),
       isCoach: false
     }
   }
@@ -20,7 +21,7 @@ class App extends Component {
     return {
       orangecolor: "rgb(245, 184, 154)",
       apiurl: "http://149.202.41.22:8080",
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg1ZmY5ZWE1YWQxMzE1NmFkMzMyMDYiLCJpYXQiOjE1MTg3MzIxMzB9.acd4c0f6_IiJck7xpQXiZZXaVEvRwIcBvQ28rEggr2k",
+      token: AuthManager.getToken(),
       getUserInfo: require('./functions/getRequest').getInfoUser,
     };
   }
