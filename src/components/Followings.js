@@ -2,7 +2,7 @@ import React from 'react'
 import ApiManager from './ApiManager'
 import { Link } from 'react-router-dom'
 
-class Friends extends React.Component {
+class Followings extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -41,7 +41,7 @@ class Friends extends React.Component {
 
 class Friend extends React.Component {
   render() {
-    return <div
+    return (<div
       className="card border-secondary mb-3"
       style={{ width: '18rem' }}
     >
@@ -56,8 +56,8 @@ class Friend extends React.Component {
             to={`/profil/${this.props.friend.username}`}>{`${this.props.friend.firstName} ${this.props.friend.lastName}`}</Link>
         </p>
       </div>
-    </div>
+    </div>)
   }
 }
 
-export default Friends
+export default Followings

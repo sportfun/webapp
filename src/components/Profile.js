@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getUserByUsername } from '../functions/getRequest';
+import { getUserByUsername } from '../functions/getRequest'
+import ApiManager from './ApiManager'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -8,20 +9,46 @@ class Profile extends React.Component {
     this.state = {
       user: {},
       loading: false,
+      followButtonDisabled: false,
+      iFollowThisUser: false,
     }
   }
 
   componentWillMount() {
-    var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
+    var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1)
     getUserByUsername(this.context.token, username, (data) => {
-      this.setState({ user: data });
-      this.setState({ loading: true });
+      this.setState({ user: data })
+      this.setState({ loading: true })
+      ApiManager.getUser().then(user => {
+        if (user.links.includes(data._id)) {
+          this.setState({
+            iFollowThisUser: true,
+          })
+        }
+      })
     })
   }
 
+  follow = () => {
+    this.setState({
+      followButtonDisabled: true,
+    })
+    ApiManager.followUser(this.state.user._id).then(() => {
+      this.setState(oldState => {
+        return {
+          iFollowThisUser: !oldState.iFollowThisUser,
+        }
+      })
+    }).finally(() => this.setState({
+      followButtonDisabled: false,
+    }))
+  }
+
   render() {
-    console.log("user")
-    if(!this.state.loading){return null}
+    console.log('user')
+    if (!this.state.loading) {
+      return null
+    }
     return (
       <div id="ProfilePage" className="card mb-4">
         <div className="card">
@@ -32,6 +59,9 @@ class Profile extends React.Component {
               @{this.state.user.username}<br /><br />
               {this.state.user.bio}<br />
             </p>
+            <button className="btn btn-success" onClick={this.follow}
+              disabled={this.state.followButtonDisabled}>{this.state.iFollowThisUser ? 'Se désabonner'
+              : 'S\'abonner'}</button>
           </div>
         </div>
       </div>
@@ -42,6 +72,6 @@ class Profile extends React.Component {
 Profile.contextTypes = {
   token: PropTypes.string,
   apiurl: PropTypes.string,
-};
+}
 
 export default Profile

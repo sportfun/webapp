@@ -27,7 +27,7 @@ import TrainingList from './Coach/TrainingList';
 import PrivateRoute from './PrivateRoute'
 import AuthManager from './AuthManager'
 import Feed from './Feed'
-import Friends from './Friends'
+import Followings from './Followings'
 
 
 
@@ -107,7 +107,7 @@ class Main extends React.Component {
                     <PrivateRoute requiredRank="authenticated" path='/administration' component={AdministrationAccount} />
                     <PrivateRoute requiredRank="authenticated" path='/coach' component={Coach} />
                     <PrivateRoute requiredRank="authenticated" path='/coachadministration' component={CoachAdmin} />
-                    <PrivateRoute requiredRank="authenticated" path='/abonnements' component={Friends} />
+                    <PrivateRoute requiredRank="authenticated" path='/abonnements' component={Followings} />
                   </Switch>
                 </div>
               </div>
