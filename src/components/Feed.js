@@ -66,7 +66,7 @@ class Feed extends React.Component {
           <input className="btn btn-primary" type="submit" value="Publier" />
         </form>
         <ul className="list-group">
-          {this.state.posts.map((post, i) => <FeedItem key={i} post={post} />)}
+          {this.state.posts.slice(0).reverse().map((post, i) => <FeedItem key={i} post={post} />)}
         </ul>
       </div>
     )
