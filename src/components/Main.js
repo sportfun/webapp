@@ -126,7 +126,7 @@ class Main extends React.Component {
     }
     else {
       let sidebar = null;
-      if (window.location.href !== 'http://localhost:3000/')
+      if (window.location.href !== 'http://app.sportsfun.shr.ovh/')
         sidebar = <CoachSidebarLeft />;
       return (
         <div className="wrapper-app h-100">
