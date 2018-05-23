@@ -63,7 +63,7 @@ class Login extends Component {
           </div>
           <button type="submit" className="btn btn-primary">Se connecter</button>
         </form>
-        <Link to="/inscription" className="btn btn-secondary">S'inscrire</Link>
+        <Link to="/inscription" className="btn btn-secondary mt-2">S'inscrire</Link>
       </div>
     )
   }
