@@ -20,6 +20,12 @@ class Profile extends React.Component {
       this.setState({ user: data })
       this.setState({ loading: true })
       ApiManager.getUser().then(user => {
+        if (user._id === data._id) {
+          this.setState({
+            followButtonDisabled: true,
+          })
+          return
+        }
         if (user.links.includes(data._id)) {
           this.setState({
             iFollowThisUser: true,
@@ -59,6 +65,8 @@ class Profile extends React.Component {
               @{this.state.user.username}<br /><br />
               {this.state.user.bio}<br />
             </p>
+            <p>{this.state.user.links.length > 0 ? this.state.user.links.length > 1
+              ? `${this.state.user.links.length} abonnés` : '1 bonné' : 'Aucun abonné'}</p>
             <button className="btn btn-success" onClick={this.follow}
               disabled={this.state.followButtonDisabled}>{this.state.iFollowThisUser ? 'Se désabonner'
               : 'S\'abonner'}</button>
