@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Redirect } from 'react-router-dom'
 // User import
-import Home from './Home'
 import Statistics from './Statistics'
 import ListUsers from './Users'
 import Profile from './Profile'
@@ -42,7 +41,7 @@ class Main extends React.Component {
     super(props)
     this.state = {
       loading: false,
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTg1ZmY5ZWE1YWQxMzE1NmFkMzMyMDYiLCJpYXQiOjE1MTg3MzIxMzB9.acd4c0f6_IiJck7xpQXiZZXaVEvRwIcBvQ28rEggr2k",
+      token: AuthManager.getToken(),
       isCoach: false
     }
   }
@@ -100,7 +99,7 @@ class Main extends React.Component {
               <div id="DashboardCenter" className="col-6">
                 <div className="DashboardCenterContent">
                   <Switch>
-                    <PrivateRoute requiredRank="authenticated" exact path='/' component={Home} />
+                    <PrivateRoute requiredRank="authenticated" exact path='/' component={Feed} />
                     <PrivateRoute requiredRank="authenticated" path='/profile/:username' component={Profile} />
                     <PrivateRoute requiredRank="authenticated" path='/users/:searchterm' component={ListUsers} />
                     <PrivateRoute requiredRank="authenticated" path='/statistics/:username' component={Statistics} />
@@ -108,7 +107,7 @@ class Main extends React.Component {
                     <PrivateRoute requiredRank="authenticated" path='/administration' component={AdministrationAccount} />
                     <PrivateRoute requiredRank="authenticated" path='/coach' component={Coach} />
                     <PrivateRoute requiredRank="authenticated" path='/coachadministration' component={CoachAdmin} />
-                    <PrivateRoute requiredRank="authenticated" path='/feed' component={Feed} />
+                    <PrivateRoute requiredRank="authenticated" path='/abonnements' component={Friends} />
                   </Switch>
                 </div>
               </div>

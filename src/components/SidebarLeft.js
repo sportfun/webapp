@@ -49,11 +49,15 @@ class SidebarLeft extends React.Component {
                                 <span className="mr-3"><img className="MenuIcon" src={this.context.apiurl +"/static/stats.png"} alt="statistics" /></span><Link to={`/statistics/${username}`}>Graphiques</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src={this.context.apiurl +"/static/friends.png"} alt="friends" /></span><Link to='/'>Amis</Link>
+                                <span className="mr-3"><img className="MenuIcon" src={this.context.apiurl +"/static/friends.png"} alt="friends" /></span><Link to='/abonnements'>Abonnements</Link>
                             </li>
+                          {
+                          /*
                             <li>
                                 <span className="mr-3"><img className="MenuIcon" src={this.context.apiurl +"/static/messages.png"} alt="messages" /></span><Link to='/'>Messages</Link>
                             </li>
+                           */
+                          }
                             <li>
                                 <span className="mr-3"><img className="MenuIcon" src={this.context.apiurl +"/static/settings.png"} alt="settings" /></span>
                                 <Link to={`/administration/${username}`}>Mon compte</Link>

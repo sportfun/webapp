@@ -59,13 +59,15 @@ class Feed extends React.Component {
         <h3>Fil d'actualité</h3>
         <form className="m-2" onSubmit={this.handleStatusSubmit}>
           <div className="form-group">
-            <label htmlFor="exampleFormControlTextarea1">Publier sur mon mur</label>
+            <label htmlFor="exampleFormControlTextarea1">Publier sur mon mur&nbsp;:</label>
             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={this.state.statusValue}
               onChange={this.handleStatusChange} />
           </div>
           <input className="btn btn-primary" type="submit" value="Publier" />
         </form>
-        {this.state.posts.map((post, i) => <FeedItem key={i} post={post} />)}
+        <div className="list-group">
+          {this.state.posts.map((post, i) => <FeedItem key={i} post={post} />)}
+        </div>
       </div>
     )
   }
@@ -90,7 +92,7 @@ class FeedItem extends React.Component {
     ApiManager.getUser().then(user => {
       if (this.state.likes.includes(user._id)) {
         this.setState({
-          iLiked: true
+          iLiked: true,
         })
       }
     })
@@ -100,7 +102,7 @@ class FeedItem extends React.Component {
   refreshLikes() {
     ApiManager.getPost(this.state.id).then(post => {
       this.setState({
-        likes: post.likes
+        likes: post.likes,
       })
     })
   }
@@ -156,41 +158,49 @@ class FeedItem extends React.Component {
 
   render() {
     return (
-      <div className="card m-2" id={this.props.post._id} style={{ marginBottom: '2rem' }}>
-        <div className="card-body">
-          <p className="card-text">{this.props.post.content}</p>
-          <p className="card-text text-muted text-right">Publié
-            par {this.props.post.author.firstName} {this.props.post.author.lastName} <Moment locale="fr"
-              date={this.props.post.createdAt} fromNow /></p>
-          <p className="card-text text-muted">{this.state.likes.length > 0
-            ? this.state.likes.length > 1
-              ? this.state.likes.length + ' personnes aiment cette publication'
-              : '1 personne aime cette publication'
-            : 'Personne n\'a aimé cette publication'}</p>
-          <button className="btn btn-primary mr-2" onClick={this.like}
-            disabled={this.state.buttonLikeDisabled}>{this.state.iLiked ? '👎 Je n\'aime plus' : '👍 J\'aime'}</button>
-          <div className="comments">{this.state.comments.map((comment, i) => {
-            return (
-              <div className="bg-light m-2 p-2" key={i}>
-                <img className="rounded-circle" src={comment.author.profilePic} alt="Photo de profil"
-                  style={{ maxWidth: '5rem' }} />
-                <p>{comment.content}</p>
-                <p className="text-muted">Publié par {comment.author.firstName} {comment.author.lastName} <Moment
-                  locale="fr"
-                  date={comment.createdAt} fromNow /></p>
-              </div>
-            )
-          })}</div>
-          <form className="m-2" onSubmit={this.handleCommentSubmit}>
-            <div className="form-group">
-              <label htmlFor="exampleFormControlTextarea1">Écrire un commentaire</label>
-              <textarea className="form-control" id="exampleFormControlTextarea1" rows="1"
-                value={this.state.commentValue}
-                onChange={this.handleCommentChange} />
-            </div>
-            <input className="btn btn-primary" type="submit" value="Envoyer" />
-          </form>
+      <div className="list-group-item list-group-item-action flex-column align-items-start">
+        <div className="d-flex w-100 justify-content-between">
+          <h5 className="mb-1">{this.props.post.content}</h5>
+          <small><Moment locale="fr" date={this.props.post.createdAt} fromNow /></small>
         </div>
+        <p>
+          <div className="d-flex w-100 align-items-center">
+            <img className="rounded-circle align-self-center mr-2" src={this.props.post.author.profilePic}
+              alt="Photo de profil"
+              style={{ maxWidth: '2rem' }} />
+            <small>Publié par {this.props.post.author.firstName} {this.props.post.author.lastName}</small>
+          </div>
+        </p>
+        <p>
+          <small>{this.state.likes.length > 0 ? this.state.likes.length > 1 ? this.state.likes.length +
+                                                                              ' personnes aiment cette publication'
+            : '1 personne aime cette publication' : 'Personne n\'a aimé cette publication'}</small>
+        </p>
+        <button className="btn btn-primary mr-2" onClick={this.like}
+          disabled={this.state.buttonLikeDisabled}>{this.state.iLiked ? '👎 Je n\'aime plus' : '👍 J\'aime'}</button>
+        <div className="comments">{this.state.comments.map((comment, i) => {
+          return (
+            <div className="bg-light m-2 p-2" key={i}>
+              <p>{comment.content}</p>
+              <div className="d-flex w-100 align-items-center">
+                <img className="rounded-circle align-self-center mr-2" src={comment.author.profilePic}
+                  alt="Photo de profil"
+                  style={{ maxWidth: '2rem' }} />
+                <small>Publié par {comment.author.firstName} {comment.author.lastName} <Moment locale="fr"
+                  date={comment.createdAt} fromNow /></small>
+              </div>
+            </div>
+          )
+        })}</div>
+        <form className="m-2" onSubmit={this.handleCommentSubmit}>
+          <div className="form-group">
+            <label htmlFor="exampleFormControlTextarea1">Écrire un commentaire&nbsp;:</label>
+            <textarea className="form-control" id="exampleFormControlTextarea1" rows="1"
+              value={this.state.commentValue}
+              onChange={this.handleCommentChange} />
+          </div>
+          <input className="btn btn-primary" type="submit" value="Envoyer" />
+        </form>
       </div>
     )
   }
