@@ -27,9 +27,11 @@ class App extends Component {
   }
 
   componentWillMount() {
-    storeInfoUser(this.state.token, () => {
-      this.setState({ loading: true });
-    });
+    if (AuthManager.isAuthenticated()) {
+      storeInfoUser(this.state.token, () => {
+        this.setState({ loading: true });
+      });
+    }
   }
 
   render() {
