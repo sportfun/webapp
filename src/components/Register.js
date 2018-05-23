@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
-import history from '../functions/history'
+import ApiManager from './ApiManager'
 
 class Register extends Component {
   constructor(props) {
     super(props)
-    this.state =
-      { username: '', password: '', email: '', firstName: '', lastName: '', birthdate: Register.formatDate(Date.now()) }
+    this.state = {
+      username: '',
+      password: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      birthdate: Register.formatDate(Date.now()),
+      alertMessage: '',
+    }
   }
 
   static formatDate(date) {
@@ -35,20 +41,24 @@ class Register extends Component {
   submit = e => {
     e.preventDefault()
     const date = new Date(this.state.birthdate)
-    axios.post('http://149.202.41.22:8080/api/user/register', {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      birthDate: date.toString(),
-    }).then(() => {
-      history.push('/connexion')
-    }).catch(error => {
-      const state = {}
-      this.setState(state)
-      console.log(error.response)
-    })
+    ApiManager.register(
+      this.state.username,
+      this.state.password,
+      this.state.email,
+      this.state.firstName,
+      this.state.lastName,
+      date.toString(),
+    )
+      .then(() => {
+        this.props.history.push('/connexion')
+      })
+      .catch(errorMessage => {
+        const state = {
+          alertMessage: errorMessage,
+        }
+        this.setState(state)
+        window.scrollTo(0, 0)
+      })
   }
 
   render() {

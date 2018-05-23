@@ -47,11 +47,13 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    getInfoUser(this.state.token, (data) => {
-      if (data.roles[0] === "coach") {
-        this.setState({ isCoach: true });
-      }
-    });
+    if (AuthManager.isAuthenticated()) {
+      getInfoUser(this.state.token, (data) => {
+        if (data.roles[0] === "coach") {
+          this.setState({ isCoach: true });
+        }
+      });
+    }
 
     this.setState({ loading: true });
 
@@ -112,7 +114,11 @@ class Main extends React.Component {
                 </div>
               </div>
 
-              <SidebarRight />
+              {
+                /*
+                <SidebarRight />
+                 */
+              }
             </div>
           </div>
         </div>
