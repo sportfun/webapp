@@ -31,6 +31,8 @@ class App extends Component {
       storeInfoUser(this.state.token, () => {
         this.setState({ loading: true });
       });
+    } else {
+      this.setState({ loading: true });
     }
   }
 
