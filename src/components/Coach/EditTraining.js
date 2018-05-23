@@ -31,6 +31,10 @@ class EditTraining extends React.Component {
     handleSubmit = e => {
         var id = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
         e.preventDefault();
+
+        if (this.state.sequences.length === 0)
+            return (alert("l'entrainement doit être composé d'au moins une séquence"));
+
         editTraining(this.context.token, id, this.state, () => {
             alert("l'entrainement a bien été modifié");
             this.props.history.push('/traininglist')

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { getClientList } from '../../functions/getRequest';
+import { getTrainingList } from '../../functions/getRequest';
 
 class TrainingList extends React.Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class TrainingList extends React.Component {
     }
 
     componentWillMount() {
-        getClientList(this.context.token, localStorage.getItem('username'), (data) => {
+        getTrainingList(this.context.token, localStorage.getItem('username'), (data) => {
             this.setState({ trainings: data });
             this.setState({ loading: true });
         })
@@ -34,7 +34,7 @@ class TrainingList extends React.Component {
                             <td>{elem.name}</td>
                             <td>{elem.sequences.length}</td>
                             <td>{elem.description}</td>
-                            <td><Link to={`/edittraining/${elem._id}`}> lien </Link></td>
+                            <td><Link to={`/edittraining/${elem._id}`}> Modifier </Link></td>
                         </tr>
                     );
                 });
@@ -54,8 +54,8 @@ class TrainingList extends React.Component {
                             <th>#</th>
                             <th>Nom</th>
                             <th>Nombre de séquence</th>
-                            <th>Notes</th>
-                            <th>Modifier</th>
+                            <th>Description</th>
+                            <th>Modifier l'entrainement</th>
                         </tr>
                     </thead>
                     <tbody>

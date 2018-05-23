@@ -84,7 +84,7 @@ export const getFriends = (token, callback) => {
         });
 }
 
-export const getClientList = (token, username, callback) => {
+export const getTrainingList = (token, username, callback) => {
     axios.get('http://149.202.41.22:8080/api/training', {
         headers: { "token": token }
     })
@@ -107,4 +107,3 @@ export const getTrainingById = (token, id, callback) => {
             console.log("error e :" + error);
         })
 }
-
