@@ -3,7 +3,7 @@ import axios from 'axios'
 export const fetchUsers = (searchTerm, token, callback) => {
     var allUsers, filterUsers;
 
-    axios.get('http://149.202.41.22:8080/api/user', {
+    axios.get('http://149.202.41.22:8080/api/user/debug', {
         headers: { "token": token }
     })
         .then(function (response) {
