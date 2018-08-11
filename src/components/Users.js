@@ -28,7 +28,7 @@ class Users extends React.Component {
       fetchUsers(nextProps.location.state.searchTerm, this.context.token, (data) => {
         this.setState({searchTerm: nextProps.location.state.searchTerm});
         this.setState({users: data});
-      }); 
+      });
     //}
   }
 

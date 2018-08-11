@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { getTrainingList } from '../../functions/getRequest';
+import { filterTraining } from '../../functions/fetchUsers';
 
 class TrainingList extends React.Component {
     constructor(props) {
         super(props)
+        this.handleSubmit = this.handleSubmit.bind(this)
         this.state = {
             trainings: {},
-            loading: false
+            loading: false,
+            searchTerm: ''
         }
     }
 
@@ -18,6 +21,26 @@ class TrainingList extends React.Component {
             this.setState({ loading: true });
         })
     }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.setState({ searchTerm: this.refs["search_value"].value }, () => {
+         
+         /*
+            history.push({
+            pathname: `/users/${this.state.searchTerm}`,
+            state: { searchTerm: this.state.searchTerm },
+          });
+        */
+
+
+        filterTraining(this.state.searchTerm, this.context.token, this.state.trainings, (data) => {
+            console.log(data);
+            this.setState({trainings: data});
+        }
+    )
+        });
+      }
 
     submit = e => {
         e.preventDefault();
@@ -48,6 +71,10 @@ class TrainingList extends React.Component {
             <div className="pagecontainer h-100 Block card p-sm-5">
                 <h2>Liste de vos entrainements personnalisés</h2>
                 <p>Détails et informations des entrainements</p>
+                <form className="form-inline my-2 my-lg-0 w-50" onSubmit={this.handleSubmit}>
+                    <input ref="search_value" name="search_value" className="form-control mr-sm-2 w-65" type="text" placeholder="Rechercher un entrainement" aria-label="Rechercher" />
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+                </form><br/>
                 <table className="table table-striped">
                     <thead>
                         <tr>

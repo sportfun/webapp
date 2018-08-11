@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { getTrainingList } from './getRequest';
+
 
 export const fetchUsers = (searchTerm, token, callback) => {
     var allUsers, filterUsers;
@@ -9,19 +11,42 @@ export const fetchUsers = (searchTerm, token, callback) => {
         .then(function (response) {
             allUsers = response.data.data;
             console.log(response.data.data);
+            filterUsers = allUsers.filter(function (user) {
+                console.log(filterUsers)
+                return (user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+            });
             /*
             filterUsers = allUsers.filter(function (user) {
                 console.log(filterUsers)
                 return (user.username.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
             });
             */
-           console.log("ézaera")
+           console.log(filterUsers)
             callback(allUsers);
         })
         .catch(function (error) {
             console.log(error);
         });
 }
+
+
+export const filterTraining = (searchTerm, token, allTrainings, callback) => {
+    var filterTrainings;
+            if (searchTerm == ''){
+                getTrainingList(token, localStorage.getItem('username'), (data) => {
+                    callback(data);
+                })
+            }
+
+            console.log(allTrainings);
+            filterTrainings = allTrainings.filter(function (training) {
+                return (training.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+            });
+
+           console.log(filterTrainings)
+            callback(filterTrainings);
+}
+
 /*
 export 
 

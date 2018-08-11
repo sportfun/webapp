@@ -27,6 +27,9 @@ class CoachAdmin extends React.Component {
             this.refs["password"].value,
             this.refs["biography"].value,
           ];
+          if (this.refs["password"].value !== this.refs["password_conf"].value){
+              alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
+          }
           editUserInfo(this.context.token, infos, () => {
             window.location.reload();
           })
@@ -57,6 +60,10 @@ class CoachAdmin extends React.Component {
                         <div className="form-group w-50">
                             <label htmlFor="password">Mot de passe</label>
                             <input type="password" className="form-control" ref="password" id="password" placeholder="●●●●●●"></input>
+                        </div>
+                        <div className="form-group w-50">
+                            <label htmlFor="password">Confirmation mot de passe</label>
+                            <input type="password" className="form-control" ref="password_conf" id="password_conf" placeholder="●●●●●●"></input>
                         </div>
                         <div className="form-group w-50">
                             <label htmlFor="biography">Biographie</label>

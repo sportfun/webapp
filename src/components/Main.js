@@ -49,6 +49,7 @@ class Main extends React.Component {
   componentWillMount() {
     if (AuthManager.isAuthenticated()) {
       getInfoUser(this.state.token, (data) => {
+        console.log(this.state.token);
         if (data.roles[0] === "coach") {
           this.setState({ isCoach: true });
         }
@@ -126,7 +127,8 @@ class Main extends React.Component {
     }
     else {
       let sidebar = null;
-      if (window.location.href !== 'http://app.sportsfun.shr.ovh/')
+//      if (window.location.href !== 'http://app.sportsfun.shr.ovh/')
+if (window.location.href !== 'http://localhost:3000/')
         sidebar = <CoachSidebarLeft />;
       return (
         <div className="wrapper-app h-100">
