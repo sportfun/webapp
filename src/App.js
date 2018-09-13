@@ -38,7 +38,7 @@ class App extends Component {
 
   render() {
     if (!this.state.loading) { return null }
-    //Session a implémenter ici + envoyer le token dans le main
+    //console.log(this.state.token);
     return (
       <Main />
     );

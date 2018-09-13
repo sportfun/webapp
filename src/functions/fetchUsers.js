@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getTrainingList } from './getRequest';
+import { getTrainingListByToken } from './getRequest';
 
 
 export const fetchUsers = (searchTerm, token, callback) => {
@@ -33,7 +33,7 @@ export const fetchUsers = (searchTerm, token, callback) => {
 export const filterTraining = (searchTerm, token, allTrainings, callback) => {
     var filterTrainings;
             if (searchTerm == ''){
-                getTrainingList(token, localStorage.getItem('username'), (data) => {
+                getTrainingListByToken(token, (data) => {
                     callback(data);
                 })
             }

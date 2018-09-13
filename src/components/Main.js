@@ -49,7 +49,7 @@ class Main extends React.Component {
   componentWillMount() {
     if (AuthManager.isAuthenticated()) {
       getInfoUser(this.state.token, (data) => {
-        console.log(this.state.token);
+//        console.log(this.state.token);
         if (data.roles[0] === "coach") {
           this.setState({ isCoach: true });
         }

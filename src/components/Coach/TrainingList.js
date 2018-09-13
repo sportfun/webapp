@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { getTrainingList } from '../../functions/getRequest';
+import { getTrainingListByToken } from '../../functions/getRequest';
 import { filterTraining } from '../../functions/fetchUsers';
+import { deleteTraining } from '../../functions/putRequest';
 
 class TrainingList extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class TrainingList extends React.Component {
     }
 
     componentWillMount() {
-        getTrainingList(this.context.token, localStorage.getItem('username'), (data) => {
+        getTrainingListByToken(this.context.token, (data) => {
             this.setState({ trainings: data });
             this.setState({ loading: true });
         })
@@ -33,7 +34,6 @@ class TrainingList extends React.Component {
           });
         */
 
-
         filterTraining(this.state.searchTerm, this.context.token, this.state.trainings, (data) => {
             console.log(data);
             this.setState({trainings: data});
@@ -44,6 +44,12 @@ class TrainingList extends React.Component {
 
     submit = e => {
         e.preventDefault();
+    }
+
+    DeleteTraining = (token) => (e) => {
+        deleteTraining(this.state.token, e._id, () => {
+            console.log("event triggered")
+        })
     }
 
     render() {
@@ -57,7 +63,8 @@ class TrainingList extends React.Component {
                             <td>{elem.name}</td>
                             <td>{elem.sequences.length}</td>
                             <td>{elem.description}</td>
-                            <td><Link to={`/edittraining/${elem._id}`}> Modifier </Link></td>
+                            <td><Link to={`/edittraining/${elem._id}`} className="btn btn-light"> Modifier </Link></td>
+                            <td><button className="btn btn-light" onClick={this.DeleteTraining(this.context.token)}>Supprimer</button></td>
                         </tr>
                     );
                 });
@@ -83,6 +90,7 @@ class TrainingList extends React.Component {
                             <th>Nombre de séquence</th>
                             <th>Description</th>
                             <th>Modifier l'entrainement</th>
+                            <th>Supprimer l'entrainement</th>
                         </tr>
                     </thead>
                     <tbody>
