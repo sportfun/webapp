@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  sportsfun-webapp:
+    build: .
+    container_name: sportsfun-webapp
+    labels:
+      - traefik.backend=sportsfun-webapp
+      - traefik.frontend.rule=Host:sportsfun.shr.ovh,www.sportsfun.shr.ovh
+      - traefik.docker.network=traefik
+      - traefik.port=80
