@@ -51,7 +51,6 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log('user')
     if (!this.state.loading) {
       return null
     }

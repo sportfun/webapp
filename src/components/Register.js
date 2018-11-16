@@ -1,6 +1,20 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import ApiManager from './ApiManager'
+import PropTypes from 'prop-types'
+
+
+var sectionStyle = {
+  width: "100%",
+  height: "100%",
+  borderRadius: "5px",
+};
+
+var logoStyle = {
+  width: "80%",
+  "padding-left": "4rem",
+  "padding-bottom": "1rem"
+}
 
 class Register extends Component {
   constructor(props) {
@@ -63,48 +77,58 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="pagecontainer p-sm-5">
-        <h3>Inscription</h3><br />
-        {this.state.alertMessage && (
-          <p className="alert alert-danger">{this.state.alertMessage}</p>
-        )}
-        <form onSubmit={this.submit}>
-          <div className="form-group">
-            <label htmlFor="username">Nom d'utilisateur</label>
-            <input type="text" name="username" className="form-control" id="username"
-              value={this.state.username} onChange={this.onChange} />
+      <div>
+        <img style={logoStyle} src={this.context.apiurl + "/static/logo_sportsfun.png"} alt="logo" />
+
+        <div style={sectionStyle}>
+          <div className="pagecontainer p-sm-5 ml-0">
+            {this.state.alertMessage && (
+              <p className="alert alert-danger">{this.state.alertMessage}</p>
+            )}
+            <form onSubmit={this.submit}>
+              <div className="form-group">
+                <label htmlFor="username">Nom d'utilisateur</label>
+                <input type="text" name="username" className="form-control" id="username"
+                  value={this.state.username} onChange={this.onChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Mot de passe</label>
+                <input type="password" name="password" className="form-control" id="password"
+                  value={this.state.password} onChange={this.onChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Adresse mail</label>
+                <input type="email" name="email" className="form-control" id="email"
+                  value={this.state.email} onChange={this.onChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="firstName">Prénom</label>
+                <input type="text" name="firstName" className="form-control" id="firstName"
+                  value={this.state.firstName} onChange={this.onChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="lastName">Nom</label>
+                <input type="text" name="lastName" className="form-control" id="lastName"
+                  value={this.state.lastName} onChange={this.onChange} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="birthdate">Date de naissance</label>
+                <input type="date" name="birthdate" className="form-control" id="birthdate"
+                  value={this.state.birthdate} onChange={this.onChange} />
+              </div>
+              <button type="submit" className="btn btn-outline-success">S'inscrire</button>
+            </form>
+            <p className="float-right mb-0">Vous avez déjà un compte ? </p><Link to="/connexion" className="float-right btn btn-link">Cliquez ici pour vous connecter</Link>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Mot de passe</label>
-            <input type="password" name="password" className="form-control" id="password"
-              value={this.state.password} onChange={this.onChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Adresse mail</label>
-            <input type="email" name="email" className="form-control" id="email"
-              value={this.state.email} onChange={this.onChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="firstName">Prénom</label>
-            <input type="text" name="firstName" className="form-control" id="firstName"
-              value={this.state.firstName} onChange={this.onChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Nom</label>
-            <input type="text" name="lastName" className="form-control" id="lastName"
-              value={this.state.lastName} onChange={this.onChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="birthdate">Date de naissance</label>
-            <input type="date" name="birthdate" className="form-control" id="birthdate"
-              value={this.state.birthdate} onChange={this.onChange} />
-          </div>
-          <button type="submit" className="btn btn-primary">S'inscrire</button>
-        </form>
-        <Link to="/connexion" className="btn btn-secondary mt-2">Se connecter</Link>
+        </div >
       </div>
     )
   }
 }
+
+Register.contextTypes = {
+  apiurl: PropTypes.string,
+};
+//<Link to="/connexion" className="btn btn-secondary mt-2">Se connecter</Link>
 
 export default Register

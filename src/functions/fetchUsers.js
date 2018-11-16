@@ -32,7 +32,7 @@ export const fetchUsers = (searchTerm, token, callback) => {
 
 export const filterTraining = (searchTerm, token, allTrainings, callback) => {
     var filterTrainings;
-            if (searchTerm == ''){
+            if (searchTerm === ''){
                 getTrainingListByToken(token, (data) => {
                     callback(data);
                 })

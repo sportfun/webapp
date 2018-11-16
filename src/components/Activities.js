@@ -36,7 +36,8 @@ class Activities extends React.Component {
                                 <div className="card-block align">
                                     <img className="card-img-top rounded-circle wp-100 hp-100 my-3 mx-5 d-block" src="/ressources/jeu1.jpg" alt="Card" />
                                     <div className="">
-                                        type d'effort : {elem.type} <br />
+                                        type d'effort : 
+                                        {elem.type} <br />
                                         le {date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear()}<br />
 
                                         pendant {elem.timeSpent} minute(s)<br />

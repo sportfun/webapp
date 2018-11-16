@@ -9,6 +9,22 @@ class SidebarLeft extends React.Component {
         }
     }
 
+    shouldRender() {
+        if (window.location.pathname === '/') {
+            this.setState({ display: false })
+        } else {
+            this.setState({ display: true })
+        }
+    }
+
+    componentWillMount() {
+        this.shouldRender();
+    }
+
+    componentWillReceiveProps() {
+        this.shouldRender();
+    }
+
     render() {
         if (this.state.display) {
             return (
@@ -26,15 +42,12 @@ class SidebarLeft extends React.Component {
                             <li><Link to='/'>Mon compte</Link></li>
                         </ul>
                     </nav>
-
                     <div id="content">
                     </div>
                 </div>
             )
-        }
-        else {
-            return (null);
-        }
+        } else
+            return null;
     }
 }
 

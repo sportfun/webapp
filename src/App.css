@@ -1,15 +1,10 @@
-#root {
-  position: fixed;
-  height: 100%;
+.login-page {
   width: 100%;
-  overflow: auto;
+  height: 100%;
+  background-image: linear-gradient(-20deg, #d04833, #f2e67f);
 }
 
-body {
-  font-family: 'Work Sans', sans-serif;
-  background-color : #EAEBEE;
-  margin: 0px;
-}
+/* TO MOVE */
 
 a {
   text-decoration: none;
@@ -47,6 +42,10 @@ a:hover {
 
 }
 
+.form-check-label{
+
+}
+
 /* style Header.js - navbar*/
 
 .logo_header {
@@ -55,15 +54,15 @@ a:hover {
 }
 
 .btn-outline-success {
-  color: #EF8650;
-  background-color: transparent;
-  background-image: none;
+  color: #fff;
+  background-color: #EF8650;
   border-color: #EF8650;
 }
 
 .btn-outline-success:hover {
-  color: #fff;
-  background-color: #EF8650;
+  color: #EF8650;
+  background-color: #fff;
+  background-image: none;
   border-color: #EF8650;
 }
 

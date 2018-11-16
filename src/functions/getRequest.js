@@ -29,17 +29,12 @@ export const storeInfoUser = (token, callback) => {
         headers: { "token": token }
     })
         .then(response => {
-            localStorage.setItem('firstName', response.data.data.firstName);
             localStorage.setItem('id', response.data.data._id);
-            localStorage.setItem('lastName', response.data.data.lastName);
             localStorage.setItem('username', response.data.data.username);
-            localStorage.setItem('bio', response.data.data.bio);
-            localStorage.setItem('profilePic', response.data.data.profilePic);
-            localStorage.setItem('coverPic', response.data.data.coverPic);
             callback();
         })
         .catch((error) => {
-            console.log(error.response)
+            console.log("Error in storeInfoUser" + error.response)
         })
 };
 

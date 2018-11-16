@@ -100,8 +100,9 @@ class ClientList extends Component {
     }
 
     render() {
-
-        if (this.state.trainings.length !== 0) {
+        if (!this.state.trainings)
+            return null;
+        if (this.state.clients && this.state.trainings.length !== 0) {
             var listTrainings =
                 this.state.trainings.map((elem, index) => {
                     return (
@@ -123,7 +124,7 @@ class ClientList extends Component {
                     })
                     */
 
-        if (this.state.clients.length !== 0) {
+        if (this.state.clients && this.state.clients.length !== 0) {
 
             var listClients =
                 this.state.clients.map((elem, index) => {
@@ -138,17 +139,17 @@ class ClientList extends Component {
 
                     if (tutu) {
                         console.log(tutu)
-                    if (tutu.length !== 0) {
-                        var list =
-                            tutu.map((elem, index) => {
-                                return (
-                                    <li class="list-group-item">
-                                        {elem}
-                                    </li>
-                                );
-                            });
+                        if (tutu.length !== 0) {
+                            var list =
+                                tutu.map((elem, index) => {
+                                    return (
+                                        <li class="list-group-item">
+                                            {elem}
+                                        </li>
+                                    );
+                                });
+                        }
                     }
-                }
 
                     /*
                     var test =

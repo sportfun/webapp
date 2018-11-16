@@ -29,13 +29,16 @@ class AdministrationAccount extends React.Component {
       this.refs["biography"].value,
       this.refs["goal"].value
     ];
+    if (this.refs["password"].value !== this.refs["password_conf"].value) {
+      alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
+    }
     editUserInfo(this.context.token, infos, () => {
       window.location.reload();
     })
   }
 
   render() {
-    if(!this.state.loading){return null}
+    if (!this.state.loading) { return null }
 
     let coords = { x1: 0, y1: 0, x2: 550, y2: 0 };
 
@@ -74,6 +77,14 @@ class AdministrationAccount extends React.Component {
                 <label htmlFor="password" className="col-sm-4 col-form-label">Mot de passe</label>
                 <div className="col-sm-8">
                   <input type="password" className="form-control" ref="password" id="password" placeholder="●●●●●●"></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+
+              <div className="row my-1">
+                <label htmlFor="password" className="col-sm-4 col-form-label">Confirmation mot de passe</label>
+                <div className="col-sm-8">
+                  <input type="password" className="form-control" ref="password_conf" id="password_conf" placeholder="●●●●●●"></input>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>

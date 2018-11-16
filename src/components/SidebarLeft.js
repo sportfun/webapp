@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { getInfoUser } from '../functions/getRequest';
-
-
+import CoverDefault from '../assets/img/cover_default.jpg'
+import ProfileDefault from '../assets/img/user_default.jpg'
 
 class SidebarLeft extends React.Component {
     constructor(props) {
@@ -26,10 +26,18 @@ class SidebarLeft extends React.Component {
 
                 <div id="ProfileCard" className="card mb-4">
                     <div className="card-header">
-                        <Link to={`/profile/${username}`}><img className="cover-photo" alt="cover_photo_sidebar" src={this.context.apiurl + "/static/cover_default.jpg"} /></Link>
+                        <Link to={`/profile/${username}`}>
+                        
+                        <img className="cover-photo" alt="cover_photo_sidebar" src={CoverDefault} />
+
+                        </Link>
                     </div>
                     <div className="card-footer text-center">
-                        <Link to={`/profile/${username}`}><img className="rounded-avatar" alt="avatar" src={this.context.apiurl + localStorage.getItem('profilePic')} /></Link>
+                        <Link to={`/profile/${username}`}>
+                        
+                        <img className="rounded-avatar" alt="avatar" src={ProfileDefault} />
+                        
+                        </Link>
                         <Link to={`/profile/${username}`}><div className="mb-3"> {this.state.user.firstName} {this.state.user.lastName}</div></Link>
                         <div className="mb-3">{this.state.user.bio} </div>
                         <div className="mb-3"> Salle de sport LifestyleSport </div>
@@ -69,6 +77,11 @@ class SidebarLeft extends React.Component {
         )
     }
 }
+
+//                        <img className="rounded-avatar" alt="avatar" src={this.context.apiurl + localStorage.getItem('profilePic')} />
+
+//                        <img className="cover-photo" alt="cover_photo_sidebar" src={this.context.apiurl + "/static/cover_default.jpg"} />
+
 
 SidebarLeft.contextTypes = {
     apiurl: PropTypes.string,

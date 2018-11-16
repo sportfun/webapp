@@ -57,13 +57,13 @@ class Feed extends React.Component {
     return (
       <div className="container">
         <h3>Fil d'actualité</h3>
-        <form className="m-2" onSubmit={this.handleStatusSubmit}>
+        <form className="mb-4" onSubmit={this.handleStatusSubmit}>
           <div className="form-group">
             <label htmlFor="exampleFormControlTextarea1">Publier sur mon mur&nbsp;:</label>
             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={this.state.statusValue}
               onChange={this.handleStatusChange} />
           </div>
-          <input className="btn btn-primary" type="submit" value="Publier" />
+          <input className="btn btn-outline-success d-block ml-auto" type="submit" value="Publier" />
         </form>
         <ul className="list-group">
           {this.state.posts.slice(0).reverse().map((post, i) => <FeedItem key={i} post={post} />)}
@@ -174,7 +174,7 @@ class FeedItem extends React.Component {
                                                                               ' personnes aiment cette publication'
             : '1 personne aime cette publication' : 'Personne n\'a aimé cette publication'}</small>
         </p>
-        <button className="btn btn-primary" onClick={this.like}
+        <button className="btn btn-outline-success mb-2 btn-sm" onClick={this.like}
           disabled={this.state.buttonLikeDisabled}>{this.state.iLiked ? '👎 Je n\'aime plus' : '👍 J\'aime'}</button>
         <div className="comments">{this.state.comments.map((comment, i) => {
           return (
@@ -197,7 +197,7 @@ class FeedItem extends React.Component {
               value={this.state.commentValue}
               onChange={this.handleCommentChange} />
           </div>
-          <input className="btn btn-primary" type="submit" value="Envoyer" />
+          <input className="btn btn-outline-success d-block ml-auto" type="submit" value="Envoyer" />
         </form>
       </li>
     )

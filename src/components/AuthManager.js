@@ -1,10 +1,15 @@
 import ApiManager from './ApiManager'
 import StorageManager from './StorageManager'
-import { getInfoUser } from '../functions/getRequest'
 
 class AuthManager {
   static tokenKey = 'token'
   static ranks = ['user', 'coach', 'authenticated', 'any', 'anonymous']
+
+  static authenticate(username, password, stayLoggedIn) {
+    return ApiManager.login(username, password, stayLoggedIn).then(token => {
+      StorageManager.setItem(AuthManager.tokenKey, token, stayLoggedIn)
+    })
+  }
 
   static isAuthenticated() {
     return !!StorageManager.getItem(AuthManager.tokenKey)
@@ -28,11 +33,6 @@ class AuthManager {
     return false
   }
 
-  static authenticate(username, password, stayLoggedIn) {
-    return ApiManager.login(username, password, stayLoggedIn).then(token => {
-      StorageManager.setItem(AuthManager.tokenKey, token, stayLoggedIn)
-    })
-  }
 
   static getRank() {
     // TODO Récupérer le rang de l'utilisateur

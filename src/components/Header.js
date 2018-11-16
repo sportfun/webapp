@@ -9,7 +9,8 @@ class Header extends Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      username: '',
     }
   }
 
@@ -27,7 +28,7 @@ class Header extends Component {
     let username = localStorage.getItem('username');
 
     return (
-      <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark" >
+      <nav className="navbar navbar-expand-md navbar-dark bg-dark" >
         <Link to='/'><img className="logo_header" src={this.context.apiurl + "/static/logo_sportsfun.png"} alt="logo" /></Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -38,7 +39,7 @@ class Header extends Component {
               <Link to='/' className="nav-link">Accueil<span className="sr-only">(current)</span></Link>
             </li>
             <li className="nav-item">
-              <Link to={`/profile/${username}`} className="nav-link">Profil</Link>
+              <Link to={`/profile/${username}`}  test="test" className="nav-link">Profil</Link>
             </li>
             <li className="nav-item">
               <Link to={`/statistics/${username}`} className="nav-link">Statistiques</Link>
