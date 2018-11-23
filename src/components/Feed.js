@@ -165,7 +165,7 @@ class FeedItem extends React.Component {
         </div>
         <div className="d-flex w-100 align-items-center mb-3">
           <img className="rounded-circle align-self-center mr-2" src={this.props.post.author.profilePic}
-            alt="Photo de profil"
+            alt="profil"
             style={{ maxWidth: '2rem' }} />
           <small>Publié par {this.props.post.author.firstName} {this.props.post.author.lastName}</small>
         </div>
@@ -182,7 +182,7 @@ class FeedItem extends React.Component {
               <p>{comment.content}</p>
               <div className="d-flex w-100 align-items-center">
                 <img className="rounded-circle align-self-center mr-2" src={comment.author.profilePic}
-                  alt="Photo de profil"
+                  alt="profil"
                   style={{ maxWidth: '2rem' }} />
                 <small>Publié par {comment.author.firstName} {comment.author.lastName} <Moment locale="fr"
                   date={comment.createdAt} fromNow /></small>

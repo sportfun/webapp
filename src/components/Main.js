@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Switch } from 'react-router-dom'
 // User import
 import Statistics from './Statistics'
@@ -17,50 +16,42 @@ import ClientList from './Coach/ClientList'
 import CoachProfile from './Coach/Profile'
 //
 import Activities from './Activities';
-import { getInfoUser, storeInfoUser } from '../functions/getRequest'
 import CreateTraining from './Coach/CreateTraining';
 import EditTraining from './Coach/EditTraining';
 import TrainingList from './Coach/TrainingList';
 import AuthManager from './AuthManager'
 import Feed from './Feed'
 import Followings from './Followings'
-
+// import Messages from './Messages'
 // local import
 import PrivateRoute from './PrivateRoute'
 
-// The Main component renders one of the three provided
-// Routes (provided that one matches). Both the /roster
-// and /schedule routes will match any pathname that starts
-// with /roster or /schedule. The / route will only match
-// when the pathname is exactly the string "/"
 class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false,
-      token: AuthManager.getToken(),
+      loading: true,
       isCoach: false
     }
   }
 
   componentWillMount() {
-    getInfoUser(this.state.token, (data) => {
-      storeInfoUser(this.state.token);
-      if (data.roles[0] === "coach") {
-        this.setState({ isCoach: true });
-      }
-      this.setState({ loading: true });
-    });
+    this.checkRole()
   }
 
-  shouldComponentUpdate() {
-    return (true);
+  checkRole() {
+    AuthManager.isCoach()
+      .then(isCoach => {
+        this.setState({
+          isCoach: isCoach,
+          loading: false,
+        })
+      })
   }
 
   render() {
-    if (!this.state.loading) { return null }
+    if (this.state.loading) { return null }
     if (!this.state.isCoach) {
-
       return (
         <div className="wrapper-app">
           <Header />
@@ -80,6 +71,7 @@ class Main extends React.Component {
                     <PrivateRoute requiredRank="authenticated" path='/coach' component={Coach} />
                     <PrivateRoute requiredRank="authenticated" path='/coachadministration' component={CoachAdmin} />
                     <PrivateRoute requiredRank="authenticated" path='/abonnements' component={Followings} />
+                    {/* <PrivateRoute requiredRank="authenticated" path='/messages' component={Messages} /> */}
                   </Switch>
                 </div>
               </div>
@@ -115,11 +107,6 @@ class Main extends React.Component {
     }
   }
 }
-
-Main.contextTypes = {
-  token: PropTypes.string,
-  isCoach: PropTypes.bool
-};
 
 export default Main
 

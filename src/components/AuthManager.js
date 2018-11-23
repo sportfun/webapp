@@ -33,6 +33,12 @@ class AuthManager {
     return false
   }
 
+  static isCoach() {
+    return ApiManager.getInfoUser()
+      .then((user) => {
+        return user.roles[0] === 'coach' ? true : false
+      })
+  }
 
   static getRank() {
     // TODO Récupérer le rang de l'utilisateur

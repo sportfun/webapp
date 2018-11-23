@@ -16,8 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCoach: false,
-      token: String
+      isCoach: false
     }
   }
 

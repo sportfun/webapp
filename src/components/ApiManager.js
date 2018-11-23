@@ -270,6 +270,67 @@ class ApiManager {
       .then(response => response.data.data.friends)
       .catch(ApiManager.errorHandler)
   }
+
+  // My Request
+
+  static getInfoUser() {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user`,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getUsersByPattern(pattern) {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/p/` + pattern,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getTrainingList() {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/training`,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
 }
+
 
 export default ApiManager

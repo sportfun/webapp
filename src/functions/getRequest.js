@@ -8,9 +8,21 @@ export const getInfoUser = (token, callback) => {
             callback(response.data.data);
         })
         .catch((error) => {
-            console.log("error", error);
+            console.log(error)
         })
 };
+
+export const getUsersByPattern = (pattern, token, callback) => {
+    axios.get('http://149.202.41.22:8080/api/user/p/' + pattern, {
+        headers: { "token": token }
+    })
+        .then(function (response) {
+            callback(response.data.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
 
 export const getActivityUser = (token, callback) => {
     axios.get("http://149.202.41.22:8080/api/activity", {
@@ -20,21 +32,7 @@ export const getActivityUser = (token, callback) => {
             callback(response.data.data);
         })
         .catch((error) => {
-            console.log("error", error);
-        })
-};
-
-export const storeInfoUser = (token, callback) => {
-    axios.get("http://149.202.41.22:8080/api/user", {
-        headers: { "token": token }
-    })
-        .then(response => {
-            localStorage.setItem('id', response.data.data._id);
-            localStorage.setItem('username', response.data.data.username);
-            callback();
-        })
-        .catch((error) => {
-            console.log("Error in storeInfoUser" + error.response)
+            console.log(error);
         })
 };
 
@@ -79,19 +77,6 @@ export const getFriends = (token, callback) => {
         });
 }
 
-export const getTrainingListByToken = (token, callback) => {
-    //return - si promise
-    axios.get('http://149.202.41.22:8080/api/training', {
-        headers: { "token": token }
-    })
-        .then(function (response) {
-            callback(response.data.data);
-        })
-        .catch(function (error) {
-            console.log("error e :" + error);
-        })
-}
-
 export const getTrainingById = (token, id, callback) => {
     axios.get('http://149.202.41.22:8080/api/training/' + id, {
         headers: { "token": token }
@@ -101,7 +86,7 @@ export const getTrainingById = (token, id, callback) => {
             callback(response.data.data);
         })
         .catch(function (error) {
-            console.log("error e :" + error);
+            console.log(error);
         })
 }
 
@@ -118,6 +103,6 @@ export const getAssignTrainings = (token, id, callback) => {
             }
         })
         .catch(function (error) {
-            console.log("error e :" + error);
+            console.log(error);
         })
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { fetchUsers } from '../functions/fetchUsers'
+//import { getUsersByPattern } from '../functions/getRequest'
+import ApiManager from './ApiManager'
 import PropTypes from 'prop-types'
 
 
@@ -9,32 +10,36 @@ class Users extends React.Component {
     super(props)
     this.state = {
       users: [],
-      searchTerm: "",
+      pattern: "",
       loading: false,
     }
   }
 
   componentWillMount() {
-    this.setState({searchTerm: this.props.location.state.searchTerm});
-    fetchUsers(this.props.location.state.searchTerm, this.context.token, (data) => {
-      this.setState({ users: data });
-      this.setState({ loading: true });
-    });
+    ApiManager.getUsersByPattern(this.props.location.state.pattern)
+      .then(users => {
+        this.setState({
+          users: users,
+          loading: false,
+        })
+      })
   }
 
   componentWillReceiveProps(nextProps) {
-   //if (nextProps.location.state.searchTerm !== this.state.searchTerm)
-    //{
-      fetchUsers(nextProps.location.state.searchTerm, this.context.token, (data) => {
-        this.setState({searchTerm: nextProps.location.state.searchTerm});
-        this.setState({users: data});
-      });
-    //}
+    this.setState({ users: []})
+    ApiManager.getUsersByPattern(nextProps.location.state.pattern)
+    .then(users => {
+      this.setState({
+        users: users,
+        pattern: nextProps.location.state.pattern,
+      })
+    })
   }
 
 
   render() {
-    if(!this.state.loading){return null}
+    console.log(this.state.users.length)
+    if(this.state.loading){return null}
 
     if (this.state.users.length !== 0) {
     

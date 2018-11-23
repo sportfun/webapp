@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { getTrainingListByToken } from '../../functions/getRequest';
 import { filterTraining } from '../../functions/fetchUsers';
 import { deleteTraining } from '../../functions/putRequest';
+import ApiManager from '../ApiManager'
 
 class TrainingList extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class TrainingList extends React.Component {
     }
 
     componentWillMount() {
-        getTrainingListByToken(this.context.token, (data) => {
+        ApiManager.getTrainingList().then((data) => {
             this.setState({ trainings: data });
             this.setState({ loading: true });
         })

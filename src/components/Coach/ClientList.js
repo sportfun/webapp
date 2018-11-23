@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-import { getAssignTrainings, getTrainingListByToken } from '../../functions/getRequest';
 import { assignTraining } from '../../functions/putRequest';
+import ApiManager from '../ApiManager'
 
 class ClientList extends Component {
     constructor(props) {
@@ -17,41 +16,41 @@ class ClientList extends Component {
     }
 
     componentWillMount() {
-        getTrainingListByToken(this.context.token, (data) => {
+        ApiManager.getTrainingList().then((data) => {
+            console.log(data)
             this.setState({ trainings: data });
             this.setState({ loading: true });
         })
-        /* Promise
-        getTrainingListByToken(this.context.token).then((data) => {
-            this.setState({ trainings: data });
-            this.setState({ loading: true });
-        })
-        */
-        const clients = [
-            {
-                "id": "5a8d68dde8db887e4d35350b",
-                "username": "test1",
-                "email": "test1@test.com",
-                "firstName": "Test",
-                "lastName": "One",
-            },
-            {
-                "id": "5a8d68f3e8db887e4d35350c",
-                "username": "test2",
-                "email": "test2@test.com",
-                "firstName": "Test",
-                "lastName": "Two",
-            },
-            {
-                "id": "5a8d75b0e8db887e4d353515",
-                "username": "test5",
-                "email": "test5@test.com",
-                "firstName": "test",
-                "lastName": "cinq",
-            },
-        ]
 
-        this.setState({ clients: clients });
+        // getTrainingListByToken(this.context.token, (data) => {
+        //     this.setState({ trainings: data });
+        //     this.setState({ loading: true });
+        // })
+        // const clients = [
+        //     {
+        //         "id": "5a8d68dde8db887e4d35350b",
+        //         "username": "test1",
+        //         "email": "test1@test.com",
+        //         "firstName": "Test",
+        //         "lastName": "One",
+        //     },
+        //     {
+        //         "id": "5a8d68f3e8db887e4d35350c",
+        //         "username": "test2",
+        //         "email": "test2@test.com",
+        //         "firstName": "Test",
+        //         "lastName": "Two",
+        //     },
+        //     {
+        //         "id": "5a8d75b0e8db887e4d353515",
+        //         "username": "test5",
+        //         "email": "test5@test.com",
+        //         "firstName": "test",
+        //         "lastName": "cinq",
+        //     },
+        // ]
+
+        //this.setState({ clients: clients });
 
         /*
                 this.clientTrainings = []
@@ -67,9 +66,9 @@ class ClientList extends Component {
                 */
         this.clientTrainings = []
         const promises = []
-        clients.forEach(elem => {
-            promises.push(getAssignTrainings(this.state.token, elem.id))
-        })
+        // clients.forEach(elem => {
+        //     promises.push(getAssignTrainings(this.state.token, elem.id))
+        // })
 
         Promise.all(promises).then(data => {
             console.log(data);
