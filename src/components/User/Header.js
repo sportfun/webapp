@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import history from '../functions/history'
+import history from '../../functions/history'
 import PropTypes from 'prop-types'
-import AuthManager from './AuthManager'
+import AuthManager from '../AuthManager'
 
-import logo from '../assets/img/logo.png'
+import logo from '../../assets/img/logo.png'
 
 class Header extends Component {
   constructor(props) {

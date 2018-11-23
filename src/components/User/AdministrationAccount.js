@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getInfoUser } from '../functions/getRequest';
-import { editUserInfo } from '../functions/putRequest';
+import { getInfoUser } from '../../functions/getRequest';
+import { editUserInfo } from '../../functions/putRequest';
 
 class AdministrationAccount extends React.Component {
   constructor(props) {
@@ -121,13 +121,3 @@ AdministrationAccount.contextTypes = {
 };
 
 export default AdministrationAccount
-
-/*
-              <div className="row my-1">
-                <label htmlFor="sportsHall" className="col-sm-4 col-form-label">Salle de sport</label>
-                <div className="col-sm-8">
-                  <input type="text" className="form-control" id="sportsHall" placeholder="LifestyleSport"></input>
-                </div>
-              </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
-*/

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getActivityUser } from '../functions/getRequest'
+import { getActivityUser } from '../../functions/getRequest'
 
 class Activities extends React.Component {
     constructor(props) {

@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { getUserByUsername } from '../../functions/getRequest';
 import { editUserInfo } from '../../functions/putRequest';
 
-class CoachAdmin extends React.Component {
+class Administration extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -77,10 +76,4 @@ class CoachAdmin extends React.Component {
     }
 }
 
-CoachAdmin.contextTypes = {
-    apiurl: PropTypes.string,
-    token: PropTypes.string,
-    getUserInfo: PropTypes.func
-};
-
-export default CoachAdmin;
+export default Administration;

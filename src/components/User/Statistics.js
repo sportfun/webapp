@@ -1,7 +1,7 @@
 import React from 'react'
-import ProgressBar from './ui/progressBar'
+import ProgressBar from '../ui/progressBar'
 import PropTypes from 'prop-types'
-import { getActivityUser, getInfoUser } from '../functions/getRequest'
+import { getActivityUser, getInfoUser } from '../../functions/getRequest'
 
 class Statistics extends React.Component {
     constructor(props) {

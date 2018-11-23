@@ -1,17 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { getInfoUser } from '../functions/getRequest';
-import CoverDefault from '../assets/img/cover_default.jpg'
-import ProfileDefault from '../assets/img/user_default.jpg'
+import { getInfoUser } from '../../functions/getRequest';
+import CoverDefault from '../../assets/img/cover_default.jpg'
+import ProfileDefault from '../../assets/img/user_default.jpg'
 
 // Image
-import today from '../assets/img/today.png'
-import stats from '../assets/img/stats.png'
-import settings from '../assets/img/settings.png'
-import messages from '../assets/img/messages.png'
-import activities from '../assets/img/activities.png'
-import friends from '../assets/img/friends.png'
+import today from '../../assets/img/today.png'
+import stats from '../../assets/img/stats.png'
+import settings from '../../assets/img/settings.png'
+import messages from '../../assets/img/messages.png'
+import activities from '../../assets/img/activities.png'
+import friends from '../../assets/img/friends.png'
 
 class SidebarLeft extends React.Component {
     constructor(props) {

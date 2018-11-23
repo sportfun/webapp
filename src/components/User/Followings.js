@@ -1,5 +1,5 @@
 import React from 'react'
-import ApiManager from './ApiManager'
+import ApiManager from '../ApiManager'
 import { Link } from 'react-router-dom'
 
 class Followings extends React.Component {

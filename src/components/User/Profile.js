@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getUserByUsername } from '../functions/getRequest'
-import ApiManager from './ApiManager'
+import { getUserByUsername } from '../../functions/getRequest'
+import ApiManager from '../ApiManager'
 
 class Profile extends React.Component {
   constructor(props) {

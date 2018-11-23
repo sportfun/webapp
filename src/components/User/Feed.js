@@ -1,5 +1,5 @@
 import React from 'react'
-import ApiManager from './ApiManager'
+import ApiManager from '../ApiManager'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import 'moment/locale/fr'

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-//import { getUsersByPattern } from '../functions/getRequest'
-import ApiManager from './ApiManager'
+import ApiManager from '../ApiManager'
 import PropTypes from 'prop-types'
+import profilepic from '../../assets/img/user.png'
 
 
 class Users extends React.Component {
@@ -47,7 +47,7 @@ class Users extends React.Component {
         return (
           <Link to={`/profile/${elem.username}`} key={elem._id}>
             <li className="item-user p-sm-3" >
-              <img className="rounded-avatar" alt='profilePicture-item' src={this.context.apiurl + elem.profilePic} />
+              <img className="rounded-avatar" alt='profilePicture-item' src={profilepic} />
               <div className="info-item-user">
                 {elem.firstName} {elem.lastName}
               </div>
