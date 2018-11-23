@@ -4,8 +4,28 @@ services:
   sportsfun-webapp:
     build: .
     container_name: sportsfun-webapp
+    networks:
+      - traefik
     labels:
       - traefik.backend=sportsfun-webapp
       - traefik.frontend.rule=Host:sportsfun.shr.ovh,www.sportsfun.shr.ovh
       - traefik.docker.network=traefik
-      - traefik.port=80
+      - traefik.port=3000
+  traefik:
+    image: traefik
+    command: --api --docker
+    container_name: traefik
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+      - 443:443
+      - 8081:8080
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external:
+      name: traefik
