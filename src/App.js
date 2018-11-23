@@ -22,7 +22,7 @@ class App extends Component {
 
   getChildContext() {
     return {
-      apiurl: "http://149.202.41.22:8080",
+      apiurl: "http://localhost:8080",
       token: AuthManager.getToken(),
     };
   }
