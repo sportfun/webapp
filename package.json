@@ -26,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+      "eject": "react-scripts eject",
+      "deploy": "docker-compose build && docker-compose down && docker-compose up -d sportsfun-webapp"
   },
   "devDependencies": {
     "jest": "^21.2.1"
