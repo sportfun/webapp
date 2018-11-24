@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import history from '../../functions/history'
-import PropTypes from 'prop-types'
 import AuthManager from '../AuthManager'
 
 import logo from '../../assets/img/logo.png'
+import ApiManager from '../ApiManager';
 
 class Header extends Component {
   constructor(props) {
@@ -14,6 +14,12 @@ class Header extends Component {
       pattern: '',
       username: '',
     }
+  }
+
+  componentWillMount() {
+    ApiManager.getInfoUser().then((user) => {
+      this.setState({ username: user.username })
+    })
   }
 
   handleSubmit(event) {
@@ -27,8 +33,6 @@ class Header extends Component {
   }
 
   render() {
-    let username = localStorage.getItem('username');
-
     return (
       <nav className="navbar navbar-expand-md navbar-dark bg-dark" >
         <Link to='/'><img className="logo_header" src={logo} alt="logo" /></Link>
@@ -41,13 +45,13 @@ class Header extends Component {
               <Link to='/' className="nav-link">Accueil<span className="sr-only">(current)</span></Link>
             </li>
             <li className="nav-item">
-              <Link to={`/profile/${username}`}  test="test" className="nav-link">Profil</Link>
+              <Link to={`/profile/${this.state.username}`}  test="test" className="nav-link">Profil</Link>
             </li>
             <li className="nav-item">
-              <Link to={`/statistics/${username}`} className="nav-link">Statistiques</Link>
+              <Link to={`/statistics/${this.state.username}`} className="nav-link">Statistiques</Link>
             </li>
             <li className="nav-item">
-              <Link to={`/administration/${username}`} className="nav-link">Mon compte</Link>
+              <Link to={`/administration/${this.state.username}`} className="nav-link">Mon compte</Link>
             </li>
             <li className="nav-item">
               <a href="/" className="nav-link" onClick={AuthManager.logout}>Se déconnecter</a>
@@ -62,9 +66,5 @@ class Header extends Component {
     )
   }
 }
-
-Header.contextTypes = {
-  apiurl: PropTypes.string,
-};
 
 export default Header

@@ -2,6 +2,7 @@ import React from 'react'
 import ProgressBar from '../ui/progressBar'
 import PropTypes from 'prop-types'
 import { getActivityUser, getInfoUser } from '../../functions/getRequest'
+import ApiManager from '../ApiManager'
 
 class Statistics extends React.Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
-        getInfoUser(this.context.token, (data) => {
+        ApiManager.getInfoUser(this.context.token, (data) => {
             this.setState({ goal: data.goal });
             getActivityUser(this.context.token, (data) => {
                 this.setState({ activities: data });

@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { getUserByUsername } from '../../functions/getRequest'
 import ApiManager from '../ApiManager'
+import profilepic from '../../assets/img/user_default.jpg'
+import coverpic from '../../assets/img/cover_default.jpg'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -16,17 +16,31 @@ class Profile extends React.Component {
 
   componentWillMount() {
     var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1)
-    getUserByUsername(this.context.token, username, (data) => {
-      this.setState({ user: data })
-      this.setState({ loading: true })
-      ApiManager.getUser().then(user => {
-        if (user._id === data._id) {
+    this.getProfile(username)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      loading: false,
+      followButtonDisabled: false,
+      iFollowThisUser: false
+    }, () => {
+      var username = nextProps.location.pathname.substr(nextProps.location.pathname.lastIndexOf('/') + 1)
+      this.getProfile(username)
+    })
+  }
+
+  getProfile(username) {
+    ApiManager.getUser(username).then(user => {
+      this.setState({ user: user })
+      ApiManager.getUser().then(self => {
+        if (user._id === self._id) {
           this.setState({
             followButtonDisabled: true,
           })
           return
         }
-        if (user.links.includes(data._id)) {
+        if (self.links.includes(user._id)) {
           this.setState({
             iFollowThisUser: true,
           })
@@ -51,34 +65,38 @@ class Profile extends React.Component {
   }
 
   render() {
-    if (!this.state.loading) {
-      return null
-    }
-    return (
-      <div id="ProfilePage" className="card mb-4">
-        <div className="card">
-          <img className="cover-photo" alt="coverPicture" src={this.context.apiurl + this.state.user.coverPic} />
-          <img className="rounded-avatar" alt="avatar" src={this.context.apiurl + this.state.user.profilePic} />
-          <div className="info-user p-sm-3">
-            <p>{this.state.user.firstName} {this.state.user.lastName}<br />
-              @{this.state.user.username}<br /><br />
-              {this.state.user.bio}<br />
-            </p>
-            <p>{this.state.user.links.length > 0 ? this.state.user.links.length > 1
-              ? `${this.state.user.links.length} abonnés` : '1 bonné' : 'Aucun abonné'}</p>
-            <button className="btn btn-success" onClick={this.follow}
-              disabled={this.state.followButtonDisabled}>{this.state.iFollowThisUser ? 'Se désabonner'
-              : 'S\'abonner'}</button>
+    if (!!this.state.user.username) {
+      return (
+        <div id="ProfilePage" className="card mb-4">
+          <div className="card">
+            <img className="cover-photo" alt="coverPicture" src={coverpic} />
+            <img className="rounded-avatar" alt="avatar" src={profilepic} />
+            <div className="info-user p-sm-3">
+              <p>{this.state.user.firstName} {this.state.user.lastName}<br />
+                @{this.state.user.username}<br /><br />
+                {this.state.user.bio}<br />
+              </p>
+              {!!this.state.user.links &&
+                <p>{this.state.user.links.length > 0 ? this.state.user.links.length > 1
+                  ? `${this.state.user.links.length} abonnements` : '1 abonnement' : 'Aucun abonnement'}</p>
+              }
+              <button className="btn btn-success" onClick={this.follow}
+                disabled={this.state.followButtonDisabled}>{this.state.iFollowThisUser ? 'Se désabonner'
+                  : 'S\'abonner'}</button>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div id="ProfilePage" className="card mb-4">
+          <div className="card p-3">
+            La page de profil n'est pas disponible pour le moment, veuillez réessayer ultérieurement
+          </div>
+        </div>
+      )
+    }
   }
-}
-
-Profile.contextTypes = {
-  token: PropTypes.string,
-  apiurl: PropTypes.string,
 }
 
 export default Profile

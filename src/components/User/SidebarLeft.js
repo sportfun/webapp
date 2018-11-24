@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { getInfoUser } from '../../functions/getRequest';
 import CoverDefault from '../../assets/img/cover_default.jpg'
 import ProfileDefault from '../../assets/img/user_default.jpg'
+import ApiManager from '../ApiManager'
 
 // Image
 import today from '../../assets/img/today.png'
@@ -22,7 +22,7 @@ class SidebarLeft extends React.Component {
     }
 
     componentDidMount() {
-        getInfoUser(this.context.token, (data) => {
+        ApiManager.getInfoUser(this.context.token, (data) => {
             this.setState({ user: data });
         });
     }

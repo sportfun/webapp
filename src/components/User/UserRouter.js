@@ -5,7 +5,7 @@ import Statistics from './Statistics'
 import ListUsers from './Users'
 import Profile from './Profile'
 import SidebarLeft from './SidebarLeft'
-import Header from './Header'
+import Topbar from './Topbar'
 import AdministrationAccount from './AdministrationAccount'
 
 import Activities from './Activities';
@@ -16,7 +16,7 @@ class UserRouter extends React.Component {
     render() {
         return (
             <div className="wrapper-app">
-            <Header />
+            <Topbar />
             <div id="page-container" className="container pb-5 py-5">
               <div className="row">
                 <SidebarLeft state="test" />

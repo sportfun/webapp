@@ -1,17 +1,5 @@
 import axios from 'axios'
 
-export const getInfoUser = (token, callback) => {
-    axios.get("http://149.202.41.22:8080/api/user", {
-        headers: { "token": token }
-    })
-        .then(response => {
-            callback(response.data.data);
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-};
-
 export const getUsersByPattern = (pattern, token, callback) => {
     axios.get('http://149.202.41.22:8080/api/user/p/' + pattern, {
         headers: { "token": token }

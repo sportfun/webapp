@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getInfoUser } from '../../functions/getRequest';
 import { editUserInfo } from '../../functions/putRequest';
+import ApiManager from '../ApiManager'
 
 class AdministrationAccount extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class AdministrationAccount extends React.Component {
   }
 
   componentWillMount() {
-    getInfoUser(this.context.token, (data) => {
+    ApiManager.getInfoUser((data) => {
       this.setState({ user: data });
       this.setState({ loading: true });
     });

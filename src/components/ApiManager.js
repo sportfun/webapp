@@ -56,7 +56,7 @@ class ApiManager {
         url.format({
           ...ApiManager.urlObj,
           ...{
-            pathname: `'/api/user/q/${username}'`,
+            pathname: '/api/user/q/' + username,
           },
         }),
         {
