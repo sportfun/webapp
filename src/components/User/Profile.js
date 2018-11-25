@@ -89,11 +89,7 @@ class Profile extends React.Component {
       )
     } else {
       return (
-        <div id="ProfilePage" className="card mb-4">
-          <div className="card p-3">
-            La page de profil n'est pas disponible pour le moment, veuillez réessayer ultérieurement
-          </div>
-        </div>
+        <p>Chargement…</p>
       )
     }
   }

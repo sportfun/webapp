@@ -22,31 +22,30 @@ class SidebarLeft extends React.Component {
     }
 
     componentDidMount() {
-        ApiManager.getInfoUser(this.context.token, (data) => {
-            this.setState({ user: data });
+        ApiManager.getUser().then((user) => {
+            this.setState({ user: user });
         });
     }
 
     render() {
-        let username = this.state.user.username;
         return (
             <div id="DashboardLeft" className="col-3">
 
                 <div id="ProfileCard" className="card mb-4">
                     <div className="card-header">
-                        <Link to={`/profile/${username}`}>
+                        <Link to={`/profile/` + this.state.user.username}>
                         
                         <img className="cover-photo" alt="cover_photo_sidebar" src={CoverDefault} />
 
                         </Link>
                     </div>
                     <div className="card-footer text-center">
-                        <Link to={`/profile/${username}`}>
+                        <Link to={`/profile/` + this.state.user.username}>
                         
                         <img className="rounded-avatar" alt="avatar" src={ProfileDefault} />
                         
                         </Link>
-                        <Link to={`/profile/${username}`}><div className="mb-3"> {this.state.user.firstName} {this.state.user.lastName}</div></Link>
+                        <Link to={`/profile/` + this.state.user.username}><div className="mb-3"> {this.state.user.firstName} {this.state.user.lastName}</div></Link>
                         <div className="mb-3">{this.state.user.bio} </div>
                         <div className="mb-3"> Salle de sport LifestyleSport </div>
                     </div>
@@ -59,10 +58,10 @@ class SidebarLeft extends React.Component {
                                 <span className="mr-3"><img className="MenuIcon" src={today} alt="today" /></span><Link to='/'>Aujourd'hui</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src={activities} alt="activity" /></span><Link to={`/activities/${username}`}>Journal d'activités</Link>
+                                <span className="mr-3"><img className="MenuIcon" src={activities} alt="activity" /></span><Link to={`/activities/` + this.state.user.username}>Journal d'activités</Link>
                             </li>
                             <li>
-                                <span className="mr-3"><img className="MenuIcon" src={stats} alt="statistics" /></span><Link to={`/statistics/${username}`}>Graphiques</Link>
+                                <span className="mr-3"><img className="MenuIcon" src={stats} alt="statistics" /></span><Link to={`/statistics/` + this.state.user.username}>Graphiques</Link>
                             </li>
                             <li>
                                 <span className="mr-3"><img className="MenuIcon" src={friends} alt="friends" /></span><Link to='/abonnements'>Abonnements</Link>
@@ -72,7 +71,7 @@ class SidebarLeft extends React.Component {
                             </li>
                             <li>
                                 <span className="mr-3"><img className="MenuIcon" src={settings} alt="settings" /></span>
-                                <Link to={`/administration/${username}`}>Mon compte</Link>
+                                <Link to={`/administration/` + this.state.user.username}>Mon compte</Link>
                             </li>
                         </ul>
                     </div>
