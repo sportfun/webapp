@@ -1,21 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { editUserInfo } from '../../functions/putRequest';
 import ApiManager from '../ApiManager'
+
+const orange = "#FF7F41"
 
 class AdministrationAccount extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       user: {},
-      loading: false,
+      loading: true,
     }
   }
 
   componentWillMount() {
-    ApiManager.getInfoUser((data) => {
-      this.setState({ user: data });
-      this.setState({ loading: true });
+    ApiManager.getUser().then((user) => {
+      this.setState({ user: user });
+      this.setState({ loading: false });
     });
   }
 
@@ -32,13 +32,17 @@ class AdministrationAccount extends React.Component {
     if (this.refs["password"].value !== this.refs["password_conf"].value) {
       alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
     }
-    editUserInfo(this.context.token, infos, () => {
+    ApiManager.editUser(infos)
+    .then(() => {
       window.location.reload();
+    })
+    .catch(() => {
+      alert("Erreur, veuillez réessayer ultérieurement")
     })
   }
 
   render() {
-    if (!this.state.loading) { return null }
+    if (this.state.loading) { return null }
 
     let coords = { x1: 0, y1: 0, x2: 550, y2: 0 };
 
@@ -55,7 +59,7 @@ class AdministrationAccount extends React.Component {
                   <input type="text" className="form-control" ref="firstName" id="firstName" placeholder={this.state.user.firstName}></input>
                 </div>
               </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
                 <label htmlFor="lastName" className="col-sm-4 col-form-label">Nom</label>
@@ -63,7 +67,7 @@ class AdministrationAccount extends React.Component {
                   <input type="text" className="form-control" ref="lastName" id="lastName" placeholder={this.state.user.lastName}></input>
                 </div>
               </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
                 <label htmlFor="email" className="col-sm-4 col-form-label">Mail</label>
@@ -71,7 +75,7 @@ class AdministrationAccount extends React.Component {
                   <input type="text" className="form-control" ref="email" id="email" placeholder={this.state.user.email}></input>
                 </div>
               </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
                 <label htmlFor="password" className="col-sm-4 col-form-label">Mot de passe</label>
@@ -79,7 +83,7 @@ class AdministrationAccount extends React.Component {
                   <input type="password" className="form-control" ref="password" id="password" placeholder="●●●●●●"></input>
                 </div>
               </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
                 <label htmlFor="password" className="col-sm-4 col-form-label">Confirmation mot de passe</label>
@@ -87,7 +91,7 @@ class AdministrationAccount extends React.Component {
                   <input type="password" className="form-control" ref="password_conf" id="password_conf" placeholder="●●●●●●"></input>
                 </div>
               </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
                 <label htmlFor="goal" className="col-sm-4 col-form-label">Objectif sportif (mn)</label>
@@ -95,7 +99,7 @@ class AdministrationAccount extends React.Component {
                   <input type="text" className="form-control" ref="goal" id="goal" placeholder={this.state.user.goal}></input>
                 </div>
               </div>
-              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={this.context.orangecolor} strokeWidth={2} /></svg>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
                 <label htmlFor="biography" className="col-sm-4 col-form-label">Biographie</label>
@@ -104,7 +108,7 @@ class AdministrationAccount extends React.Component {
                 </div>
               </div>
 
-              <button type="submit" className="btn btn-primary float-right mt-2">Submit</button>
+              <button type="submit" className="btn btn-outline-success float-right mt-2">Submit</button>
 
             </form>
           </div>
@@ -113,11 +117,5 @@ class AdministrationAccount extends React.Component {
     )
   }
 }
-
-AdministrationAccount.contextTypes = {
-  apiurl: PropTypes.string,
-  token: PropTypes.string,
-  orangecolor: PropTypes.string
-};
 
 export default AdministrationAccount

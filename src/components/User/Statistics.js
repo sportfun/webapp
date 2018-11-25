@@ -1,7 +1,5 @@
 import React from 'react'
 import ProgressBar from '../ui/progressBar'
-import PropTypes from 'prop-types'
-import { getActivityUser, getInfoUser } from '../../functions/getRequest'
 import ApiManager from '../ApiManager'
 
 class Statistics extends React.Component {
@@ -18,12 +16,12 @@ class Statistics extends React.Component {
     }
 
     componentWillMount() {
-        ApiManager.getInfoUser(this.context.token, (data) => {
+        ApiManager.getUser().then((data) => {
             this.setState({ goal: data.goal });
-            getActivityUser(this.context.token, (data) => {
-                this.setState({ activities: data });
+            ApiManager.getActivities().then((activities) => {
+                this.setState({ activities: activities });
                 this.calcProgress();
-            });
+            })
         })
     }
 
@@ -41,7 +39,7 @@ class Statistics extends React.Component {
             this.setState({ goalPercent: 100 });
         else {
             var percent = Math.round((sportTime * 100) / this.state.goal * 100) / 100;
-            this.setState({ goalPercent: percent });
+            !percent ? this.setState({ goalPercent: 0 }) : this.setState({ goalPercent: percent });
         }
         this.setState({ sportTime: sportTime });
         this.setState({ loading: true });
@@ -139,10 +137,5 @@ class Statistics extends React.Component {
         )
     }
 }
-
-Statistics.contextTypes = {
-    apiurl: PropTypes.string,
-    token: PropTypes.string,
-};
 
 export default Statistics

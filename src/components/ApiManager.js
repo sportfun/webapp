@@ -83,6 +83,33 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
+  static editUser(infos) {
+    return axios
+      .put(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user`,
+          },
+        }),
+        {
+          firstName: infos[0],
+          lastName: infos[1],
+          email: infos[2],
+          password: infos[3],
+          bio: infos[4],
+          goal: infos[5],
+        },
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
   static getUserById(userId) {
     axios.get(
       url.format({

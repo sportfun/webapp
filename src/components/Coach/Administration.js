@@ -1,6 +1,6 @@
 import React from 'react'
 import { getUserByUsername } from '../../functions/getRequest';
-import { editUserInfo } from '../../functions/putRequest';
+import ApiManager from '../ApiManager'
 
 class Administration extends React.Component {
     constructor(props) {
@@ -20,18 +20,21 @@ class Administration extends React.Component {
     submit = e => {
         e.preventDefault();
         var infos = [
-            this.refs["firstName"].value,
-            this.refs["lastName"].value,
-            this.refs["email"].value,
-            this.refs["password"].value,
-            this.refs["biography"].value,
-          ];
-          if (this.refs["password"].value !== this.refs["password_conf"].value){
-              alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
-          }
-          editUserInfo(this.context.token, infos, () => {
-            window.location.reload();
-          })
+          this.refs["firstName"].value,
+          this.refs["lastName"].value,
+          this.refs["email"].value,
+          this.refs["password"].value,
+          this.refs["biography"].value,
+          this.refs["goal"].value
+        ];
+        if (this.refs["password"].value !== this.refs["password_conf"].value) {
+          alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
+        }
+        ApiManager.editUser(infos).then(() => {
+          window.location.reload();
+        }).catch(
+          alert("Erreur, veuillez réessayer ultérieurement")
+        )
     }
 
     render() {
