@@ -12,6 +12,12 @@ import Main from './components/Main'
 import AuthManager from './components/AuthManager'
 import './App.css'
 
+import Alert from 'react-s-alert';
+ 
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -40,6 +46,7 @@ class App extends Component {
               </Switch>
             </div>
           </div>
+          <Alert stack={{limit: 3}} />
         </div>
       )
     }

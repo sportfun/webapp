@@ -1,7 +1,7 @@
 import React from 'react'
 import ApiManager from '../ApiManager'
-import profilepic from '../../assets/img/user_default.jpg'
 import coverpic from '../../assets/img/cover_default.jpg'
+import Avatar from '../Avatar'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class Profile extends React.Component {
         <div id="ProfilePage" className="card mb-4">
           <div className="card">
             <img className="cover-photo" alt="coverPicture" src={coverpic} />
-            <img className="rounded-avatar" alt="avatar" src={profilepic} />
+            <Avatar profilepic={this.state.user.profilePic} />
             <div className="info-user p-sm-3">
               <p>{this.state.user.firstName} {this.state.user.lastName}<br />
                 @{this.state.user.username}<br /><br />

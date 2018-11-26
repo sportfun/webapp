@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import CoverDefault from '../../assets/img/cover_default.jpg'
-import ProfileDefault from '../../assets/img/user_default.jpg'
 import ApiManager from '../ApiManager'
+import Avatar from '../Avatar'
 
 // Image
 import today from '../../assets/img/today.png'
@@ -42,12 +41,11 @@ class SidebarLeft extends React.Component {
                     <div className="card-footer text-center">
                         <Link to={`/profile/` + this.state.user.username}>
                         
-                        <img className="rounded-avatar" alt="avatar" src={ProfileDefault} />
-                        
+                        <Avatar profilepic={this.state.user.profilePic} />
+
                         </Link>
                         <Link to={`/profile/` + this.state.user.username}><div className="mb-3"> {this.state.user.firstName} {this.state.user.lastName}</div></Link>
                         <div className="mb-3">{this.state.user.bio} </div>
-                        <div className="mb-3"> Salle de sport LifestyleSport </div>
                     </div>
                 </div>
 
@@ -84,11 +82,5 @@ class SidebarLeft extends React.Component {
 //                        <img className="rounded-avatar" alt="avatar" src={this.context.apiurl + localStorage.getItem('profilePic')} />
 
 //                        <img className="cover-photo" alt="cover_photo_sidebar" src={this.context.apiurl + "/static/cover_default.jpg"} />
-
-
-SidebarLeft.contextTypes = {
-    apiurl: PropTypes.string,
-    token: PropTypes.string
-};
 
 export default SidebarLeft

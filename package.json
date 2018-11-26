@@ -17,6 +17,7 @@
     "react-dom": "^16.1.1",
     "react-moment": "^0.7.0",
     "react-router-dom": "^4.2.2",
+    "react-s-alert": "^1.4.1",
     "react-scripts": "1.0.17",
     "react-search-input": "^0.11.3",
     "sendbird": "^3.0.53",
@@ -26,8 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-      "eject": "react-scripts eject",
-      "deploy": "docker-compose build && docker-compose down && docker-compose up -d sportsfun-webapp"
+    "eject": "react-scripts eject",
+    "deploy": "docker-compose build && docker-compose down && docker-compose up -d sportsfun-webapp"
   },
   "devDependencies": {
     "jest": "^21.2.1"

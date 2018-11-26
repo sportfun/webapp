@@ -51,7 +51,20 @@ class AdministrationAccount extends React.Component {
         <div className="card">
           <div className="info-user p-sm-3">
             <h2> Paramètres du compte </h2>
+
+            <button type="button" class="btn btn-info">Info</button>
+
             <form onSubmit={this.submit} >
+
+            {/* <img className="rounded-avatar" alt="avatar" src={profilepic} /> */}
+
+              <div className="row pt-4 my-1">
+                <label htmlFor="firstName" className="col-sm-4 col-form-label">Prénom</label>
+                <div className="col-sm-8">
+                  <input type="text" className="form-control" ref="profilepic" id="profilepic"></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row pt-4 my-1">
                 <label htmlFor="firstName" className="col-sm-4 col-form-label">Prénom</label>
