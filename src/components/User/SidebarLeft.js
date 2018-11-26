@@ -41,7 +41,7 @@ class SidebarLeft extends React.Component {
                     <div className="card-footer text-center">
                         <Link to={`/profile/` + this.state.user.username}>
                         
-                        <Avatar profilepic={this.state.user.profilePic} />
+                        <Avatar isLittle={false} profilepic={this.state.user.profilePic} />
 
                         </Link>
                         <Link to={`/profile/` + this.state.user.username}><div className="mb-3"> {this.state.user.firstName} {this.state.user.lastName}</div></Link>

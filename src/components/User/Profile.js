@@ -70,7 +70,7 @@ class Profile extends React.Component {
         <div id="ProfilePage" className="card mb-4">
           <div className="card">
             <img className="cover-photo" alt="coverPicture" src={coverpic} />
-            <Avatar profilepic={this.state.user.profilePic} />
+            <Avatar isLittle={false} profilepic={this.state.user.profilePic} />
             <div className="info-user p-sm-3">
               <p>{this.state.user.firstName} {this.state.user.lastName}<br />
                 @{this.state.user.username}<br /><br />

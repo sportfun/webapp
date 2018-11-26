@@ -1,6 +1,7 @@
 import React from 'react'
 import ApiManager from '../ApiManager'
 import Moment from 'react-moment'
+import Avatar from '../Avatar'
 import 'moment-timezone'
 import 'moment/locale/fr'
 
@@ -164,9 +165,7 @@ class FeedItem extends React.Component {
           <small><Moment locale="fr" date={this.props.post.createdAt} fromNow /></small>
         </div>
         <div className="d-flex w-100 align-items-center mb-3">
-          <img className="rounded-circle align-self-center mr-2" src={this.props.post.author.profilePic}
-            alt="profil"
-            style={{ maxWidth: '2rem' }} />
+          <Avatar isLittle={true} profilepic={this.props.post.author.profilePic} style={{ maxWidth: '2rem' }}/>
           <small>Publié par {this.props.post.author.firstName} {this.props.post.author.lastName}</small>
         </div>
         <p>
@@ -181,9 +180,7 @@ class FeedItem extends React.Component {
             <div className="bg-light m-2 p-2" key={i}>
               <p>{comment.content}</p>
               <div className="d-flex w-100 align-items-center">
-                <img className="rounded-circle align-self-center mr-2" src={comment.author.profilePic}
-                  alt="profil"
-                  style={{ maxWidth: '2rem' }} />
+                <Avatar isLittle={true} profilepic={comment.author.profilePic} style={{ maxWidth: '2rem' }}/>
                 <small>Publié par {comment.author.firstName} {comment.author.lastName} <Moment locale="fr"
                   date={comment.createdAt} fromNow /></small>
               </div>

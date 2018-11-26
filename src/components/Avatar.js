@@ -7,16 +7,29 @@ class Avatar extends React.Component {
     }
 
     render() {
-        if (this.props.profilepic) {
-            if (this.props.profilepic.includes("gravatar")) {
-                return (
-                    <img className="rounded-avatar" alt="avatar" src={this.props.profilepic} />
-                )
+        if (this.props.isLittle) {
+            if (this.props.profilepic) {
+                if (this.props.profilepic.includes("gravatar")) {
+                    return (
+                        <img className="rounded-circle align-self-center mr-2" alt="avatar" src={this.props.profilepic} style={{ maxWidth: '2rem' }} alt="profil"/>
+                    )
+                }
             }
+            return (
+                <img className="rounded-circle align-self-center mr-2" alt="avatar" src={profilepic} style={{ maxWidth: '2rem' }} alt="profil"/>
+            )
+        } else {
+            if (this.props.profilepic) {
+                if (this.props.profilepic.includes("gravatar")) {
+                    return (
+                        <img className="rounded-avatar" alt="avatar" src={this.props.profilepic} />
+                    )
+                }
+            }
+            return (
+                <img className="rounded-avatar" alt="avatar" src={profilepic} />
+            )
         }
-        return (
-            <img className="rounded-avatar" alt="avatar" src={profilepic} />
-        )
     }
 }
 
