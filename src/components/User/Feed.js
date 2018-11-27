@@ -165,7 +165,7 @@ class FeedItem extends React.Component {
           <small><Moment locale="fr" date={this.props.post.createdAt} fromNow /></small>
         </div>
         <div className="d-flex w-100 align-items-center mb-3">
-          <Avatar isLittle={true} profilepic={this.props.post.author.profilePic} style={{ maxWidth: '2rem' }}/>
+          <Avatar isLittle={true} profilepic={this.props.post.author.profilePic} />
           <small>Publié par {this.props.post.author.firstName} {this.props.post.author.lastName}</small>
         </div>
         <p>
@@ -180,7 +180,7 @@ class FeedItem extends React.Component {
             <div className="bg-light m-2 p-2" key={i}>
               <p>{comment.content}</p>
               <div className="d-flex w-100 align-items-center">
-                <Avatar isLittle={true} profilepic={comment.author.profilePic} style={{ maxWidth: '2rem' }}/>
+                <Avatar isLittle={true} profilepic={comment.author.profilePic} />
                 <small>Publié par {comment.author.firstName} {comment.author.lastName} <Moment locale="fr"
                   date={comment.createdAt} fromNow /></small>
               </div>

@@ -84,6 +84,7 @@ class ApiManager {
   }
 
   static editUser(infos) {
+    console.log(infos)
     return axios
       .put(
         url.format({
@@ -99,6 +100,7 @@ class ApiManager {
           password: infos[3],
           bio: infos[4],
           goal: infos[5],
+          profilePic: infos[6]
         },
         {
           headers: {
