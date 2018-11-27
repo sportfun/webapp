@@ -111,11 +111,11 @@ class ApiManager {
   }
 
   static getUserById(userId) {
-    axios.get(
+    return axios.get(
       url.format({
         ...ApiManager.urlObj,
         ...{
-          pathname: `'/api/user/${userId}'`,
+          pathname: `/api/user/${userId}`,
         },
       }),
       {
@@ -187,10 +187,12 @@ class ApiManager {
   }
 
   static errorHandler(error) {
-    console.error(error.response)
-    throw typeof error.response.data.message === 'string'
-      ? error.response.data.message
-      : ApiManager.unknownErrorMessage
+    console.log(error)
+    if (error.response && error.response.data && error.response.data.message) {
+      throw error.response.data.message
+    } else {
+      throw ApiManager.unknownErrorMessage
+    }
   }
 
   static getComments(postId) {
@@ -357,7 +359,28 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
-}
+  static getUrl() {
+    return url.format(ApiManager.urlObj)
+  }
 
+  static getUserByUsername(username) {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/q/` + username,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+}
 
 export default ApiManager
