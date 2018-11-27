@@ -23,8 +23,11 @@ class AdministrationAccount extends React.Component {
 
   submit = e => {
     e.preventDefault();
-    let hash = md5(this.refs["profilePic"].value.trim().toLowerCase());
-    let urlPic = "https://www.gravatar.com/avatar/" + hash
+    let profilepic = this.refs["profilePic"].value
+    if (profilepic !== "") {
+      let hash = md5(this.refs["profilePic"].value.trim().toLowerCase());
+      profilepic = "https://www.gravatar.com/avatar/" + hash
+    }
     var infos = [
       this.refs["firstName"].value,
       this.refs["lastName"].value,
@@ -32,7 +35,7 @@ class AdministrationAccount extends React.Component {
       this.refs["password"].value,
       this.refs["biography"].value,
       this.refs["goal"].value,
-      urlPic,
+      profilepic,
     ];
     if (this.refs["password"].value !== this.refs["password_conf"].value) {
       alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")

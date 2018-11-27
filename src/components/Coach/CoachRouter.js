@@ -17,7 +17,7 @@ class CoachRouter extends React.Component {
         return (
             <div className="wrapper-app h-100">
                 <Topbar />
-                <div className="page-container">
+                <div className="page-container h-100">
                     <SidebarLeft />
                     <Switch>
                         <PrivateRoute requiredRank="coach" exact path='/' component={Home} />
@@ -25,8 +25,8 @@ class CoachRouter extends React.Component {
                         <PrivateRoute requiredRank="coach" path='/edittraining/:idtraining' component={EditTraining} />
                         <PrivateRoute requiredRank="coach" path='/traininglist' component={TrainingList} />
                         <PrivateRoute requiredRank="coach" path='/clientlist' component={ClientList} />
-                        <PrivateRoute requiredRank="coach" path='/coach/profile/:username' component={Profile} />
-                        <PrivateRoute requiredRank="coach" path='/coachadministration' component={Administration} />
+                        <PrivateRoute requiredRank="coach" path='/profile' component={Profile} />
+                        <PrivateRoute requiredRank="coach" path='/account' component={Administration} />
                     </Switch>
                 </div>
             </div>

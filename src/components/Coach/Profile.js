@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getUserByUsername } from '../../functions/getRequest';
+import ApiManager from '../ApiManager';
+import coverpic from '../../assets/img/cover_default.jpg'
+import Avatar from '../Avatar'
 
 class Profile extends React.Component {
     constructor(props) {
@@ -12,22 +14,27 @@ class Profile extends React.Component {
     }
 
     componentWillMount() {
-        var username = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
-        getUserByUsername(this.context.token, username, (data) => {
-            this.setState({ user: data });
-            this.setState({ loading: true });
-        })
+        this.getProfile()
     }
+
+    getProfile() {
+        ApiManager.getUser().then(user => {
+          this.setState({
+              user: user,
+              loading: true,
+         })
+        })
+      }
 
     render() {
         if (!this.state.loading) { return null }
         return (
             <div className="pagecontainer h-100 Block card p-sm-5">
-                <div id="ProfilePage" className="card mb-4 w-50 ml-5">
+                <div id="ProfilePage" className="card mb-4 ml-5">
 
                     <div className="card">
-                        <img className="cover-photo" alt="coverPicture" src={this.context.apiurl + this.state.user.coverPic} />
-                        <img className="rounded-avatar" alt="avatar" src={this.context.apiurl + this.state.user.profilePic} />
+                        <img className="cover-photo" alt="coverPicture" src={coverpic} />
+                        <Avatar isLittle={false} profilepic={this.state.user.profilePic} />
                         <div className="info-user p-sm-3">
                             <p>{this.state.user.firstName} {this.state.user.lastName}<br />
                                 @{this.state.user.username}<br /><br />

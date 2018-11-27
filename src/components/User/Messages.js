@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import io from 'socket.io-client'
 import ApiManager from '../ApiManager'
 import AuthManager from '../AuthManager'
+import Avatar from '../Avatar'
 
 class Messages extends Component {
   state = {
@@ -121,13 +122,7 @@ class Messages extends Component {
           }}
         >
           <div>
-            <img
-              style={{
-                borderRadius: '50%',
-                maxWidth: '48px',
-              }}
-              src={snippet.recipient.profilePic}
-            />
+            <Avatar isLittle={true} profilepic={snippet.recipient.profilePic} />
           </div>
           <div style={{ marginLeft: '1rem' }}>
             <p

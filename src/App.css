@@ -38,8 +38,8 @@ a:hover {
   border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
-#ProfilePage .info-user {
-
+#ProfilePage {
+  width: 40%;
 }
 
 .form-check-label{
@@ -290,6 +290,10 @@ a:hover {
 
 .page-container {
   height: 100%;
+}
+
+.wrapper-app {
+  overflow: hidden;
 }
 
 

@@ -2,6 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 class Coach extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: {},
+    }
+  }
 
   render() {
 
@@ -19,10 +25,8 @@ class Coach extends React.Component {
       "Red": "rgba(255, 102, 102, 0.7)",
     };
 
-    let username = localStorage.getItem('username');
-
     return (
-      <div className="Block card px-5 py-5 h-100">
+      <div className="Block card px-5 py-5">
         <div className="card-deck m-4">
 
           <div className="card border-info text-center">
@@ -40,7 +44,7 @@ class Coach extends React.Component {
           <div className="card border-success text-center">
             <Link to='/createsession'>
               <div className="card-header" style={{ backgroundColor: bgColors.Green }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/session.png" alt="Creer une seance" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/create.png" alt="Creer une seance" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Créer une séance</h5>
@@ -52,7 +56,7 @@ class Coach extends React.Component {
           <div className="card border-warning text-center">
             <Link to='/traininglist'>
               <div className="card-header" style={{ backgroundColor: bgColors.Yellow }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/create.png" alt="Modifier une seance" style={imageSize} />
+                <img className="card-img-top rounded mx-auto d-block" src="ressources/session.png" alt="Modifier une seance" style={imageSize} />
               </div>
               <div className="card-body">
                 <h5 className="card-title">Modifier une séance</h5>
@@ -63,9 +67,9 @@ class Coach extends React.Component {
 
         </div>
 
-        <div className="card-deck m-4">
+        <div className="card-deck m-4" style={{ paddingLeft: "16rem", paddingRight: "16rem" }}>
           <div className="card border-danger text-center">
-            <Link to={`/coach/profile/${username}`}>
+            <Link to={`/profile`}>
               <div className="card-header" style={{ backgroundColor: bgColors.Red }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/user.png" alt="Votre profil" style={imageSize} />
               </div>
@@ -77,19 +81,7 @@ class Coach extends React.Component {
           </div>
 
           <div className="card border-secondary text-center">
-            <Link to='/'>
-              <div className="card-header" style={{ backgroundColor: bgColors.Grey }}>
-                <img className="card-img-top rounded mx-auto d-block" src="ressources/settingsc.png" alt="" style={imageSize} />
-              </div>
-              <div className="card-body">
-                <h5 className="card-title">Carte temporaire</h5>
-                <p className="card-text">Carte temporaire</p>
-              </div>
-            </Link>
-          </div>
-
-          <div className="card border-secondary text-center">
-            <Link to='/coachadministration'>
+            <Link to='/account'>
               <div className="card-header" style={{ backgroundColor: bgColors.Grey }}>
                 <img className="card-img-top rounded mx-auto d-block" src="ressources/settingsc.png" alt="Mon compte" style={imageSize} />
               </div>
