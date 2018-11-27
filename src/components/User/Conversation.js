@@ -1,94 +1,65 @@
 import React, { Component } from 'react'
-import history from '../../functions/history'
-import axios from 'axios'
 import moment from 'moment'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
 
-require('moment/locale/fr')
+import 'moment/locale/fr'
+import io from 'socket.io-client'
+import ApiManager from '../ApiManager'
+import AuthManager from '../AuthManager'
 
 moment.locale('fr')
 
 class Conversation extends Component {
-  constructor(props) {
-    super(props)
-    //this.state = { message: '', messages: [] }
-    this.state = { message: '', messages: [
-        {
-          author: '5a8d68dde8db887e4d35350b',
-          timestamp: moment().subtract(4, 'days'),
-          content: 'gehzrhzr zrh zrhzrh'
-        },
-        {
-          author: '5a8d68f3e8db887e4d35350c',
-          timestamp: moment().subtract(3, 'days'),
-          content: 'htej gzr zr zh etet et'
-        },
-        {
-          author: '5a8d68f3e8db887e4d35350c',
-          timestamp: moment().subtract(2, 'days'),
-          content: 'hh  rzhetjte jteet etet'
-        },
-        {
-          author: '5a8d68dde8db887e4d35350b',
-          timestamp: moment().subtract(4, 'days'),
-          content: 'gehzrhzr zrh zrhzrh'
-        }
-      ] }
-  }
+  state = { newMessage: '', messages: [] }
+  socket = io.connect(ApiManager.getUrl())
 
   componentWillMount() {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-    if (!token) {
-      history.push('/connexion')
-    }
-    this.user = localStorage.getItem('user')
-    this.setState(prevState => {
-      return { ...prevState, token: token }
-    })
-    const id = this.props.match.params.id
-    return Promise.resolve()
-    return axios.get(`http://149.202.41.22:8080/api/message/${id}`, {
-      headers: {
-        'token': this.state.token,
-      },
-    }).then(response => {
-      this.setState(prevState => {
-        //return { ...prevState, messages: response.messages }
-        return {
-          ...prevState, messages: [
-            {
-              author: '5a8d68dde8db887e4d35350b',
-              timestamp: moment().subtract(4, 'days'),
-              content: 'gehzrhzr zrh zrhzrh'
-            },
-            {
-              author: '5a8d68f3e8db887e4d35350c',
-              timestamp: moment().subtract(3, 'days'),
-              content: 'htej gzr zr zh etet et'
-            },
-            {
-              author: '5a8d68f3e8db887e4d35350c',
-              timestamp: moment().subtract(2, 'days'),
-              content: 'hh  rzhetjte jteet etet'
-            },
-            {
-              author: '5a8d68dde8db887e4d35350b',
-              timestamp: moment().subtract(4, 'days'),
-              content: 'gehzrhzr zrh zrhzrh'
-            }
-          ],
-        }
-      })
-    }).catch(error => {
-      this.setState(prevState => {
-        return { ...prevState, messages: [] }
-      })
-      console.log(error.response)
+    this.socket.on('registerMessages', this.registerMessagesHandler)
+    this.socket.emit('registerMessages', {
+      token: AuthManager.getToken(),
     })
   }
 
-  getFormattedConversation() {
+  registerMessagesHandler = data => {
+    if (data.message === 'OK') {
+      this.socket.on('info', this.infoHandler)
+      this.socket.on('conversation', this.conversationHandler)
+      this.socket.on('message', this.messageHandler)
+      this.socket.emit('conversation', {
+        id: this.props.match.params.id,
+      })
+    }
+  }
+
+  infoHandler = data => {
+    if (data.message === 'Messages not found') {
+      this.props.history.push('/messages')
+    }
+
+    if (data.success) {
+      this.setState({
+        newMessage: '',
+      })
+      this.socket.emit('conversation', {
+        id: this.props.match.params.id,
+      })
+    }
+  }
+
+  conversationHandler = data => {
+    this.setState({
+      messages: data.messages.reverse(),
+    })
+  }
+
+  messageHandler = () => {
+    this.socket.emit('conversation', {
+      id: this.props.match.params.id,
+    })
+  }
+
+  formatConversation() {
     const messages = this.state.messages
     return (
       <div className="conversation-wrap">
@@ -96,13 +67,10 @@ class Conversation extends Component {
           {messages.map((message, i) => {
             return (
               <div key={i} className={cx('bubble', {
-                'message-other': message.author !== this.user.id,
-                'message-own': message.author === this.user.id,
+                'message-other': message.author['_id'] === this.props.match.params.id,
+                'message-own': message.author['_id'] !== this.props.match.params.id,
               })}>
-                <p>
-                  <i className="timestamp">{message.timestamp.format('dddd Do MMMM YYYY à h:mm:ss')}</i>
-                  <br />
-                  {message.content}</p>
+                <p>{message.content}</p>
               </div>
             )
           })}
@@ -111,54 +79,35 @@ class Conversation extends Component {
     )
   }
 
-  onChange = event => {
-    const value = event.target.value
-    this.setState(prevState => {
-      return { ...prevState, message: value }
-    })
+  handleChange = event => {
+    const {
+      target: { name, value },
+    } = event
+    this.setState({ [name]: value })
   }
 
-  submit = e => {
-    e.preventDefault()
-    const message = this.state.message
-
-    this.setState(prevState => {
-      return {
-        ...prevState, messages: [...prevState.messages, {
-          timestamp: moment(),
-          author: this.user.id,
-          content: message,
-        }], message: '',
-      }
-    })
-    console.log(this.state.token)
-    axios.post('http://149.202.41.22:8080/api/message', {
-      content: message,
-      to: this.props.match.params.id,
-    }, {
-      headers: {
-        'token': this.state.token,
-      },
-    }).then(() => console.log('message envoyé'))
-      .catch(error => {
-      this.setState(prevState => {
-        return {
-          ...prevState, message: message,
-        }
+  submit = event => {
+    event.preventDefault()
+    if (this.state.newMessage.length > 0) {
+      this.socket.emit('message', {
+        to: this.props.match.params.id,
+        content: this.state.newMessage,
       })
-      console.log(error.response)
-    })
+    }
   }
 
   render() {
     return (
-      <div className="pagecontainer p-sm-5" style={{ backgroundColor: '#bfe4f8' }}>
-        <Link to="/messages"><h6>&#8676; Retour aux conversations</h6></Link>
-        {this.getFormattedConversation()}
+      <div className="pagecontainer p-sm-5">
+        <Link className="btn btn-outline-secondary" to="/messages">Retour aux conversations</Link>
+        <hr />
+        {this.formatConversation()}
         <hr />
         <form className="message-form" onSubmit={this.submit}>
-          <input onChange={this.onChange} value={this.state.message} className="message-input" type="text"
-            placeholder="Écrivez quelque chose…" />
+          <div className="form-group">
+            <input className="form-control message-input" name="newMessage" onChange={this.handleChange} value={this.state.newMessage} type="text"
+              placeholder="Écrivez quelque chose…" />
+          </div>
         </form>
       </div>
     )

@@ -1,145 +1,205 @@
 import React, { Component } from 'react'
-import history from '../../functions/history'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import io from 'socket.io-client'
+import ApiManager from '../ApiManager'
+import AuthManager from '../AuthManager'
 
 class Messages extends Component {
-  constructor(props) {
-    super(props)
-    //this.state = { username: '', message: '', conversations: [] }
-    this.state = { username: '', message: '', conversations: [{
-        id: '5a8d68dde8db887e4d35350b',
-        lastConversation: 'tegz rhzhzrh je trzgz rhrzr jzrjrj'
-      }] }
+  state = {
+    recipientUsername: '',
+    newMessage: '',
+    snippets: [],
+    errorMessage: '',
+    successMessage: '',
   }
+  socket = io.connect(ApiManager.getUrl())
 
-  fetchConversations() {
-    return Promise.resolve()
-    axios.get('http://149.202.41.22:8080/api/messages', {
-      token: this.token,
-    }).then(response => {
-      this.setState(prevState => {
-        //return { ...prevState, conversations: response.messages }
-        return { ...prevState, conversations: [{
-          id: '5a8d68dde8db887e4d35350b',
-            lastConversation: 'tegz rhzhzrh je trzgz rhrzr jzrjrj'
-          }] }
-      })
-    }).catch(error => {
-      console.log(error.response)
+  componentWillMount() {
+    this.socket.on('registerMessages', this.registerMessagesHandler)
+    this.socket.emit('registerMessages', {
+      token: AuthManager.getToken(),
     })
   }
 
-  componentWillMount() {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token')
-    if (!token) {
-      history.push('/connexion')
+  registerMessagesHandler = data => {
+    if (data.message === 'OK') {
+      this.socket.on('info', this.infoHandler)
+      this.socket.on('snippets', this.snippetsHandler)
+      this.socket.emit('snippets')
     }
-    this.token = token
-    this.fetchConversations()
   }
 
-  getFormattedMessages() {
-    const conversations = this.state.conversations
-    if (conversations.length === 0) {
-      return (
-        <p>Aucune conversation</p>
-      )
+  snippetsHandler = data => {
+    ApiManager.getUserById(data.id).then(recipient => {
+      this.setState(prevState => {
+        const snippets = prevState.snippets.filter(
+          snippet => snippet.id !== data.id,
+        )
+        const snippet = {
+          id: data.id,
+          recipient: {
+            profilePic: recipient.profilePic,
+            firstName: recipient.firstName,
+            lastName: recipient.lastName,
+          },
+          updatedAt: data.message.updatedAt,
+          content: data.message.content,
+        }
+        snippets.push(snippet)
+        return {
+          snippets: snippets,
+        }
+      })
+    })
+  }
+
+  infoHandler = data => {
+    if (data.success === true) {
+      this.setState({
+        successMessage: 'Message envoyé',
+      })
+      this.socket.emit('snippets')
+    }
+  }
+
+  handleChange = event => {
+    const {
+      target: { name, value },
+    } = event
+    this.setState({ [name]: value })
+  }
+
+  submit = event => {
+    event.preventDefault()
+    if (this.state.newMessage.length > 0) {
+      ApiManager.getUserByUsername(this.state.recipientUsername)
+        .then(response => {
+          const id = response['_id']
+          this.socket.emit('message', {
+            to: id,
+            content: this.state.newMessage,
+          })
+        })
+        .catch(error => {
+          this.setState({
+            errorMessage:
+              error === `User ${this.state.recipientUsername} not found`
+                ? 'Utilisateur inconnu'
+                : "L'envoi a échoué",
+          })
+        })
+    }
+  }
+
+  formatSnippets() {
+    const snippets = this.state.snippets
+    if (snippets.length === 0) {
+      return <p>Aucune conversation</p>
     }
     return (
       <div>
-        {conversations.map((conversation, i) => {
-          return (
-            <Link to={`/conversation/${conversation.id}`} key={i}>
-              <div style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '18px',
-                padding: '8px 14px',
-                marginBottom: '10px',
-                display: 'inline-block',
-              }}>
-                <p style={{
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  width: '350px',
-                  margin: 0,
-                }}>{conversation.lastConversation}</p>
-              </div>
-            </Link>
-          )
-        })}
+        {[...snippets]
+          .sort((snippet1, snippet2) => {
+            return new Date(snippet1.updatedAt) - new Date(snippet2.updatedAt)
+          })
+          .reverse()
+          .map(this.formatSnippet)}
       </div>
     )
   }
 
-  onChange = event => {
-    const target = event.target
-    const name = target.name
-    const value = target.value
-    this.setState(prevState => {
-      return { ...prevState, [name]: value }
-    })
-  }
-
-  getIdFromUsername(username) {
-    if (username === 'test1') {
-      return Promise.resolve('5a8d68dde8db887e4d35350b')
-    } else if (username === 'test2') {
-      return Promise.resolve('5a8d68f3e8db887e4d35350c')
-    }
-  }
-
-  submit = e => {
-    e.preventDefault()
-    const username = this.state.username
-    const message = this.state.message
-    this.setState(prevState => {
-      return { ...prevState, username: '', message: '' }
-    })
-    this.getIdFromUsername(username).then(destId => {
-      axios.post('http://149.202.41.22:8080/api/message', {
-        content: message,
-        to: destId,
-      }, {
-        headers: {
-          'token': this.token,
-        },
-      }).then(() => {
-        console.log('message envoyé')
-        this.setState(prevState => {
-          return {
-            ...prevState, conversations: [...prevState.conversations, {
-              id: destId,
-              lastConversation: message,
-            }],
-          }
-        })
-      })
-        .catch(error => {
-          console.log(error.response)
-        })
-    })
+  formatSnippet(snippet, i) {
+    return (
+      <Link to={`/conversation/${snippet.id}`} key={i}>
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '0.25rem',
+            padding: '8px 14px',
+            marginBottom: '10px',
+            display: 'flex',
+          }}
+        >
+          <div>
+            <img
+              style={{
+                borderRadius: '50%',
+                maxWidth: '48px',
+              }}
+              src={snippet.recipient.profilePic}
+            />
+          </div>
+          <div style={{ marginLeft: '1rem' }}>
+            <p
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '350px',
+                margin: 0,
+                fontWeight: 700,
+              }}
+            >
+              {snippet.recipient.firstName} {snippet.recipient.lastName}
+            </p>
+            <p
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: '350px',
+                margin: 0,
+              }}
+            >
+              {snippet.content}
+            </p>
+          </div>
+        </div>
+      </Link>
+    )
   }
 
   render() {
     return (
       <div className="pagecontainer p-sm-5">
         <h3>Nouvelle conversation</h3>
-        <form onSubmit={this.submit} className="form-inline">
+        {this.state.errorMessage && (
+          <div className="alert alert-danger" role="alert">
+            {this.state.errorMessage}
+          </div>
+        )}
+        {this.state.successMessage && (
+          <div className="alert alert-success" role="alert">
+            {this.state.successMessage}
+          </div>
+        )}
+        <form onSubmit={this.submit}>
           <div className="form-group mb-2">
-            <input onChange={this.onChange} value={this.state.username} name="username" className="form-control"
+            <input
+              onChange={this.handleChange}
+              value={this.state.recipientUsername}
+              name="recipientUsername"
+              className="form-control"
               type="text"
-              placeholder="Nom d'utilisateur" />
+              placeholder="Nom d'utilisateur"
+            />
           </div>
-          <div className="form-group mx-sm-3 mb-2">
-            <input onChange={this.onChange} value={this.state.message} name="message" className="form-control"
-              type="text" placeholder="Message" />
+          <div className="form-group mb-2">
+            <textarea
+              onChange={this.handleChange}
+              name="newMessage"
+              className="form-control"
+              rows="3"
+              placeholder="Message"
+              value={this.state.newMessage}
+            />
           </div>
-          <button type="submit" className="btn btn-primary mb-2">Envoyer</button>
+          <button type="submit" className="btn btn-primary mb-2">
+            Envoyer
+          </button>
         </form>
         <h3>Conversations</h3>
-        {this.getFormattedMessages()}
+        {this.formatSnippets()}
       </div>
     )
   }
