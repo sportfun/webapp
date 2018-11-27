@@ -11,6 +11,8 @@ import AdministrationAccount from './AdministrationAccount'
 import Activities from './Activities';
 import Feed from './Feed'
 import Followings from './Followings'
+import Messages from './Messages'
+import Conversation from './Conversation'
 
 class UserRouter extends React.Component {
     render() {
@@ -20,7 +22,7 @@ class UserRouter extends React.Component {
             <div id="page-container" className="container pb-5 py-5">
               <div className="row">
                 <SidebarLeft state="test" />
-  
+
                 <div id="DashboardCenter" className="col-6">
                   <div className="DashboardCenterContent">
                     <Switch>
@@ -31,11 +33,12 @@ class UserRouter extends React.Component {
                       <PrivateRoute requiredRank="authenticated" path='/activities/:username' component={Activities} />
                       <PrivateRoute requiredRank="authenticated" path='/administration' component={AdministrationAccount} />
                       <PrivateRoute requiredRank="authenticated" path='/abonnements' component={Followings} />
-                      {/* <PrivateRoute requiredRank="authenticated" path='/messages' component={Messages} /> */}
+                      <PrivateRoute requiredRank="authenticated" path='/messages' component={Messages} />
+                      <PrivateRoute requiredRank="authenticated" path='/conversation/:id' component={Conversation} />
                     </Switch>
                   </div>
                 </div>
-  
+
                 {
                   /*
                   <SidebarRight />

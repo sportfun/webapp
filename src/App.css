@@ -426,3 +426,36 @@ a:hover {
 .hp-100 {
   height: 100px;
 }
+
+.conversation-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  max-height: 1600px;
+  overflow-y: scroll;
+}
+
+.bubble {
+  max-width: 80%;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.bubble p {
+  margin-bottom: 0;
+}
+
+.message-own {
+  background-color: #e67e21;
+  align-self: flex-end;
+  color: #ffffff;
+}
+
+.message-other {
+  align-self: flex-start;
+  background-color: #f1f0f0;
+  color: #000000;
+}

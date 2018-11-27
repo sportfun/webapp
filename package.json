@@ -24,6 +24,7 @@
     "react-scripts": "1.0.17",
     "react-search-input": "^0.11.3",
     "sendbird": "^3.0.53",
+    "socket.io-client": "^2.1.1",
     "url": "^0.11.0"
   },
   "scripts": {
