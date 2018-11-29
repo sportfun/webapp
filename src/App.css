@@ -38,10 +38,6 @@ a:hover {
   border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
-#ProfilePage {
-  width: 40%;
-}
-
 .form-check-label{
 
 }
