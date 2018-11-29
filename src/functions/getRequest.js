@@ -1,17 +1,5 @@
 import axios from 'axios'
 
-export const getUsersByPattern = (pattern, token, callback) => {
-    axios.get('http://149.202.41.22:8080/api/user/p/' + pattern, {
-        headers: { "token": token }
-    })
-        .then(function (response) {
-            callback(response.data.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-
 export const getActivityUser = (token, callback) => {
     axios.get("http://149.202.41.22:8080/api/activity", {
         headers: { "token": token }
@@ -23,35 +11,6 @@ export const getActivityUser = (token, callback) => {
             console.log(error);
         })
 };
-
-export const getUserByUsername = (token, username, callback) => {
-    axios.get('http://149.202.41.22:8080/api/user/q/' + username, {
-        headers: { "token": token }
-    })
-        .then(function (response) {
-            callback(response.data.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-
-export const getUserById = (token, username, callback) => {
-    var searchUser, allUsers;
-    axios.get('http://149.202.41.22:8080/api/user/q/:' + { username }, {
-        headers: { "token": token }
-    })
-        .then(function (response) {
-            allUsers = response.data;
-            searchUser = allUsers.filter(function (user) {
-                return (user.username === username);
-            });
-            callback(searchUser[0]);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
 
 export const getFriends = (token, callback) => {
     axios.get('http://149.202.41.22:8080/api/user', {
@@ -83,7 +42,7 @@ export const getAssignTrainings = (token, id, callback) => {
         headers: { "token": token }
     })
         .then(function (response) {
-           // console.log("GET " + JSON.stringify(response.data.data))
+            // console.log("GET " + JSON.stringify(response.data.data))
             if (callback) {
                 callback(response.data.data);
             } else {

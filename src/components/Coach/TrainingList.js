@@ -10,7 +10,7 @@ class TrainingList extends React.Component {
         super(props)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.state = {
-            trainings: {},
+            trainings: [],
             loading: false,
             searchTerm: ''
         }

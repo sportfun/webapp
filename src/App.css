@@ -38,8 +38,8 @@ a:hover {
   border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
-.form-check-label{
-
+#client-trainings > .list-group-item {
+  background-color: transparent;
 }
 
 /* style Header.js - navbar*/

@@ -342,6 +342,8 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
+  // Training Route
+
   static getTrainingList() {
     return axios
       .get(
@@ -351,6 +353,67 @@ class ApiManager {
             pathname: `/api/training`,
           },
         }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getTrainingById(idTraining) {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/training/` + idTraining,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static getTrainingsByUser(idUser) {
+    return axios
+      .get(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/t/` + idUser,
+          },
+        }),
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static addTrainingToUser(idTraining, username) {
+    return axios
+      .put(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/training`,
+          },
+        }),
+        {
+          username: username,
+          id: [idTraining]
+        },
         {
           headers: {
             token: AuthManager.getToken(),
