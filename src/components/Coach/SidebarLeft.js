@@ -37,9 +37,11 @@ class SidebarLeft extends React.Component {
                         </li>
 
                         <ul className="list-unstyled components">
-                            <li className="active"><Link to='/'>Voir vos clients</Link></li>
-                            <li><Link to='/'>Gérer les séances</Link></li>
-                            <li><Link to='/'>Mon compte</Link></li>
+                            <li className="active"><Link to='/clientlist'>Gérer les clients</Link></li>
+                            <li><Link to='/createsession'>Créer un entrainement</Link></li>
+                            <li><Link to='/traininglist'>Gérer les séances</Link></li>
+                            <li><Link to='/profile'>Visualiser le profil</Link></li>
+                            <li><Link to='/account'>Mon compte</Link></li>
                         </ul>
                     </nav>
                     <div id="content">

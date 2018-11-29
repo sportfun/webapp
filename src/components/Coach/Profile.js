@@ -29,7 +29,7 @@ class Profile extends React.Component {
     render() {
         if (!this.state.loading) { return null }
         return (
-            <div className="pagecontainer h-100 Block card p-sm-5">
+            <div id="CoachProfile" className="pagecontainer h-100 Block card p-sm-5">
                 <div id="ProfilePage" className="card mb-4 ml-5">
 
                     <div className="card">
