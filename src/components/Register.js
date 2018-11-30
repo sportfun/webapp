@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import ApiManager from './ApiManager'
 import PropTypes from 'prop-types'
-
-
-var sectionStyle = {
-  width: "100%",
-  height: "100%",
-  borderRadius: "5px",
-};
+import Logo from '../assets/img/logo.png'
+import './Login/Login.css'
 
 var logoStyle = {
   width: "80%",
@@ -78,9 +73,9 @@ class Register extends Component {
   render() {
     return (
       <div>
-        <img style={logoStyle} src={this.context.apiurl + "/static/logo_sportsfun.png"} alt="logo" />
+        <img style={logoStyle} src={Logo} alt="logo" />
 
-        <div style={sectionStyle}>
+        <div className="section">
           <div className="pagecontainer p-sm-5 ml-0">
             {this.state.alertMessage && (
               <p className="alert alert-danger">{this.state.alertMessage}</p>
