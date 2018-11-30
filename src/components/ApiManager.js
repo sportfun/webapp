@@ -298,7 +298,7 @@ class ApiManager {
           },
         },
       )
-      .then(response => response.data.data.friends)
+      .then(response => response.data.data.links)
       .catch(ApiManager.errorHandler)
   }
 
@@ -442,6 +442,7 @@ class ApiManager {
   }
 
   static addTrainingToUser(idTraining, username) {
+    console.log(idTraining, username)
     return axios
       .put(
         url.format({
@@ -452,7 +453,7 @@ class ApiManager {
         }),
         {
           username: username,
-          id: [idTraining]
+          id: idTraining
         },
         {
           headers: {
@@ -464,9 +465,9 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
-  static deleteTraining(idTraining) {
+  static deleteTraining(idTraining, username) {
     return axios
-      .delete(
+      .post(
         url.format({
           ...ApiManager.urlObj,
           ...{
@@ -474,7 +475,8 @@ class ApiManager {
           },
         }),
         {
-          id: [idTraining]
+          id: idTraining,
+          username: username
         },
         {
           headers: {

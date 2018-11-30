@@ -9,7 +9,8 @@ class TrainingList extends React.Component {
         this.state = {
             trainings: [],
             loading: true,
-            pattern: ''
+            pattern: '',
+            user: []
         }
     }
 
@@ -17,6 +18,10 @@ class TrainingList extends React.Component {
         ApiManager.getTrainingList().then((trainings) => {
             this.setState({ trainings: trainings });
             this.setState({ loading: false });
+        })
+        ApiManager.getUser()
+        .then((user) => {
+            this.setState({ user: user });
         })
     }
 
@@ -35,12 +40,12 @@ class TrainingList extends React.Component {
     }
 
     DeleteTraining = (idTraining) => (e) => {
-        // ApiManager.deleteTraining(idTraining)
-        //     .then(() => {
-        //         ApiManager.getTrainingList().then((trainings) => {
-        //             this.setState({ trainings: trainings });
-        //         })
-        //     })
+        ApiManager.deleteTraining(idTraining, this.state.user.username)
+            .then(() => {
+                ApiManager.getTrainingList().then((trainings) => {
+                    this.setState({ trainings: trainings });
+                })
+            })
     }
 
     render() {
