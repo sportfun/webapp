@@ -45,8 +45,9 @@ class TrainingList extends React.Component {
 
     render() {
         if (this.state.loading) { return null }
+        var listTrainings;
         if (this.state.trainings && this.state.trainings.length !== 0) {
-            var listTrainings =
+            listTrainings =
                 this.state.trainings.map((elem, index) => {
                     return (
                         <tr key={elem._id}>
@@ -61,7 +62,7 @@ class TrainingList extends React.Component {
                 });
         }
         else {
-            var listTrainings =
+            listTrainings =
                 <tr>
                     <td>Pas de résultat</td>
                     <td></td>
