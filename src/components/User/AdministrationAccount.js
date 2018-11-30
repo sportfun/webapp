@@ -32,21 +32,36 @@ class AdministrationAccount extends React.Component {
       this.refs["firstName"].value,
       this.refs["lastName"].value,
       this.refs["email"].value,
-      this.refs["password"].value,
       this.refs["biography"].value,
       this.refs["goal"].value,
       profilepic,
     ];
-    if (this.refs["password"].value !== this.refs["password_conf"].value) {
-      alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
-    }
     ApiManager.editUser(infos)
-    .then(() => {
-      window.location.reload();
-    })
-    .catch(() => {
-      alert("Erreur, veuillez réessayer ultérieurement")
-    })
+      .then(() => {
+
+        if (this.refs["password"].value !== ""
+          && this.refs["password_conf"].value !== ""
+          && this.refs["oldpass"].value !== ""
+        ) {
+          if (this.refs["password"].value === this.refs["password_conf"].value) {
+            ApiManager.editPassword(this.refs["oldpass"].value, this.refs["password"].value)
+              .then((pass) => {
+
+              })
+              .catch(() => {
+                alert("Le mot de passe n'a pas pu être modifié, vérifiez que l'ancien mot de passe et le bon, sinon veuillez réessayer ultérieurement")
+              })
+          } else {
+            alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
+          }
+        }
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000)
+      }).catch(() => {
+        alert("Erreur, veuillez réessayer ultérieurement")
+      })
   }
 
   render() {
@@ -63,8 +78,8 @@ class AdministrationAccount extends React.Component {
             <form onSubmit={this.submit} >
 
               <div className="row pt-4 my-1">
-              <label htmlFor="profilePic" className="col-sm-3 col-form-label">Avatar</label>
-              <Avatar isLittle={true} profilepic={this.state.user.profilePic} />
+                <label htmlFor="profilePic" className="col-sm-3 col-form-label">Avatar</label>
+                <Avatar isLittle={true} profilepic={this.state.user.profilePic} />
                 <div className="input-group col-sm-8">
                   <input type="text" className="form-control" ref="profilePic" id="profilepic" placeholder="Entrez votre adresse mail gravatar"></input>
                   <div className="input-group-append">
@@ -78,7 +93,7 @@ class AdministrationAccount extends React.Component {
                     Comment changer ma photo de profil ?<br />
                     1 - Connectez-vous sur gravatar.com ou créez un compte si vous ne possédez pas d'identifiants Gravatar<br />
                     2 - Cliquez sur Ajouter une image et suivez les instructions<br />
-                    3 - Renseignez votre adresse email Gravatar dans le champ ci-dessus pour lier votre avatar à SportsFun !<br />     
+                    3 - Renseignez votre adresse email Gravatar dans le champ ci-dessus pour lier votre avatar à SportsFun !<br />
                   </div>
                 </div>
               </div>
@@ -109,9 +124,18 @@ class AdministrationAccount extends React.Component {
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
 
               <div className="row my-1">
+                <label htmlFor="oldpass" className="col-sm-4 col-form-label">Ancien mot de passe</label>
+                <div className="col-sm-8">
+                  <input type="password" className="form-control" ref="oldpass" id="oldpass" placeholder=""></input>
+                </div>
+              </div>
+              <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>
+
+              <div className="row my-1">
                 <label htmlFor="password" className="col-sm-4 col-form-label">Mot de passe</label>
                 <div className="col-sm-8">
                   <input type="password" className="form-control" ref="password" id="password" placeholder="●●●●●●"></input>
+                  <small>Un mot de passe doit être composé d'au moins 8 caractères</small>
                 </div>
               </div>
               <svg height="2" width="100%" style={{ verticalAlign: "middle" }}><line {...coords} stroke={orange} strokeWidth={2} /></svg>

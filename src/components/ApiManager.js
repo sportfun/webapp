@@ -97,10 +97,33 @@ class ApiManager {
           firstName: infos[0],
           lastName: infos[1],
           email: infos[2],
-          password: infos[3],
-          bio: infos[4],
-          goal: infos[5],
-          profilePic: infos[6]
+          bio: infos[3],
+          goal: infos[4],
+          profilePic: infos[5]
+        },
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static editPassword(oldPwd, newPwd) {
+    console.log(oldPwd + " " + newPwd);
+    return axios
+      .put(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/password`,
+          },
+        }),
+        {
+          password: oldPwd,
+          newPassword: newPwd
         },
         {
           headers: {
@@ -442,7 +465,6 @@ class ApiManager {
   }
 
   static addTrainingToUser(idTraining, username) {
-    console.log(idTraining, username)
     return axios
       .put(
         url.format({
@@ -453,7 +475,7 @@ class ApiManager {
         }),
         {
           username: username,
-          id: idTraining
+          id: [idTraining]
         },
         {
           headers: {

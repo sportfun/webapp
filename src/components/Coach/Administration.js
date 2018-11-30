@@ -21,7 +21,7 @@ class Administration extends React.Component {
     submit = e => {
         e.preventDefault();
         let profilepic = this.refs["profilePic"].value
-        if (profilepic !== ""){
+        if (profilepic !== "") {
             let hash = md5(this.refs["profilePic"].value.trim().toLowerCase());
             profilepic = "https://www.gravatar.com/avatar/" + hash;
         }
@@ -29,21 +29,37 @@ class Administration extends React.Component {
             this.refs["firstName"].value,
             this.refs["lastName"].value,
             this.refs["email"].value,
-            this.refs["password"].value,
             this.refs["biography"].value,
             "",
             profilepic,
         ];
-        if (this.refs["password"].value !== this.refs["password_conf"].value) {
-            alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
-        }
-        ApiManager.editUser(infos)
-        .then(() => {
-            window.location.reload();
-        }).catch(() => {
-            alert("Erreur, veuillez réessayer ultérieurement")
 
-        })
+        ApiManager.editUser(infos)
+            .then(() => {
+
+                if (this.refs["password"].value !== ""
+                    && this.refs["password_conf"].value !== ""
+                    && this.refs["oldpass"].value !== ""
+                ) {
+                    if (this.refs["password"].value === this.refs["password_conf"].value) {
+                        ApiManager.editPassword(this.refs["oldpass"].value, this.refs["password"].value)
+                            .then((pass) => {
+
+                            })
+                            .catch(() => {
+                                alert("Le mot de passe n'a pas pu être modifié, vérifiez que l'ancien mot de passe et le bon, sinon veuillez réessayer ultérieurement")
+                            })
+                    } else {
+                        alert("le mot de passe et la confirmation du mot de passe ne correspondent pas")
+                    }
+                }
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000)
+            }).catch(() => {
+                alert("Erreur, veuillez réessayer ultérieurement")
+            })
     }
 
     render() {
@@ -91,8 +107,13 @@ class Administration extends React.Component {
                             <input type="text" className="form-control" ref="email" id="email" aria-describedby="emailHelp" placeholder={this.state.user.email}></input>
                         </div>
                         <div className="form-group w-50">
+                            <label htmlFor="password">Ancien mot de passe</label>
+                            <input type="password" className="form-control" ref="oldpass" id="oldpass"></input>
+                        </div>
+                        <div className="form-group w-50">
                             <label htmlFor="password">Mot de passe</label>
                             <input type="password" className="form-control" ref="password" id="password" placeholder="●●●●●●"></input>
+                            <small>Un mot de passe doit être composé d'au moins 8 caractères</small>
                         </div>
                         <div className="form-group w-50">
                             <label htmlFor="password">Confirmation mot de passe</label>
