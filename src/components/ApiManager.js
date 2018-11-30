@@ -401,6 +401,31 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
+  static editTraining(idTraining, training) {
+    if (training.description === '')
+      training.description = " "
+    return axios
+      .put(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/training/` + idTraining,
+          },
+        }),
+        {
+          description: training.description,
+          sequences: training.sequences
+        },
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response)
+      .catch(ApiManager.errorHandler)
+  }
+
   static filterTrainings(pattern) {
     return this.getTrainingList()
       .then((trainings) => {

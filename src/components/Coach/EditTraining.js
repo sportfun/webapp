@@ -1,7 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { getTrainingById } from '../../functions/getRequest';
-import { editTraining } from '../../functions/putRequest';
+
+import ApiManager from '../ApiManager';
 
 class EditTraining extends React.Component {
     constructor() {
@@ -14,12 +13,13 @@ class EditTraining extends React.Component {
     }
 
     componentWillMount() {
-        var id = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
-        getTrainingById(this.context.token, id, (data) => {
-            this.setState({ name: data.name });
-            this.setState({ description: data.description });
-            this.setState({ sequences: data.sequences });
-        })
+        var idTraining = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
+        ApiManager.getTrainingById(idTraining)
+            .then(training => {
+                this.setState({ name: training.name });
+                this.setState({ description: training.description });
+                this.setState({ sequences: training.sequences });
+            })
     }
 
     handleNameChange = (e) => {
@@ -28,25 +28,20 @@ class EditTraining extends React.Component {
         this.setState(change);
     }
 
-    handleSubmit = e => {
-        var id = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
-        e.preventDefault();
-
-        if (this.state.sequences.length === 0)
-            return (alert("l'entrainement doit être composé d'au moins une séquence"));
-
-        editTraining(this.context.token, id, this.state, () => {
-            alert("l'entrainement a bien été modifié");
-            this.props.history.push('/traininglist')
+    handleAddSequence = () => {
+        this.setState({
+            sequences: this.state.sequences.concat(
+                [{ type: 1, totalLength: 0, effortLength: 0, restLength: 0, iteration: 0 }]
+            )
         });
     }
 
-    handleAddSequence = () => {
-        this.setState({ sequences: this.state.sequences.concat([{ type: 1, totalLength: 0, effortLength: 0, restLength: 0, iteration: 0 }]) });
-    }
-
     handleRemoveSequence = (index) => () => {
-        this.setState({ sequences: this.state.sequences.filter((sequence, sidx) => index !== sidx) });
+        this.setState({
+            sequences: this.state.sequences.filter((sequence, sidx) =>
+                index !== sidx
+            )
+        });
     }
 
     handleChange = (index) => (e) => {
@@ -74,6 +69,21 @@ class EditTraining extends React.Component {
         this.refs["tt3" + index].value = 0;
     }
 
+
+    handleSubmit = e => {
+        var idTraining = this.props.location.pathname.substr(this.props.location.pathname.lastIndexOf('/') + 1);
+        e.preventDefault();
+
+        if (this.state.sequences.length === 0)
+            return (alert("l'entrainement doit être composé d'au moins une séquence"));
+
+        ApiManager.editTraining(idTraining, this.state)
+            .then(() => {
+                alert("l'entrainement a bien été modifié");
+                this.props.history.push('/traininglist')
+            });
+    }
+
     render() {
         return (
             <div className="pagecontainer h-100 Block card p-sm-5">
@@ -84,7 +94,7 @@ class EditTraining extends React.Component {
                         <label htmlFor="name">Nom de l'entrainement</label>
                         <input readOnly="readonly" type="text" className="form-control" name="name" id="name" placeholder={this.state.name}></input><br />
                         <label htmlFor="description">Description</label>
-                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} value={this.state.description}></input>
+                        <input type="text" maxLength="50" className="form-control" name="description" id="description" onChange={this.handleNameChange} value={this.state.description}></input>
                     </div><br />
 
                     <h4>Séquences</h4>
@@ -129,11 +139,5 @@ class EditTraining extends React.Component {
         )
     }
 }
-
-EditTraining.contextTypes = {
-    apiurl: PropTypes.string,
-    token: PropTypes.string,
-    getUserInfo: PropTypes.func
-};
 
 export default EditTraining;

@@ -24,19 +24,6 @@ export const getFriends = (token, callback) => {
         });
 }
 
-export const getTrainingById = (token, id, callback) => {
-    axios.get('http://149.202.41.22:8080/api/training/' + id, {
-        headers: { "token": token }
-    })
-        .then(function (response) {
-            console.log("YOH : " + response.data.data)
-            callback(response.data.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-}
-
 export const getAssignTrainings = (token, id, callback) => {
     return axios.get('http://149.202.41.22:8080/api/user/t/' + id, {
         headers: { "token": token }

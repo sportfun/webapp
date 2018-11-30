@@ -71,9 +71,9 @@ class CreateTraining extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group w-50">
                         <label htmlFor="name">Nom de l'entrainement</label>
-                        <input type="text" className="form-control" name="name" id="name" onChange={this.handleNameChange} placeholder="Veuillez entrer un nom d'entrainement (obligatoire)"></input><br/>
+                        <input type="text" maxLength="50" className="form-control" name="name" id="name" onChange={this.handleNameChange} placeholder="Veuillez entrer un nom d'entrainement (obligatoire)"></input><br/>
                         <label htmlFor="description">Description</label>
-                        <input type="text" className="form-control" name="description" id="description" onChange={this.handleNameChange} placeholder="Veuillez entrer une description (facultatif)"></input>
+                        <input type="text" maxLength="50" className="form-control" name="description" id="description" onChange={this.handleNameChange} placeholder="Veuillez entrer une description (facultatif)"></input>
                     </div><br />
 
                     <h4>Séquences</h4>
