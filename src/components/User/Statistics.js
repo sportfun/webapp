@@ -77,7 +77,7 @@ class Statistics extends React.Component {
                     <ProgressBar percentage={this.state.goalPercent} backgroundStyle="azure" />
                 </div>
 
-                <div className="statsblock center p-4 m-4" id="GamesFav">
+                {/* <div className="statsblock center p-4 m-4" id="GamesFav">
                     <span className="statdescri">jeux les plus joués</span>
                     <table className="w-100 mt-4">
                         <tbody>
@@ -132,7 +132,7 @@ class Statistics extends React.Component {
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> */}
             </div>
         )
     }

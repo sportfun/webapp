@@ -53,6 +53,7 @@ class Followings extends React.Component {
     } else {
       return (
         <div className="container">
+          <h3>Vos abonnements</h3>
           <div className="card-deck">
             {this.state.friends.map((friend, i) =>
               <Friend key={i} friend={friend} />
@@ -66,13 +67,13 @@ class Followings extends React.Component {
 class Friend extends React.Component {
   render() {
     return (
-      <div className="card m-2" style={{ "min-width": "10rem", "max-width": "10rem" }}>
+      <div className="card m-2" style={{ "minWidth": "10rem", "maxWidth": "10rem" }}>
         <Link to={`/profile/${this.props.friend.username}`}>
           <div className="pt-3 px-0 m-3 text-center">
             <Avatar isLittle={true} profilepic={this.props.friend.profilePic} alt={`${this.props.friend.firstName} ${this.props.friend.lastName}`} />
             <div className="card-body py-3 px-0 text-center">
               <p className="card-text">
-                  {`${this.props.friend.firstName} ${this.props.friend.lastName}`}
+                {`${this.props.friend.firstName} ${this.props.friend.lastName}`}
               </p>
             </div>
           </div>
