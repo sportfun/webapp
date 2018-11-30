@@ -2,9 +2,6 @@ import React from 'react'
 import profilepic from '../assets/img/user_default.jpg'
 
 class Avatar extends React.Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         if (this.props.isLittle) {

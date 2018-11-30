@@ -401,6 +401,21 @@ class ApiManager {
       .catch(ApiManager.errorHandler)
   }
 
+  static filterTrainings(pattern) {
+    return this.getTrainingList()
+      .then((trainings) => {
+        if (pattern === '') {
+          return (trainings)
+        } else {
+          let result =
+            trainings.filter(function (training) {
+              return (training.name.toLowerCase().indexOf(pattern.toLowerCase()) !== -1);
+            });
+          return (result)
+        }
+      })
+  }
+
   static addTrainingToUser(idTraining, username) {
     return axios
       .put(
@@ -412,6 +427,28 @@ class ApiManager {
         }),
         {
           username: username,
+          id: [idTraining]
+        },
+        {
+          headers: {
+            token: AuthManager.getToken(),
+          },
+        },
+      )
+      .then(response => response.data.data)
+      .catch(ApiManager.errorHandler)
+  }
+
+  static deleteTraining(idTraining) {
+    return axios
+      .delete(
+        url.format({
+          ...ApiManager.urlObj,
+          ...{
+            pathname: `/api/user/training`,
+          },
+        }),
+        {
           id: [idTraining]
         },
         {

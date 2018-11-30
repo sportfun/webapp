@@ -1,18 +1,31 @@
-// import { getTrainingListByToken } from './getRequest';
+import ApiManager from '../components/ApiManager'
 
-// export const filterTraining = (searchTerm, token, allTrainings, callback) => {
-//     var filterTrainings;
-//             if (searchTerm === ''){
-//                 getTrainingListByToken(token, (data) => {
-//                     callback(data);
-//                 })
-//             }
+export const filterTraining = (searchTerm, allTrainings, callback) => {
+    let result;
+    if (searchTerm === '') {
+        console.log("here")
+        ApiManager.getTrainingList()
+            .then((trainings) => {
+                result = trainings
+            })
+        // filterTrainings = ApiManager.getTrainingList()
+        //     .then((trainings) => {
+        //         return trainings
+        //     })
+        // // }), (data) => {
+        // //     callback(data);
+        // // }`
+    } else {
+        console.log(allTrainings);
+        result = allTrainings.filter(function (training) {
+            return (training.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+        });
+    }
 
-//             console.log(allTrainings);
-//             filterTrainings = allTrainings.filter(function (training) {
-//                 return (training.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
-//             });
 
-//            console.log(filterTrainings)
-//             callback(filterTrainings);
-// }
+
+    //  console.log(!result)
+
+    console.log(result)
+    callback(result);
+}

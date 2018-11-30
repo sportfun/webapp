@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { assignTraining } from '../../functions/putRequest';
+
 import ApiManager from '../ApiManager'
 
 class ClientList extends Component {
@@ -29,6 +29,8 @@ class ClientList extends Component {
                             ApiManager.getTrainingsByUser(client._id)
                                 .then(listTrainings => {
                                     this.setState({ clientsTrainings: [...this.state.clientsTrainings, listTrainings] })
+                                    console.log(this.state.clientsTrainings)
+
                                 })
                         })
                 });
@@ -51,6 +53,7 @@ class ClientList extends Component {
         ApiManager.addTrainingToUser(idTraining, username)
             .then(() => {
                 alert("L'entrainement " + nameTraining + " a bien été assigné à " + username);
+                window.location.reload();
             })
             .catch((error) => {
                 alert("L'entrainement " + nameTraining + " n'a pas pu être assigné à " + username + ", l'entrainement est peut-être déjà assigné à l'utilisateur, sinon veuillez réessayer ultérieurement");
